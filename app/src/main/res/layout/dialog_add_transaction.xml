@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/ly_dialog_layout_add_transaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone">
+
+        <!--<android.support.v7.widget.CardView-->
+            <!--android:id="@+id/recycle_view_detail_trans"-->
+            <!--android:layout_width="1000dp"-->
+            <!--android:layout_height="600dp"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--app:cardBackgroundColor="@color/colorCardView"-->
+            <!--app:cardCornerRadius="10dp">-->
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/recycle_view_detail_trans"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            app:cardBackgroundColor="@color/colorCardView"
+            app:cardCornerRadius="10dp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:id="@+id/layout1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RelativeLayout
+                            android:id="@+id/layout_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_margin="10dp">
+
+                            <TextView
+                                android:id="@+id/tv_title"
+                                android:layout_margin="5dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                style="@style/TextViewStyleHeader1"
+                                android:layout_centerHorizontal="true"
+                                android:text="Add New Transaction"/>
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_wrapper"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="55dp"
+                        android:layout_below="@+id/layout1">
+
+                        <RelativeLayout
+                            android:id="@+id/layout2"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:layout_centerHorizontal="true"
+                                android:id="@+id/title_info"
+                                style="@style/TextViewStyleHeader4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Insert Transaction" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@+id/title_info"
+                                android:layout_marginTop="15dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_margin="15dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_width="185dp"
+                                            android:layout_height="wrap_content"
+                                            style="@style/TextViewStyle1"
+                                            android:text="Transaction Category"/>
+
+                                        <RelativeLayout
+                                            android:id="@+id/layout_relatif_category"
+                                            android:layout_width="200dp"
+                                            android:layout_height="50dp"
+                                            android:background="@drawable/bg_dropdown"
+                                            android:visibility="visible">
+
+                                            <LinearLayout
+                                                android:orientation="vertical"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerVertical="true"
+                                                android:visibility="visible">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="Category"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:layout_marginTop="2dp"/>
+
+                                                <me.grantland.widget.AutofitTextView
+                                                    android:singleLine="true"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:id="@+id/tv_category"
+                                                    android:layout_width="160dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="" />
+
+                                            </LinearLayout>
+
+                                            <ImageView
+                                                android:layout_width="18dp"
+                                                android:layout_height="18dp"
+                                                android:layout_alignParentRight="true"
+                                                android:layout_centerVertical="true"
+                                                android:layout_marginEnd="6dp"
+                                                android:layout_marginBottom="3dp"
+                                                android:soundEffectsEnabled="false"
+                                                android:visibility="visible"
+                                                android:src="@drawable/ic_keyboard_arrow_down"
+                                                android:layout_marginRight="6dp" />
+
+                                        </RelativeLayout>
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_width="185dp"
+                                            android:layout_height="wrap_content"
+                                            style="@style/TextViewStyle1"
+                                            android:text="Transaction Date"/>
+
+                                        <RelativeLayout
+                                            android:id="@+id/layout_relatif_date"
+                                            android:layout_width="200dp"
+                                            android:layout_height="50dp"
+                                            android:background="@drawable/bg_dropdown"
+                                            android:visibility="visible">
+
+                                            <LinearLayout
+                                                android:orientation="vertical"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerVertical="true"
+                                                android:visibility="visible">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="Date"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:layout_marginTop="2dp"/>
+
+                                                <me.grantland.widget.AutofitTextView
+                                                    android:singleLine="true"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:id="@+id/tv_date"
+                                                    android:layout_width="160dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="" />
+
+                                            </LinearLayout>
+
+                                            <ImageView
+                                                android:layout_width="18dp"
+                                                android:layout_height="18dp"
+                                                android:layout_alignParentRight="true"
+                                                android:layout_centerVertical="true"
+                                                android:layout_marginEnd="6dp"
+                                                android:layout_marginBottom="3dp"
+                                                android:soundEffectsEnabled="false"
+                                                android:visibility="visible"
+                                                android:src="@drawable/ic_keyboard_arrow_down"
+                                                android:layout_marginRight="6dp" />
+
+                                        </RelativeLayout>
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_width="185dp"
+                                            android:layout_height="wrap_content"
+                                            style="@style/TextViewStyle1"
+                                            android:text="Transaction Time"/>
+
+                                        <RelativeLayout
+                                            android:id="@+id/layout_relatif_time"
+                                            android:layout_width="200dp"
+                                            android:layout_height="50dp"
+                                            android:background="@drawable/bg_dropdown"
+                                            android:visibility="visible">
+
+                                            <LinearLayout
+                                                android:orientation="vertical"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerVertical="true"
+                                                android:visibility="visible">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="Time"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:layout_marginTop="2dp"/>
+
+                                                <me.grantland.widget.AutofitTextView
+                                                    android:singleLine="true"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:id="@+id/tv_time"
+                                                    android:layout_width="160dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="" />
+
+                                            </LinearLayout>
+
+                                            <ImageView
+                                                android:layout_width="18dp"
+                                                android:layout_height="18dp"
+                                                android:layout_alignParentRight="true"
+                                                android:layout_centerVertical="true"
+                                                android:layout_marginEnd="6dp"
+                                                android:layout_marginBottom="3dp"
+                                                android:soundEffectsEnabled="false"
+                                                android:visibility="visible"
+                                                android:src="@drawable/ic_keyboard_arrow_down"
+                                                android:layout_marginRight="6dp" />
+
+                                        </RelativeLayout>
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_width="185dp"
+                                            android:layout_height="wrap_content"
+                                            style="@style/TextViewStyle1"
+                                            android:text="Transaction Total Price"/>
+
+                                        <RelativeLayout
+                                            android:id="@+id/layout_relatif_price"
+                                            android:layout_width="200dp"
+                                            android:layout_height="50dp"
+                                            android:background="@drawable/bg_dropdown"
+                                            android:visibility="visible">
+
+                                            <LinearLayout
+                                                android:orientation="vertical"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerVertical="true"
+                                                android:visibility="visible">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="Price"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:layout_marginTop="2dp"/>
+
+                                                <me.grantland.widget.AutofitTextView
+                                                    android:singleLine="true"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:id="@+id/tv_price"
+                                                    android:layout_width="160dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="" />
+
+                                            </LinearLayout>
+
+                                        </RelativeLayout>
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_marginTop="10dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+
+                                        <TextView
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_width="185dp"
+                                            android:layout_height="wrap_content"
+                                            style="@style/TextViewStyle1"
+                                            android:text="Customer Name"/>
+
+                                        <RelativeLayout
+                                            android:id="@+id/layout_relatif_customer"
+                                            android:layout_width="200dp"
+                                            android:layout_height="50dp"
+                                            android:background="@drawable/bg_dropdown"
+                                            android:visibility="visible">
+
+                                            <LinearLayout
+                                                android:orientation="vertical"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_centerVertical="true"
+                                                android:visibility="visible">
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="Customer Name"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:layout_marginTop="2dp"/>
+
+                                                <me.grantland.widget.AutofitTextView
+                                                    android:singleLine="true"
+                                                    android:layout_marginLeft="10dp"
+                                                    android:id="@+id/tv_cutsomer"
+                                                    android:layout_width="160dp"
+                                                    android:layout_height="wrap_content"
+                                                    android:text="" />
+
+                                            </LinearLayout>
+
+                                            <ImageView
+                                                android:layout_width="18dp"
+                                                android:layout_height="18dp"
+                                                android:layout_alignParentRight="true"
+                                                android:layout_centerVertical="true"
+                                                android:layout_marginEnd="6dp"
+                                                android:layout_marginBottom="3dp"
+                                                android:soundEffectsEnabled="false"
+                                                android:visibility="visible"
+                                                android:src="@drawable/ic_keyboard_arrow_down"
+                                                android:layout_marginRight="6dp" />
+
+                                        </RelativeLayout>
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/layout3"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:layout_toRightOf="@+id/layout2">
+
+                            <TextView
+                                android:layout_centerHorizontal="true"
+                                android:id="@+id/title_info2"
+                                style="@style/TextViewStyleHeader4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Insert Detail Transaction" />
+
+                                <RelativeLayout
+                                    android:layout_marginTop="15dp"
+                                    android:layout_below="@+id/title_info2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <android.support.design.widget.CoordinatorLayout
+                                        android:id="@+id/contraint_rv_add"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
+
+                                        <android.support.v7.widget.RecyclerView
+                                            android:layout_margin="15dp"
+                                            android:id="@+id/rv_transaction_add"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="150dp" />
+
+                                    </android.support.design.widget.CoordinatorLayout>
+
+                                    <LinearLayout
+                                        android:layout_below="@+id/contraint_rv_add"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical"
+                                        android:layout_margin="15dp">
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_width="185dp"
+                                                android:layout_height="wrap_content"
+                                                style="@style/TextViewStyle1"
+                                                android:text="Transaction Product"/>
+
+                                            <RelativeLayout
+                                                android:id="@+id/layout_relatif_produk"
+                                                android:layout_width="200dp"
+                                                android:layout_height="50dp"
+                                                android:background="@drawable/bg_dropdown"
+                                                android:visibility="visible">
+
+                                                <LinearLayout
+                                                    android:orientation="vertical"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_centerVertical="true"
+                                                    android:visibility="visible">
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="Product"
+                                                        android:layout_marginLeft="10dp"
+                                                        android:layout_marginTop="2dp"/>
+
+                                                    <me.grantland.widget.AutofitTextView
+                                                        android:singleLine="true"
+                                                        android:layout_marginLeft="10dp"
+                                                        android:id="@+id/tv_product"
+                                                        android:layout_width="160dp"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="" />
+
+                                                </LinearLayout>
+
+                                                <ImageView
+                                                    android:layout_width="18dp"
+                                                    android:layout_height="18dp"
+                                                    android:layout_alignParentRight="true"
+                                                    android:layout_centerVertical="true"
+                                                    android:layout_marginEnd="6dp"
+                                                    android:layout_marginBottom="3dp"
+                                                    android:soundEffectsEnabled="false"
+                                                    android:visibility="visible"
+                                                    android:src="@drawable/ic_keyboard_arrow_down"
+                                                    android:layout_marginRight="6dp" />
+
+                                            </RelativeLayout>
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_marginTop="10dp"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_width="185dp"
+                                                android:layout_height="wrap_content"
+                                                style="@style/TextViewStyle1"
+                                                android:text="Transaction Jumlah"/>
+
+                                            <RelativeLayout
+                                                android:id="@+id/layout_relatif_jumlah"
+                                                android:layout_width="200dp"
+                                                android:layout_height="50dp"
+                                                android:background="@drawable/bg_dropdown"
+                                                android:visibility="visible">
+
+                                                <LinearLayout
+                                                    android:orientation="vertical"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_centerVertical="true"
+                                                    android:visibility="visible">
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="Jumlah"
+                                                        android:layout_marginLeft="10dp"
+                                                        android:layout_marginTop="2dp"/>
+
+                                                    <me.grantland.widget.AutofitTextView
+                                                        android:singleLine="true"
+                                                        android:layout_marginLeft="10dp"
+                                                        android:id="@+id/tv_jumlah"
+                                                        android:layout_width="160dp"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="" />
+
+                                                </LinearLayout>
+
+                                                <ImageView
+                                                    android:layout_width="18dp"
+                                                    android:layout_height="18dp"
+                                                    android:layout_alignParentRight="true"
+                                                    android:layout_centerVertical="true"
+                                                    android:layout_marginEnd="6dp"
+                                                    android:layout_marginBottom="3dp"
+                                                    android:soundEffectsEnabled="false"
+                                                    android:visibility="visible"
+                                                    android:src="@drawable/ic_keyboard_arrow_down"
+                                                    android:layout_marginRight="6dp" />
+
+                                            </RelativeLayout>
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_marginTop="10dp"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:layout_gravity="center_vertical"
+                                                android:layout_width="185dp"
+                                                android:layout_height="wrap_content"
+                                                style="@style/TextViewStyle1"
+                                                android:text="Detail Price"/>
+
+                                            <RelativeLayout
+                                                android:layout_width="200dp"
+                                                android:layout_height="50dp"
+                                                android:background="@drawable/bg_dropdown"
+                                                android:visibility="visible">
+
+                                                <LinearLayout
+                                                    android:orientation="vertical"
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_centerVertical="true"
+                                                    android:visibility="visible">
+
+                                                    <TextView
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="Total Price"
+                                                        android:layout_marginLeft="10dp"
+                                                        android:layout_marginTop="2dp"/>
+
+                                                    <me.grantland.widget.AutofitTextView
+                                                        android:singleLine="true"
+                                                        android:layout_marginLeft="10dp"
+                                                        android:id="@+id/tv_detail_price"
+                                                        android:layout_width="160dp"
+                                                        android:layout_height="wrap_content"
+                                                        android:text="" />
+
+                                                </LinearLayout>
+
+                                            </RelativeLayout>
+
+                                        </LinearLayout>
+
+                                        <Button
+                                            android:id="@+id/btn_add_detail"
+                                            android:layout_marginTop="10dp"
+                                            android:layout_marginRight="10dp"
+                                            android:layout_gravity="end"
+                                            android:text="Add Detail"
+                                            android:layout_marginBottom="10dp"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="10dp">
+
+                        <Button
+                            android:id="@+id/btn_submit_add"
+                            android:text="Submit Transaction"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            />
+
+                    </RelativeLayout>
+
+
+
+                </RelativeLayout>
+
+            </ScrollView>
+
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</layout>

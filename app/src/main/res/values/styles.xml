@@ -1,0 +1,87 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="EditTextStyle1">
+        <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#080808</item>
+        <item name="android:textColorHint">#bfb8b8</item>
+    </style>
+
+    <style name="TextViewStyle1">
+        <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#080808</item>
+    </style>
+
+    <style name="TextViewStyle2">
+        <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#839696</item>
+    </style>
+
+    <style name="TextViewStyle3">
+        <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#839696</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextViewStyle4">
+        <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#080808</item>
+    </style>
+
+    <style name="TextViewStyle5">
+        <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#080808</item>
+    </style>
+
+    <style name="TextViewStyleHeader1">
+        <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#5c5e51</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="TextViewStyleHeader2">
+        <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#5c5e51</item>
+
+    </style>
+
+    <style name="TextViewStyleHeader3">
+        <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">#5c5e51</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="TextViewStyleHeader4">
+        <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">#839696</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="TextViewStyle6">
+        <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">#839696</item>
+    </style>
+
+
+
+</resources>

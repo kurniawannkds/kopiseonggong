@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:orientation="vertical"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="150dp"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+        <RelativeLayout
+            android:id="@+id/linear_awal"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:text="Filter by"
+                style="@style/TextViewStyleHeader4"
+                android:layout_marginLeft="30dp"
+                android:layout_alignParentLeft="true" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_gambar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/linear_awal"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal">
+
+            <RelativeLayout
+                android:id="@+id/relatif_category"
+                android:visibility="gone"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:background="@drawable/border_choosen">
+
+                <LinearLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/bill"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:text="Category"
+                        style="@style/TextViewStyle3"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relatif_category_disable"
+                android:layout_width="95dp"
+                android:layout_height="95dp">
+
+                <LinearLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/bill"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:text="Category"
+                        style="@style/TextViewStyle3"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/relatif_delivery_date"
+                android:layout_marginLeft="10dp"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:background="@drawable/border_choosen">
+
+                <LinearLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/piggybank"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:text="Delivery Date"
+                        android:textAlignment="center"
+                        style="@style/TextViewStyle3"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relatif_delivery_date_disable"
+                android:layout_marginLeft="10dp"
+                android:layout_width="95dp"
+                android:layout_height="95dp">
+
+                <LinearLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/piggybank"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:text="Delivery Date"
+                        android:textAlignment="center"
+                        style="@style/TextViewStyle3"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/relatif_status"
+                android:layout_marginLeft="10dp"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:background="@drawable/border_choosen">
+
+                <LinearLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/password"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:text="Status"
+                        style="@style/TextViewStyle3"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relatif_status_disable"
+                android:layout_marginLeft="10dp"
+                android:layout_width="95dp"
+                android:layout_height="95dp">
+
+                <LinearLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/password"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:text="Status"
+                        style="@style/TextViewStyle3"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_gambar2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/linear_awal"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal">
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/relatif_po_date"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:background="@drawable/border_choosen">
+
+                <LinearLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/notificationbell"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:text="PO Date"
+                        style="@style/TextViewStyle3"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relatif_po_date_disable"
+                android:layout_width="95dp"
+                android:layout_height="95dp">
+
+                <LinearLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/notificationbell"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:text="PO Date"
+                        style="@style/TextViewStyle3"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/relatif_product"
+                android:layout_marginLeft="10dp"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:background="@drawable/border_choosen">
+
+                <LinearLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/cart"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:text="Product"
+                        style="@style/TextViewStyle3"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relatif_product_disable"
+                android:layout_marginLeft="10dp"
+                android:layout_width="95dp"
+                android:layout_height="95dp">
+
+                <LinearLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/cart"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:text="Product"
+                        style="@style/TextViewStyle3"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/btn_sumbit"
+            android:layout_width="290dp"
+            android:background="@drawable/bg_button"
+            android:layout_height="40dp"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="80dp"
+            android:text="Sumbit"/>
+
+    </LinearLayout>
+
+</layout>

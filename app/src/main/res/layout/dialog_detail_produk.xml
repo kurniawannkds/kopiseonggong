@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/ly_dialog_layout_detail_kartu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/recycle_view"
+            android:layout_width="300dp"
+            android:layout_height="470dp"
+            android:layout_centerInParent="true"
+            app:cardBackgroundColor="@color/colorCardView"
+            app:cardCornerRadius="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/layout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:id="@+id/layout_view_pager"
+                        android:layout_width="175dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="10dp">
+
+                        <TextView
+                            android:id="@+id/tv_title"
+                            android:layout_margin="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextViewStyleHeader1"
+                            android:layout_centerHorizontal="true"
+                            android:text="Nastar Biasa"/>
+
+                        <android.support.v4.view.ViewPager
+                            android:layout_below="@+id/tv_title"
+                            android:id="@+id/vp_detail_kartu"
+                            android:layout_width="175dp"
+                            android:layout_height="175dp" />
+
+                        <com.viewpagerindicator.CirclePageIndicator
+                            android:id="@+id/indicator_kartu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/vp_detail_kartu"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="5dp"
+                            android:lineSpacingExtra="5dp"
+                            android:padding="10dip"
+                            app:centered="true"
+                            app:fillColor="#83857a"
+                            app:pageColor="@android:color/transparent"
+                            app:radius="5dp"
+                            app:snap="false"
+                            app:strokeColor="#83857a" />
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layout2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout1"
+                    android:layout_centerHorizontal="true">
+
+                    <TextView
+                        android:id="@+id/title_info"
+                        style="@style/TextViewStyleHeader4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:text="Recipe" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_linear_biasa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title_info"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        //1
+
+                        <LinearLayout
+                            android:id="@+id/layout_linear_info1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu" />
+
+                            <TextView
+                                android:id="@+id/info1"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:text="Tepung" />
+
+                            <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="330 gram" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu" />
+
+                            <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:text="Maizena" />
+
+                            <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="90 gram" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu" />
+
+                            <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:text="Wisman" />
+
+                            <TextView
+                                android:id="@+id/tv_wisman"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="0 gram" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="3dp">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu"/>
+
+                            <TextView
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:layout_height="wrap_content"
+                                android:text="Mentega"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"/>
+
+                            <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="70dp"
+                                android:gravity="end"
+                                android:layout_height="wrap_content"
+                                android:text="300 gram" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="3dp">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu"/>
+
+                            <TextView
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:layout_height="wrap_content"
+                                android:text="Gula"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"/>
+
+                            <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="70dp"
+                                android:gravity="end"
+                                android:layout_height="wrap_content"
+                                android:text="100 gram" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="3dp">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu"/>
+
+                            <TextView
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:layout_height="wrap_content"
+                                android:text="Telur"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"/>
+
+                            <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="70dp"
+                                android:gravity="end"
+                                android:layout_height="wrap_content"
+                                android:text="6 butir" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="3dp">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu"/>
+
+                            <TextView
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:layout_height="wrap_content"
+                                android:text="Susu"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"/>
+
+                            <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="70dp"
+                                android:gravity="end"
+                                android:layout_height="wrap_content"
+                                android:text="50 gram" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="3dp">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu"/>
+
+                            <TextView
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:layout_height="wrap_content"
+                                android:text="Hasil"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"/>
+
+                            <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="70dp"
+                                android:gravity="end"
+                                android:layout_height="wrap_content"
+                                android:text="3 toples" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</layout>

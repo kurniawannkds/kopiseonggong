@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#f0f786</color>
+    <color name="colorAccent2">#fcfcf5</color>
+    <color name="colorAccent">#fc9328</color>
+    <color name="colorContent">#f2fa7a</color>
+    <color name="colorNavigation">#fcfca4</color>
+    <color name="colorCardView">#fbfcf5</color>
+    <color name="colorTitle">#eb8f34</color>
+    <color name="textColorSelected">#e7e7e7</color>
+    <color name="colorBlack">#aba19f</color>
+</resources>

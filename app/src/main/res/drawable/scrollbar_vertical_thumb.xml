@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:right="10dp"
+        android:top="5dp"> <!--Your margin right and top-->
+        <shape>
+            <solid android:color="#9b9b9b" /> <!-- Your Color -->
+            <corners android:radius="6dp" /> <!-- Your Radius -->
+            <size android:width="12dp" /> <!-- Your Width -->
+        </shape>
+    </item>
+</layer-list>
