@@ -43,11 +43,44 @@
             android:layout_gravity="center_horizontal">
 
             <RelativeLayout
-                android:id="@+id/relatif_category"
+                android:id="@+id/relatif_category_choosen"
                 android:visibility="gone"
                 android:layout_width="95dp"
                 android:layout_height="95dp"
                 android:background="@drawable/border_choosen">
+
+                <LinearLayout
+                    android:layout_marginLeft="15dp"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
+                        android:src="@drawable/bill"
+                        />
+
+                    <me.grantland.widget.AutofitTextView
+                        android:singleLine="true"
+                        android:id="@+id/tv_filter_cat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:text="Category"
+                        style="@style/TextViewStyle3"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/relatif_category_not_choosen"
+                android:layout_width="95dp"
+                android:layout_height="95dp">
 
                 <LinearLayout
                     android:layout_marginLeft="15dp"
@@ -76,39 +109,8 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relatif_category_disable"
-                android:layout_width="95dp"
-                android:layout_height="95dp">
-
-                <LinearLayout
-                    android:layout_marginLeft="15dp"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:src="@drawable/bill"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="3dp"
-                        android:text="Category"
-                        style="@style/TextViewStyle3"/>
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <RelativeLayout
                 android:visibility="gone"
-                android:id="@+id/relatif_delivery_date"
+                android:id="@+id/relatif_method_choosen"
                 android:layout_marginLeft="10dp"
                 android:layout_width="95dp"
                 android:layout_height="95dp"
@@ -129,11 +131,12 @@
                         />
 
                     <TextView
+                        android:id="@+id/tv_filter_method"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="3dp"
-                        android:text="Delivery Date"
+                        android:text="Method"
                         android:textAlignment="center"
                         style="@style/TextViewStyle3"/>
 
@@ -142,7 +145,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relatif_delivery_date_disable"
+                android:id="@+id/relatif_method_not_choosen"
                 android:layout_marginLeft="10dp"
                 android:layout_width="95dp"
                 android:layout_height="95dp">
@@ -164,82 +167,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_gravity="center_horizontal"
                         android:layout_marginTop="3dp"
-                        android:text="Delivery Date"
+                        android:text="Method"
                         android:textAlignment="center"
                         style="@style/TextViewStyle3"/>
 
                 </LinearLayout>
 
             </RelativeLayout>
-
-            <RelativeLayout
-                android:visibility="gone"
-                android:id="@+id/relatif_status"
-                android:layout_marginLeft="10dp"
-                android:layout_width="95dp"
-                android:layout_height="95dp"
-                android:background="@drawable/border_choosen">
-
-                <LinearLayout
-                    android:layout_marginLeft="15dp"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:src="@drawable/password"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="3dp"
-                        android:text="Status"
-                        style="@style/TextViewStyle3"/>
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/relatif_status_disable"
-                android:layout_marginLeft="10dp"
-                android:layout_width="95dp"
-                android:layout_height="95dp">
-
-                <LinearLayout
-                    android:layout_marginLeft="15dp"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_gravity="center"
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:src="@drawable/password"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="3dp"
-                        android:text="Status"
-                        style="@style/TextViewStyle3"/>
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
 
         </LinearLayout>
 
@@ -254,7 +190,7 @@
 
             <RelativeLayout
                 android:visibility="gone"
-                android:id="@+id/relatif_po_date"
+                android:id="@+id/relatif_date_choosen"
                 android:layout_width="95dp"
                 android:layout_height="95dp"
                 android:background="@drawable/border_choosen">
@@ -273,12 +209,14 @@
                         android:src="@drawable/notificationbell"
                         />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:singleLine="true"
+                        android:id="@+id/tv_filter_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="3dp"
-                        android:text="PO Date"
+                        android:text="Date"
                         style="@style/TextViewStyle3"/>
 
                 </LinearLayout>
@@ -286,7 +224,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relatif_po_date_disable"
+                android:id="@+id/relatif_date_not_choosen"
                 android:layout_width="95dp"
                 android:layout_height="95dp">
 
@@ -309,7 +247,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="3dp"
-                        android:text="PO Date"
+                        android:text="Date"
                         style="@style/TextViewStyle3"/>
 
                 </LinearLayout>
@@ -318,7 +256,7 @@
 
             <RelativeLayout
                 android:visibility="gone"
-                android:id="@+id/relatif_product"
+                android:id="@+id/relatif_user_choosen"
                 android:layout_marginLeft="10dp"
                 android:layout_width="95dp"
                 android:layout_height="95dp"
@@ -338,12 +276,14 @@
                         android:src="@drawable/cart"
                         />
 
-                    <TextView
+                    <me.grantland.widget.AutofitTextView
+                        android:singleLine="true"
+                        android:id="@+id/tv_filter_user"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="3dp"
-                        android:text="Product"
+                        android:text="User"
                         style="@style/TextViewStyle3"/>
 
                 </LinearLayout>
@@ -351,7 +291,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relatif_product_disable"
+                android:id="@+id/relatif_user_not_choosen"
                 android:layout_marginLeft="10dp"
                 android:layout_width="95dp"
                 android:layout_height="95dp">
@@ -375,7 +315,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="3dp"
-                        android:text="Product"
+                        android:text="User"
                         style="@style/TextViewStyle3"/>
 
                 </LinearLayout>

@@ -30,6 +30,7 @@ import com.androiddevnkds.kopiseong.data.DataManager;
 import com.androiddevnkds.kopiseong.databinding.FragmentTransactionBinding;
 import com.androiddevnkds.kopiseong.model.CategoryModel;
 import com.androiddevnkds.kopiseong.model.DetailTransactionModel;
+import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.ProductModel;
 import com.androiddevnkds.kopiseong.model.TransactionModel;
 import com.androiddevnkds.kopiseong.model.TransactionSatuanModel;
@@ -78,6 +79,8 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
     private int transDateSortAdd = 0, transPriceAdd = 0, detailJumlahAdd = 0, detailPriceAdd = 0, detailPriceAddSatuan = 0;
 
     private int selectedPositionCategory = -1, selectedPositionUser = -1, selectedPositionProduct = -1;
+    private int filterPosCat = -1, filterPosUser = -1, filterPosMethod = -1;
+    private boolean fromFilter = false;
     private boolean isPrice = false, isCustomer = false;
 
     private CategoryModel categoryModelGlobal;
@@ -90,6 +93,11 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
     //date
     private Calendar myCalendar;
     private SimpleDateFormat sdf;
+
+
+    //filter
+    private String filterCategory = "NONE", filterDate = "NONE", filterUser = "NONE", filterMethod = "NONE";
+    private PaymentMethodeModel paymentMethodeModelGlobal;
 
     @Override
     public void onResume() {
@@ -198,59 +206,81 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 mBinding.lyBlack2.lyBlack.setVisibility(View.GONE);
             }
         });
-        //category
-        mBinding.lyBottomUpSliderFilter.relatifCategoryDisable.setOnClickListener(new View.OnClickListener() {
+
+        //--------------------------- FILTER --------------------------------------------------------
+
+        //category not choosen -- do filter
+        mBinding.lyBottomUpSliderFilter.relatifCategoryNotChoosen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mBinding.lyBottomUpSliderFilter.relatifCategoryDisable.setVisibility(View.GONE);
-                mBinding.lyBottomUpSliderFilter.relatifCategory.setVisibility(View.VISIBLE);
+
+                fromFilter = true;
+                if (categoryModelGlobal != null && categoryModelGlobal.getCategorySatuanList() != null &&
+                        categoryModelGlobal.getCategorySatuanList().size() > 0) {
+
+                    sizeArray = categoryModelGlobal.getCategorySatuanList().size();
+                    if (sizeArray > 0) {
+
+                        filterPosCat = findPosition(filterCategory, 1);
+                        callCustomList(1, filterPosCat, sizeArray);
+                    }
+
+                } else {
+                    transactionPresenter.getCategoryTransaction();
+                }
             }
         });
 
-        //prod
-        mBinding.lyBottomUpSliderFilter.relatifProductDisable.setOnClickListener(new View.OnClickListener() {
+        //category choosen, disappear border
+        mBinding.lyBottomUpSliderFilter.relatifCategoryChoosen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mBinding.lyBottomUpSliderFilter.relatifProductDisable.setVisibility(View.GONE);
-                mBinding.lyBottomUpSliderFilter.relatifProduct.setVisibility(View.VISIBLE);
+
+                mBinding.lyBottomUpSliderFilter.tvFilterCat.setText("");
+                filterCategory = "";
+                mBinding.lyBottomUpSliderFilter.relatifCategoryChoosen.setVisibility(GONE);
+                mBinding.lyBottomUpSliderFilter.relatifCategoryNotChoosen.setVisibility(View.VISIBLE);
             }
         });
 
-        //prod
-        mBinding.lyBottomUpSliderFilter.relatifStatusDisable.setOnClickListener(new View.OnClickListener() {
+
+        //payment not choosen -- do filter
+        mBinding.lyBottomUpSliderFilter.relatifMethodNotChoosen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mBinding.lyBottomUpSliderFilter.relatifStatusDisable.setVisibility(View.GONE);
-                mBinding.lyBottomUpSliderFilter.relatifStatus.setVisibility(View.VISIBLE);
+
+                fromFilter = true;
+                if (paymentMethodeModelGlobal != null && paymentMethodeModelGlobal.getPaymentMethodeSatuanList() != null &&
+                        paymentMethodeModelGlobal.getPaymentMethodeSatuanList().size() > 0) {
+
+                    sizeArray = paymentMethodeModelGlobal.getPaymentMethodeSatuanList().size();
+                    if (sizeArray > 0) {
+
+                        filterPosMethod = findPosition(filterMethod, 4);
+                        callCustomList(4, filterPosMethod, sizeArray);
+                    }
+
+                } else {
+                    transactionPresenter.getAllPaymentMethod();
+                }
             }
         });
 
-        //category
-        mBinding.lyBottomUpSliderFilter.relatifCategory.setOnClickListener(new View.OnClickListener() {
+        //payment choosen, disappear border
+        mBinding.lyBottomUpSliderFilter.relatifCategoryChoosen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mBinding.lyBottomUpSliderFilter.relatifCategoryDisable.setVisibility(View.VISIBLE);
-                mBinding.lyBottomUpSliderFilter.relatifCategory.setVisibility(View.GONE);
+
+                mBinding.lyBottomUpSliderFilter.tvFilterCat.setText("");
+                filterCategory = "";
+                mBinding.lyBottomUpSliderFilter.relatifCategoryChoosen.setVisibility(GONE);
+                mBinding.lyBottomUpSliderFilter.relatifCategoryNotChoosen.setVisibility(View.VISIBLE);
             }
         });
 
-        //prod
-        mBinding.lyBottomUpSliderFilter.relatifProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mBinding.lyBottomUpSliderFilter.relatifProductDisable.setVisibility(View.VISIBLE);
-                mBinding.lyBottomUpSliderFilter.relatifProduct.setVisibility(View.GONE);
-            }
-        });
 
-        //sta
-        mBinding.lyBottomUpSliderFilter.relatifStatus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mBinding.lyBottomUpSliderFilter.relatifStatusDisable.setVisibility(View.VISIBLE);
-                mBinding.lyBottomUpSliderFilter.relatifStatus.setVisibility(View.GONE);
-            }
-        });
+        //-------------------------------------------------------------------------------------------
+
 
         mBinding.btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -305,7 +335,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                     transactionModelAdd = new TransactionSatuanModel();
 
                     transIDADD = transDateAdd + transTimeAdd;
-                    transactionPresenter.addNewTransaction( transIDADD, transDateSortAdd, transDateAdd, transTimeAdd,
+                    transactionPresenter.addNewTransaction(transIDADD, transDateSortAdd, transDateAdd, transTimeAdd,
                             transUserEmailAdd, transCatAdd, transPriceAdd, detailTransactionList);
 
                 } else {
@@ -417,8 +447,8 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                         e.printStackTrace();
                     }
 
-                    Toast.makeText(mContext,"satuan :"+detailPriceAddSatuan,Toast.LENGTH_SHORT).show();
-                    Toast.makeText(mContext,"jumlah :"+detailJumlahAdd,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "satuan :" + detailPriceAddSatuan, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "jumlah :" + detailJumlahAdd, Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -446,31 +476,8 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
         mBinding.lyAddTransaction.layoutRelatifDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myCalendar = Calendar.getInstance();
-                new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
-                    @SuppressLint("SimpleDateFormat")
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        myCalendar.set(Calendar.YEAR, year);
-                        myCalendar.set(Calendar.MONTH, month);
-                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                        sdf = new SimpleDateFormat(FORMAT_TANGGAL_STRING);
-                        transDateAdd = sdf.format(myCalendar.getTime());
-                        mBinding.lyAddTransaction.tvDate.setText(transDateAdd);
-
-                        sdf = new SimpleDateFormat(FORMAT_TANGGAL_SORT);
-                        String temp = sdf.format(myCalendar.getTime());
-                        try {
-                            transDateSortAdd = Integer.parseInt(temp);
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                },
-                        myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                showDate();
             }
         });
 
@@ -480,44 +487,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
             @Override
             public void onClick(View view) {
 
-                myCalendar = Calendar.getInstance();
-                int hour = myCalendar.get(Calendar.HOUR_OF_DAY);
-                int minute = myCalendar.get(Calendar.MINUTE);
-                final int second = myCalendar.get(Calendar.SECOND);
-                // Launch Time Picker Dialog
-                TimePickerDialog timePickerDialog = new TimePickerDialog(mContext,
-                        new TimePickerDialog.OnTimeSetListener() {
-
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay,
-                                                  int minuteOfDay) {
-                                String timeString = "", secondString = "";
-                                if (second < 9) {
-                                    secondString = "0" + second;
-                                } else {
-                                    secondString = second + "";
-                                }
-
-                                if (hourOfDay < 10) {
-                                    if (minuteOfDay < 10) {
-                                        timeString = "0" + hourOfDay + ":" + "0" + minuteOfDay + ":" + secondString;
-                                    } else {
-                                        timeString = "0" + hourOfDay + ":" + minuteOfDay + ":" + secondString;
-                                    }
-                                } else {
-                                    if (minuteOfDay < 10) {
-                                        timeString = hourOfDay + ":" + "0" + minuteOfDay + ":" + secondString;
-                                    } else {
-                                        timeString = hourOfDay + ":" + minuteOfDay + ":" + secondString;
-                                    }
-                                }
-
-                                transTimeAdd = timeString;
-                                mBinding.lyAddTransaction.tvTime.setText(transTimeAdd);
-                            }
-                        }, hour, minute, false);
-                timePickerDialog.setTitle("Select Time");
-                timePickerDialog.show();
+                showTime();
             }
         });
 
@@ -597,6 +567,17 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                     }
                 }
             }
+
+            //methode
+            else if (tipe == 4) {
+
+                for (int i = 0; i < paymentMethodeModelGlobal.getPaymentMethodeSatuanList().size(); i++) {
+                    if (paymentMethodeModelGlobal.getPaymentMethodeSatuanList().get(i).getPaymentMethodeID().equalsIgnoreCase(kata)) {
+                        tempPosition = i;
+                        break;
+                    }
+                }
+            }
         }
 
         return tempPosition;
@@ -624,9 +605,12 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
 
         if (flagListChoosen == 1) {
             listCustomAdapter = new ListCustomAdapter(mContext, categoryModelGlobal, 1);
-        } else {
+        } else if(flagListChoosen == 4){
             //dummy
             listCustomAdapter = new ListCustomAdapter(mContext, productModelGlobal, 3);
+        }
+        else {
+
         }
 
 
@@ -638,10 +622,19 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
 
                     //category
                     case 1:
-                        selectedPositionCategory = position;
-                        transCatAdd = categoryModelGlobal.getCategorySatuanList().get(position).getCategoryID();
-                        mBinding.lyAddTransaction.tvCategory.setText(categoryModelGlobal.getCategorySatuanList().get(position).getCategoryName());
+                        if (fromFilter) {
+                            filterPosCat = position;
+                            filterCategory = categoryModelGlobal.getCategorySatuanList().get(position).getCategoryID();
+                            mBinding.lyBottomUpSliderFilter.tvFilterCat.setText
+                                    (categoryModelGlobal.getCategorySatuanList().get(position).getCategoryName());
+                            mBinding.lyBottomUpSliderFilter.relatifCategoryChoosen.setVisibility(View.VISIBLE);
+                            mBinding.lyBottomUpSliderFilter.relatifCategoryNotChoosen.setVisibility(GONE);
 
+                        } else {
+                            selectedPositionCategory = position;
+                            transCatAdd = categoryModelGlobal.getCategorySatuanList().get(position).getCategoryID();
+                            mBinding.lyAddTransaction.tvCategory.setText(categoryModelGlobal.getCategorySatuanList().get(position).getCategoryName());
+                        }
                         break;
 
                     //user
@@ -658,19 +651,31 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                         mBinding.lyAddTransaction.tvProduct.setText(productModelGlobal.getProductSatuanList().get(position).getProductName());
                         detailPriceAddSatuan = productModelGlobal.getProductSatuanList().get(position).getProductPrice();
 
-                        if(detailJumlahAdd > 0){
+                        if (detailJumlahAdd > 0) {
 
-                            if(detailJumlahAdd>0){
+                            if (detailJumlahAdd > 0) {
                                 detailPriceAdd = detailPriceAddSatuan * detailJumlahAdd;
                                 mBinding.lyAddTransaction.tvDetailPrice.setText(mataUangHelper.formatRupiah(detailPriceAdd));
                             }
                         }
 
-                        Toast.makeText(mContext,"stauan price p: "+detailPriceAddSatuan,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "stauan price p: " + detailPriceAddSatuan, Toast.LENGTH_SHORT).show();
 
+                        break;
+
+                    //methode
+                    case 4:
+
+                        filterPosMethod = position;
+                        filterMethod = paymentMethodeModelGlobal.getPaymentMethodeSatuanList().get(position).getPaymentMethodeID();
+                        mBinding.lyBottomUpSliderFilter.tvFilterMethod.setText
+                                (paymentMethodeModelGlobal.getPaymentMethodeSatuanList().get(position).getPaymentMethode());
+                        mBinding.lyBottomUpSliderFilter.relatifMethodChoosen.setVisibility(View.VISIBLE);
+                        mBinding.lyBottomUpSliderFilter.relatifMethodNotChoosen.setVisibility(GONE);
                         break;
                 }
 
+                fromFilter = false;
                 mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
                 mBinding.lyBlack2.lyBlack.setVisibility(View.GONE);
             }
@@ -711,7 +716,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
         transactionAdapter.setOnItemClickListener(new TransactionAdapter.ClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                transactionPresenter.setOnClickTransaction(transactionModelGlobal,position);
+                transactionPresenter.setOnClickTransaction(transactionModelGlobal, position);
             }
         });
     }
@@ -732,12 +737,12 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
 
     @Override
     public void onFailedGetAllAPI(String message) {
-        Toast.makeText(mContext,message,Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onSuccessAddtAllAPI(String message) {
-        Toast.makeText(mContext,message,Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -782,12 +787,24 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
     @Override
     public void showDialogListCategory(CategoryModel categoryModel) {
         categoryModelGlobal = categoryModel;
-        if (categoryModelGlobal.getCategorySatuanList() != null) {
-            sizeArray = categoryModelGlobal.getCategorySatuanList().size();
-            if (sizeArray > 0) {
+        if(fromFilter){
+            if (categoryModelGlobal.getCategorySatuanList() != null) {
+                sizeArray = categoryModelGlobal.getCategorySatuanList().size();
+                if (sizeArray > 0) {
 
-                selectedPositionCategory = findPosition(transCatAdd, 1);
-                callCustomList(1, selectedPositionCategory, sizeArray);
+                    filterPosCat = findPosition(filterCategory, 1);
+                    callCustomList(1, filterPosCat, sizeArray);
+                }
+            }
+        }
+        else {
+            if (categoryModelGlobal.getCategorySatuanList() != null) {
+                sizeArray = categoryModelGlobal.getCategorySatuanList().size();
+                if (sizeArray > 0) {
+
+                    selectedPositionCategory = findPosition(transCatAdd, 1);
+                    callCustomList(1, selectedPositionCategory, sizeArray);
+                }
             }
         }
     }
@@ -805,6 +822,90 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
         }
     }
 
+    @Override
+    public void showDialogListPaymentMethode(PaymentMethodeModel paymentMethodeModel) {
+
+        paymentMethodeModelGlobal = paymentMethodeModel;
+        if (paymentMethodeModelGlobal.getPaymentMethodeSatuanList() != null) {
+            sizeArray = paymentMethodeModelGlobal.getPaymentMethodeSatuanList().size();
+            if (sizeArray > 0) {
+
+                filterPosMethod = findPosition(filterMethod, 4);
+                callCustomList(4, filterPosMethod, sizeArray);
+            }
+        }
+    }
+
+
+    private void showTime(){
+        myCalendar = Calendar.getInstance();
+        int hour = myCalendar.get(Calendar.HOUR_OF_DAY);
+        int minute = myCalendar.get(Calendar.MINUTE);
+        final int second = myCalendar.get(Calendar.SECOND);
+        // Launch Time Picker Dialog
+        TimePickerDialog timePickerDialog = new TimePickerDialog(mContext,
+                new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                          int minuteOfDay) {
+                        String timeString = "", secondString = "";
+                        if (second < 9) {
+                            secondString = "0" + second;
+                        } else {
+                            secondString = second + "";
+                        }
+
+                        if (hourOfDay < 10) {
+                            if (minuteOfDay < 10) {
+                                timeString = "0" + hourOfDay + ":" + "0" + minuteOfDay + ":" + secondString;
+                            } else {
+                                timeString = "0" + hourOfDay + ":" + minuteOfDay + ":" + secondString;
+                            }
+                        } else {
+                            if (minuteOfDay < 10) {
+                                timeString = hourOfDay + ":" + "0" + minuteOfDay + ":" + secondString;
+                            } else {
+                                timeString = hourOfDay + ":" + minuteOfDay + ":" + secondString;
+                            }
+                        }
+
+                        transTimeAdd = timeString;
+                        mBinding.lyAddTransaction.tvTime.setText(transTimeAdd);
+                    }
+                }, hour, minute, false);
+        timePickerDialog.setTitle("Select Time");
+        timePickerDialog.show();
+    }
+
+    private void showDate(){
+
+        myCalendar = Calendar.getInstance();
+        new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
+            @SuppressLint("SimpleDateFormat")
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, month);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                sdf = new SimpleDateFormat(FORMAT_TANGGAL_STRING);
+                transDateAdd = sdf.format(myCalendar.getTime());
+                mBinding.lyAddTransaction.tvDate.setText(transDateAdd);
+
+                sdf = new SimpleDateFormat(FORMAT_TANGGAL_SORT);
+                String temp = sdf.format(myCalendar.getTime());
+                try {
+                    transDateSortAdd = Integer.parseInt(temp);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        },
+                myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
 
     //end
 }

@@ -15,32 +15,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.androiddevnkds.kopiseong.BaseFragment;
 import com.androiddevnkds.kopiseong.R;
-
-import com.androiddevnkds.kopiseong.data.DataManager;
 import com.androiddevnkds.kopiseong.databinding.FragmentLoginBinding;
-import com.androiddevnkds.kopiseong.model.UserInfoModel;
+import com.androiddevnkds.kopiseong.module.home.HomeActivity;
 import com.androiddevnkds.kopiseong.module.login.model.LoginCredential;
+import com.androiddevnkds.kopiseong.module.register.RegisterFragment;
 import com.androiddevnkds.kopiseong.utils.FragmentHelper;
 import com.androiddevnkds.kopiseong.utils.HeaderHelper;
 import com.androiddevnkds.kopiseong.utils.K;
-import com.androiddevnkds.kopiseong.module.home.HomeActivity;
-import com.androiddevnkds.kopiseong.BaseFragment;
-import com.androiddevnkds.kopiseong.module.register.RegisterFragment;
 
 import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends BaseFragment implements LoginContract.loginView{
+public class AddTransactionFragment extends BaseFragment implements LoginContract.loginView{
 
     private FragmentLoginBinding mBinding;
     private Context mContext;
     private String email = "", password = "";
     private LoginPresenter loginPresenter;
 
-    public LoginFragment() {
+    public AddTransactionFragment() {
         // Required empty public constructor
         setArguments(new Bundle());
     }

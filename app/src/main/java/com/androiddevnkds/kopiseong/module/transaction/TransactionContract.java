@@ -2,6 +2,7 @@ package com.androiddevnkds.kopiseong.module.transaction;
 
 import com.androiddevnkds.kopiseong.model.CategoryModel;
 import com.androiddevnkds.kopiseong.model.DetailTransactionModel;
+import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.ProductModel;
 import com.androiddevnkds.kopiseong.model.TotalBalanceModel;
 import com.androiddevnkds.kopiseong.model.TransactionModel;
@@ -26,15 +27,13 @@ public interface TransactionContract {
                                     String transTime, String transUserName, String transEmail,
                                     long transBalance, DetailTransactionModel detailTransactionModel);
 
-//        void showCurrentUserEmail(String email);
-//
-//        void showCurrentDateTime(String date, String time, int dateInt);
-
         void showAddTransactionLayout();
 
         void showDialogListCategory(CategoryModel categoryModel);
 
         void showDialogListProduct(ProductModel productModel);
+
+        void showDialogListPaymentMethode(PaymentMethodeModel paymentMethodeModel);
 
     }
     interface transactionPresenter{
@@ -52,6 +51,8 @@ public interface TransactionContract {
         void getCategoryTransaction();
 
         void getAllProduct();
+
+        void getAllPaymentMethod();
 
     }
 }

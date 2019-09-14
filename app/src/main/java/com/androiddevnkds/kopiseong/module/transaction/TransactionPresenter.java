@@ -6,6 +6,7 @@ import com.androiddevnkds.kopiseong.data.DataManager;
 import com.androiddevnkds.kopiseong.model.CategoryModel;
 import com.androiddevnkds.kopiseong.model.DetailTransactionModel;
 import com.androiddevnkds.kopiseong.model.GeneralAddResponseModel;
+import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.ProductModel;
 import com.androiddevnkds.kopiseong.model.TransactionModel;
 import com.androiddevnkds.kopiseong.model.TransactionSatuanModel;
@@ -249,6 +250,34 @@ public class TransactionPresenter implements TransactionContract.transactionPres
                 });
     }
 
+    @Override
+    public void getAllPaymentMethod() {
+
+        transactionView.showProgressBar();
+        AndroidNetworking.post(K.URL_GET_PAYMENT_METHODE)
+                .setTag("test")
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsObject(PaymentMethodeModel.class, new ParsedRequestListener<PaymentMethodeModel>() {
+                    @Override
+                    public void onResponse(PaymentMethodeModel paymentMethodeModel) {
+                        // do anything with response
+                        Log.e("BASE",new Gson().toJson(paymentMethodeModel));
+                        if(paymentMethodeModel.getErrorMessage()!=null){
+                            onFailed(paymentMethodeModel.getErrorMessage());
+                        }
+                        else {
+                            successGetPaymentMethodeTransaction(paymentMethodeModel);
+                        }
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        // handle error
+                        onFailed("ERROR");
+                    }
+                });
+    }
+
     private void getCurrentuser() {
         if (DataManager.can().getUserInfoFromStorage() != null) {
             RegisterInteractor userInfoModel = DataManager.can().getUserInfoFromStorage();
@@ -296,6 +325,11 @@ public class TransactionPresenter implements TransactionContract.transactionPres
     private void successGetProductTransaction(ProductModel productModel){
         transactionView.hideProgressBar();
         transactionView.showDialogListProduct(productModel);
+    }
+
+    private void successGetPaymentMethodeTransaction(PaymentMethodeModel paymentMethodeModel){
+        transactionView.hideProgressBar();
+        transactionView.showDialogListPaymentMethode(paymentMethodeModel);
     }
 
 }
