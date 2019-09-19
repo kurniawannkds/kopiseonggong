@@ -1,4 +1,4 @@
-package com.androiddevnkds.kopiseong.module.login;
+package com.androiddevnkds.kopiseong.module.addTransaction;
 
 
 import android.content.Context;
@@ -19,6 +19,8 @@ import com.androiddevnkds.kopiseong.BaseFragment;
 import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.databinding.FragmentLoginBinding;
 import com.androiddevnkds.kopiseong.module.home.HomeActivity;
+import com.androiddevnkds.kopiseong.module.login.LoginContract;
+import com.androiddevnkds.kopiseong.module.login.LoginPresenter;
 import com.androiddevnkds.kopiseong.module.login.model.LoginCredential;
 import com.androiddevnkds.kopiseong.module.register.RegisterFragment;
 import com.androiddevnkds.kopiseong.utils.FragmentHelper;
@@ -30,7 +32,7 @@ import java.util.Objects;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddTransactionFragment extends BaseFragment implements LoginContract.loginView{
+public class AddTransactionFragment extends BaseFragment implements LoginContract.loginView {
 
     private FragmentLoginBinding mBinding;
     private Context mContext;

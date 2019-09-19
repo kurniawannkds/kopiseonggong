@@ -38,7 +38,7 @@ public interface TransactionContract {
     }
     interface transactionPresenter{
 
-        void getAllTransaction(int currentPage);
+        void getAllTransaction(int currentPage, String cat, String date, String user, String pembayaran);
 
         void setOnClickTransaction(TransactionModel transactionModel, int position);
 

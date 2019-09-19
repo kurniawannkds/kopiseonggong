@@ -2,28 +2,30 @@ package com.androiddevnkds.kopiseong.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class ResepModel {
 
-    @SerializedName("resep_model")
-    private ResepModelSatuan resepModelSatuan;
+    @SerializedName("resep_list")
+    private List<ResepModelSatuan> resepModelSatuanList;
 
     @SerializedName("error_msg")
     private String errorMessage;
 
-    public ResepModel(ResepModelSatuan resepModelSatuan, String errorMessage) {
-        this.resepModelSatuan = resepModelSatuan;
+    public ResepModel(List<ResepModelSatuan> resepModelSatuanList, String errorMessage) {
+        this.resepModelSatuanList = resepModelSatuanList;
         this.errorMessage = errorMessage;
     }
 
     public ResepModel() {
     }
 
-    public ResepModelSatuan getResepModelSatuan() {
-        return resepModelSatuan;
+    public List<ResepModelSatuan> getResepModelSatuanList() {
+        return resepModelSatuanList;
     }
 
-    public void setResepModelSatuan(ResepModelSatuan resepModelSatuan) {
-        this.resepModelSatuan = resepModelSatuan;
+    public void setResepModelSatuanList(List<ResepModelSatuan> resepModelSatuanList) {
+        this.resepModelSatuanList = resepModelSatuanList;
     }
 
     public String getErrorMessage() {
@@ -46,12 +48,12 @@ public class ResepModel {
         private String resepJumlahItem;
 
         @SerializedName("resep_total_price")
-        private long resepTotalPrice;
+        private double resepTotalPrice;
 
         public ResepModelSatuan() {
         }
 
-        public ResepModelSatuan(String resepID, String resepItem, String resepJumlahItem, long resepTotalPrice) {
+        public ResepModelSatuan(String resepID, String resepItem, String resepJumlahItem, double resepTotalPrice) {
             this.resepID = resepID;
             this.resepItem = resepItem;
             this.resepJumlahItem = resepJumlahItem;
@@ -82,11 +84,11 @@ public class ResepModel {
             this.resepJumlahItem = resepJumlahItem;
         }
 
-        public long getResepTotalPrice() {
+        public double getResepTotalPrice() {
             return resepTotalPrice;
         }
 
-        public void setResepTotalPrice(long resepTotalPrice) {
+        public void setResepTotalPrice(double resepTotalPrice) {
             this.resepTotalPrice = resepTotalPrice;
         }
     }

@@ -19,6 +19,8 @@ public class K {
     public static String URL_GET_ALL_BALANCE = "https://androiddevnkds.com/kopi.seonggong/api/getAllBalance.php";
     public static String URL_ADD_TRANSACTION = "https://androiddevnkds.com/kopi.seonggong/api/AddTransaction.php";
     public static String URL_ADD_DETAIL_TRANSACTION = "https://androiddevnkds.com/kopi.seonggong/api/AddDetailTransaction.php";
+    public static String URL_GET_ALL_RESEP = "https://androiddevnkds.com/kopi.seonggong/api/editResep.php";
+    public static String URL_GET_COUNT_HPP = "https://androiddevnkds.com/kopi.seonggong/api/countHPP.php";
 
     public static String USER_NAME_USER = "USER_NAME_USER";
     public static String KEY_OBJECT_USER = "OBJECT_USER";

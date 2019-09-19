@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.databinding.ItemListCustomBinding;
 import com.androiddevnkds.kopiseong.model.CategoryModel;
+import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.ProductModel;
 import com.androiddevnkds.kopiseong.utils.listener.OnItemClickListener;
 
@@ -20,6 +21,7 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
     private int tipe = 0;
     private CategoryModel categoryModel;
     private ProductModel productModel;
+    private PaymentMethodeModel paymentMethodeModel;
 
     public int selectedPosition = -1;
     private OnItemClickListener mItemClickListener;
@@ -33,6 +35,12 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
     public ListCustomAdapter(Context mContext, ProductModel productModel, int tipe) {
         this.mContext = mContext;
         this.productModel = productModel;
+        this.tipe = tipe;
+    }
+
+    public ListCustomAdapter(Context mContext, PaymentMethodeModel paymentMethodeModel, int tipe) {
+        this.mContext = mContext;
+        this.paymentMethodeModel = paymentMethodeModel;
         this.tipe = tipe;
     }
 
@@ -51,8 +59,11 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
         if(tipe == 1){
             itemShow = categoryModel.getCategorySatuanList().get(position).getCategoryName();
         }
-        else {
+        else if(tipe==3){
             itemShow = productModel.getProductSatuanList().get(position).getProductName();
+        }
+        else {
+            itemShow = paymentMethodeModel.getPaymentMethodeSatuanList().get(position).getPaymentMethode();
         }
 
         holder.mBinding.tvItem.setText(itemShow);
@@ -90,9 +101,12 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
         if(tipe==1) {
             return categoryModel.getCategorySatuanList().size();
         }
-        else {
+        else if(tipe==3){
             //dummy
             return productModel.getProductSatuanList().size();
+        }
+        else {
+            return paymentMethodeModel.getPaymentMethodeSatuanList().size();
         }
     }
 

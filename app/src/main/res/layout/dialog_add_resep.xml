@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/ly_dialog_layout_add_resep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone">
+
+        <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/recycle_view_detail_trans"-->
+        <!--android:layout_width="1000dp"-->
+        <!--android:layout_height="600dp"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--app:cardBackgroundColor="@color/colorCardView"-->
+        <!--app:cardCornerRadius="10dp">-->
+
+        <android.support.v7.widget.CardView
+            android:layout_margin="30dp"
+            android:id="@+id/recycle_view_detail_trans"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            app:cardBackgroundColor="@color/colorCardView"
+            app:cardCornerRadius="10dp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/layout1"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tv_title"
+                                style="@style/TextViewStyleHeader1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Add New Resep" />
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/layout1">
+
+                        <RelativeLayout
+                            android:layout_centerHorizontal="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/title_info"
+                            android:layout_marginTop="5dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp"
+                                android:orientation="vertical">
+
+                                <RelativeLayout
+                                    android:id="@+id/layout_relatif_resepID"
+                                    android:layout_width="200dp"
+                                    android:layout_height="50dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginTop="2dp"
+                                            android:text="ResepID" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_resep_id"
+                                            android:layout_width="160dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_marginTop="20dp"
+                                    android:id="@+id/layout_relatif_item"
+                                    android:layout_width="350dp"
+                                    android:layout_height="50dp"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginTop="2dp"
+                                            android:text="Resep Item (please fill with comma ex: OVL,KOPI)" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_resep_item"
+                                            android:layout_width="330dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_marginTop="20dp"
+                                    android:id="@+id/layout_relatif_time"
+                                    android:layout_width="350dp"
+                                    android:layout_height="50dp"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginTop="2dp"
+                                            android:text="Resep Item Jumlah (please fill with comma ex: 20,23)" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_jumlah_item"
+                                            android:layout_width="330dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/layout_relatif_hpp"
+                                    android:layout_width="350dp"
+                                    android:layout_height="50dp"
+                                    android:layout_marginTop="20dp"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginTop="2dp"
+                                            android:text="HPP" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_resep_hpp"
+                                            android:layout_width="160dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/layout2"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="10dp">
+
+                        <Button
+                            android:id="@+id/btn_submit_add"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Submit Transaction" />
+
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+
+            </ScrollView>
+
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</layout>

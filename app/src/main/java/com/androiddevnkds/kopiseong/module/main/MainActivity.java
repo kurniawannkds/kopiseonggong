@@ -26,7 +26,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        Hawk.init(this).build();
+
         initUI();
         initEvent();
     }

@@ -4,6 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.androiddevnkds.kopiseong"
+        multiDexEnabled true
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
@@ -55,4 +56,14 @@ dependencies {
 
     //untuk graph
     implementation 'com.github.razerdp:AnimatedPieView:1.2.3'
+
+//    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+
+//    implementation 'com.google.android.material:material:1.0.0'
+
+//    implementation 'androidx.cardview:cardview:1.0.0'
+
+    implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.github.f0ris.sweetalert:library:1.5.6'
 }

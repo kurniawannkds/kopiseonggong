@@ -44,11 +44,15 @@ public class TransactionPresenter implements TransactionContract.transactionPres
     }
 
     @Override
-    public void getAllTransaction(int currentPage) {
+    public void getAllTransaction(int currentPage, String category, String date, String userName, String pembayaran) {
 
         transactionView.showProgressBar();
         AndroidNetworking.post(K.URL_GET_ALL_TRANSACTION)
                 .addBodyParameter("currentPage",currentPage+"")
+                .addBodyParameter("trans_category",category)
+                .addBodyParameter("trans_date",date)
+                .addBodyParameter("trans_user_email",userName)
+                .addBodyParameter("trans_tipe_pembayaran",pembayaran)
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)
                 .build()

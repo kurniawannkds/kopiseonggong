@@ -161,5 +161,7 @@ public class LoginFragment extends BaseFragment implements LoginContract.loginVi
         else {
             Toast.makeText(mContext,message,Toast.LENGTH_SHORT).show();
         }
+
+        hideProgressBar();
     }
 }

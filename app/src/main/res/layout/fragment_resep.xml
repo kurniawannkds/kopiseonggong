@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/ly_header_data"
+            layout="@layout/header"/>
+
+        <android.support.design.widget.CoordinatorLayout
+            android:id="@+id/contraint_rv"
+            android:layout_margin="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_margin="15dp"
+                android:id="@+id/rv_resep"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/contraint_rv"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/btn_add"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:background="@color/colorAccent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                style="@style/TextViewStyle4"
+                android:text="ADD"/>
+
+
+        </LinearLayout>
+
+
+        <include
+            android:id="@+id/ly_black"
+            layout="@layout/layout_black"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <include
+                android:id="@+id/ly_dialog_detail_resep"
+                layout="@layout/dialog_detail_resep"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <include
+                android:id="@+id/ly_dialog_edit_text_resep"
+                layout="@layout/dialog_edit_resep"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <include
+                android:id="@+id/ly_dialog_add_resep"
+                layout="@layout/dialog_add_resep"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <include
+                android:id="@+id/ly_done_edit_text"
+                layout="@layout/dialog_edit_text" />
+
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/view_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.8"
+            android:background="@color/colorBlack"
+            android:visibility="gone"/>
+
+        <ProgressBar
+            android:id="@+id/pb_bar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+</RelativeLayout>
+
+</layout>

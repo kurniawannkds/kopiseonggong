@@ -4,7 +4,7 @@
     xmlns:card_view="http://schemas.android.com/tools">
 
     <RelativeLayout
-        android:id="@+id/ly_dialog_layout_detail_transaction"
+        android:id="@+id/ly_dialog_layout_detail_resep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -14,8 +14,8 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/recycle_view_detail_trans"
-            android:layout_width="300dp"
-            android:layout_height="510dp"
+            android:layout_width="450dp"
+            android:layout_height="500dp"
             android:layout_centerInParent="true"
             app:cardBackgroundColor="@color/colorCardView"
             app:cardCornerRadius="10dp">
@@ -25,44 +25,28 @@
                 android:layout_height="match_parent">
 
                 <RelativeLayout
-                    android:id="@+id/layout1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <RelativeLayout
-                        android:id="@+id/layout_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_margin="10dp">
-
-                        <TextView
-                            android:id="@+id/tv_name"
-                            android:layout_margin="5dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            style="@style/TextViewStyleHeader1"
-                            android:layout_centerHorizontal="true"
-                            android:text="Kurniawan"/>
-
-                    </RelativeLayout>
-
-                </RelativeLayout>
-
-                <RelativeLayout
                     android:id="@+id/layout2"
+                    android:layout_margin="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout1"
                     android:layout_centerHorizontal="true">
 
+                    <ImageView
+                        android:id="@+id/iv_delete"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/password"
+                        android:layout_marginLeft="210dp"/>
+
                     <TextView
+                        android:layout_centerHorizontal="true"
                         android:id="@+id/title_info"
                         style="@style/TextViewStyleHeader4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:text="Transaction Detail" />
+                        android:layout_marginTop="10dp"
+                        android:text="Resep Detail" />
 
                     <LinearLayout
                         android:id="@+id/layout_linear_biasa"
@@ -93,15 +77,15 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="10dp"
-                                android:text="Transaction Category" />
+                                android:text="Resep ID" />
 
-                            <TextView
-                                android:id="@+id/tv_category"
+                            <me.grantland.widget.AutofitTextView
+                                android:layout_marginLeft="10dp"
+                                android:id="@+id/tv_resep_id"
                                 style="@style/TextViewStyle6"
-                                android:layout_width="70dp"
+                                android:layout_width="200dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:gravity="end"
                                 android:text="" />
 
                         </LinearLayout>
@@ -124,15 +108,16 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="10dp"
-                                android:text="Transaction Date" />
+                                android:text="Resep Item" />
 
-                            <TextView
-                                android:id="@+id/tv_trans_date"
+                            <me.grantland.widget.AutofitTextView
+                                android:layout_marginLeft="10dp"
+                                android:singleLine="true"
+                                android:id="@+id/tv_resep_item"
                                 style="@style/TextViewStyle6"
-                                android:layout_width="70dp"
+                                android:layout_width="200dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
-                                android:gravity="end"
                                 android:text="" />
 
                         </LinearLayout>
@@ -155,15 +140,16 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="10dp"
-                                android:text="Transaction Time" />
+                                android:text="Resep Jumlah(gr)" />
 
-                            <TextView
-                                android:id="@+id/tv_trans_time"
+                            <me.grantland.widget.AutofitTextView
+                                android:layout_marginLeft="10dp"
+                                android:singleLine="true"
+                                android:id="@+id/tv_resep_item_jumlah"
                                 style="@style/TextViewStyle6"
-                                android:layout_width="70dp"
-                                android:layout_gravity="center_vertical"
+                                android:layout_width="200dp"
                                 android:layout_height="wrap_content"
-                                android:gravity="end"
+                                android:layout_gravity="center_vertical"
                                 android:text="" />
 
                         </LinearLayout>
@@ -171,91 +157,30 @@
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="3dp">
+                            android:layout_marginTop="3dp"
+                            android:orientation="horizontal">
 
                             <ImageView
                                 android:layout_width="5dp"
                                 android:layout_height="5dp"
                                 android:layout_gravity="center_vertical"
-                                android:src="@drawable/oval_abu"/>
+                                android:src="@drawable/oval_abu" />
 
                             <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="10dp"
-                                android:layout_height="wrap_content"
-                                android:text="Total Transaction Balance"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="80dp"/>
+                                android:text="Resep Hpp" />
 
                             <TextView
-                                android:layout_gravity="center_vertical"
-                                android:id="@+id/tv_total_balance"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="70dp"
-                                android:gravity="end"
-                                android:layout_height="wrap_content"
-                                android:text="" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="3dp">
-
-                            <ImageView
-                                android:layout_width="5dp"
-                                android:layout_height="5dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/oval_abu"/>
-
-                            <TextView
-                                android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="10dp"
-                                android:layout_height="wrap_content"
-                                android:text="User email"
+                                android:singleLine="true"
+                                android:id="@+id/tv_resep_hpp"
                                 style="@style/TextViewStyle6"
-                                android:layout_width="80dp"/>
-
-                            <TextView
-                                android:id="@+id/tv_user_email"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="70dp"
-                                android:gravity="end"
+                                android:layout_width="200dp"
                                 android:layout_gravity="center_vertical"
-                                android:layout_height="wrap_content"
-                                android:text="" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="3dp">
-
-                            <ImageView
-                                android:layout_width="5dp"
-                                android:layout_height="5dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/oval_abu"/>
-
-                            <TextView
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="10dp"
-                                android:layout_height="wrap_content"
-                                android:text="Payment Type"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="80dp"/>
-
-                            <TextView
-                                android:id="@+id/tv_payment_type"
-                                android:layout_gravity="center_vertical"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="70dp"
-                                android:gravity="end"
                                 android:layout_height="wrap_content"
                                 android:text="" />
 
@@ -266,33 +191,36 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/layout3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:visibility="visible"
+                    android:id="@+id/layout_edit"
+                    android:layout_width="465dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout2"
                     android:layout_marginTop="10dp"
-                    android:layout_below="@+id/layout2">
+                    android:layout_centerHorizontal="true">
 
                     <android.support.design.widget.CoordinatorLayout
-                        android:id="@+id/contraint_rv_detail"
+                        android:layout_margin="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="30dp">
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true">
 
                         <android.support.v7.widget.RecyclerView
-                            android:layout_margin="20dp"
-                            android:id="@+id/rv_transaction_detail"
+                            android:layout_margin="10dp"
+                            android:id="@+id/rv_item"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="150dp" />
 
                     </android.support.design.widget.CoordinatorLayout>
-
 
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/layout_oke"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:visibility="gone"
                     android:layout_centerHorizontal="true">
 
                     <Button

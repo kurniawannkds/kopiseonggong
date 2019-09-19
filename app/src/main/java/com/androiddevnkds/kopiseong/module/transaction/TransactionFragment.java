@@ -32,10 +32,12 @@ import com.androiddevnkds.kopiseong.model.CategoryModel;
 import com.androiddevnkds.kopiseong.model.DetailTransactionModel;
 import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.ProductModel;
+import com.androiddevnkds.kopiseong.model.TotalBalanceModel;
 import com.androiddevnkds.kopiseong.model.TransactionModel;
 import com.androiddevnkds.kopiseong.model.TransactionSatuanModel;
 import com.androiddevnkds.kopiseong.model.UserInfoModel;
 import com.androiddevnkds.kopiseong.module.register.model.RegisterInteractor;
+import com.androiddevnkds.kopiseong.module.wallet.WalletContract;
 import com.androiddevnkds.kopiseong.utils.DateAndTime;
 import com.androiddevnkds.kopiseong.utils.FragmentHelper;
 import com.androiddevnkds.kopiseong.utils.HeaderHelper;
@@ -147,7 +149,9 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
         mBinding.lyBottomNav.navigation.setSelectedItemId(R.id.transaction_menu);
         detailTransactionList = new ArrayList<>();
 
-        transactionPresenter.getAllTransaction(page);
+        DateAndTime dateAndTime = new DateAndTime();
+        mBinding.lyHeaderData.tvDate.setText(dateAndTime.getCurrentDate(FORMAT_TANGGAL_STRING));
+        transactionPresenter.getAllTransaction(page, filterCategory, filterDate, filterUser, filterMethod);
     }
 
     @Override
@@ -237,7 +241,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
             public void onClick(View view) {
 
                 mBinding.lyBottomUpSliderFilter.tvFilterCat.setText("");
-                filterCategory = "";
+                filterCategory = "NONE";
                 mBinding.lyBottomUpSliderFilter.relatifCategoryChoosen.setVisibility(GONE);
                 mBinding.lyBottomUpSliderFilter.relatifCategoryNotChoosen.setVisibility(View.VISIBLE);
             }
@@ -267,17 +271,51 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
         });
 
         //payment choosen, disappear border
-        mBinding.lyBottomUpSliderFilter.relatifCategoryChoosen.setOnClickListener(new View.OnClickListener() {
+        mBinding.lyBottomUpSliderFilter.relatifMethodChoosen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                mBinding.lyBottomUpSliderFilter.tvFilterCat.setText("");
-                filterCategory = "";
-                mBinding.lyBottomUpSliderFilter.relatifCategoryChoosen.setVisibility(GONE);
-                mBinding.lyBottomUpSliderFilter.relatifCategoryNotChoosen.setVisibility(View.VISIBLE);
+                mBinding.lyBottomUpSliderFilter.tvFilterMethod.setText("");
+                filterMethod = "NONE";
+                mBinding.lyBottomUpSliderFilter.relatifMethodChoosen.setVisibility(GONE);
+                mBinding.lyBottomUpSliderFilter.relatifMethodNotChoosen.setVisibility(View.VISIBLE);
             }
         });
 
+        //date filter not choosen
+        mBinding.lyBottomUpSliderFilter.relatifDateNotChoosen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                fromFilter = true;
+                showDate();
+            }
+        });
+
+        mBinding.lyBottomUpSliderFilter.relatifDateChoosen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mBinding.lyBottomUpSliderFilter.tvFilterDate.setText("");
+                filterDate = "NONE";
+                mBinding.lyBottomUpSliderFilter.relatifDateChoosen.setVisibility(GONE);
+                mBinding.lyBottomUpSliderFilter.relatifDateNotChoosen.setVisibility(View.VISIBLE);
+                DateAndTime dateAndTime = new DateAndTime();
+                mBinding.lyHeaderData.tvDate.setText(dateAndTime.getCurrentDate(FORMAT_TANGGAL_STRING));
+            }
+        });
+
+        mBinding.lyBottomUpSliderFilter.btnSumbit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                page = 0;
+                isPanelShown = true;
+                mBinding.lyBlack.lyBlack.setVisibility(GONE);
+                slideUpDown(mBinding.lyBottomUpSliderFilter.bottomSheet);
+                transactionPresenter.getAllTransaction(page,filterCategory,filterDate,filterUser,filterMethod);
+            }
+        });
 
         //-------------------------------------------------------------------------------------------
 
@@ -288,7 +326,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 mBinding.btnPrevius.setVisibility(View.VISIBLE);
                 //hit api
                 page++;
-                transactionPresenter.getAllTransaction(page);
+                transactionPresenter.getAllTransaction(page, filterCategory, filterDate, filterUser, filterMethod);
 
             }
         });
@@ -298,7 +336,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 page--;
 
                 //hit api
-                transactionPresenter.getAllTransaction(page);
+                transactionPresenter.getAllTransaction(page, filterCategory, filterDate, filterUser, filterMethod);
             }
         });
 
@@ -607,7 +645,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
             listCustomAdapter = new ListCustomAdapter(mContext, categoryModelGlobal, 1);
         } else if(flagListChoosen == 4){
             //dummy
-            listCustomAdapter = new ListCustomAdapter(mContext, productModelGlobal, 3);
+            listCustomAdapter = new ListCustomAdapter(mContext, paymentMethodeModelGlobal, 4);
         }
         else {
 
@@ -693,7 +731,13 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
     @Override
     public void showAllTransaction(TransactionModel transactionModel) {
 
-        transactionModelGlobal = transactionModel;
+        if(transactionModelGlobal==null || transactionModelGlobal.getTransactionModelLists()==null ||
+                transactionModelGlobal.getTransactionModelLists().size()==0){
+
+            transactionModelGlobal = transactionModel;
+        }
+        //else if(transactionModelGlobal.getTransactionModelLists().size()<)
+
         transactionAdapter = new TransactionAdapter(mContext, transactionModel);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
         mBinding.rvTransaction.setLayoutManager(layoutManager);
@@ -890,15 +934,25 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                 sdf = new SimpleDateFormat(FORMAT_TANGGAL_STRING);
-                transDateAdd = sdf.format(myCalendar.getTime());
-                mBinding.lyAddTransaction.tvDate.setText(transDateAdd);
+                if(!fromFilter) {
+                    transDateAdd = sdf.format(myCalendar.getTime());
+                    mBinding.lyAddTransaction.tvDate.setText(transDateAdd);
 
-                sdf = new SimpleDateFormat(FORMAT_TANGGAL_SORT);
-                String temp = sdf.format(myCalendar.getTime());
-                try {
-                    transDateSortAdd = Integer.parseInt(temp);
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
+                    sdf = new SimpleDateFormat(FORMAT_TANGGAL_SORT);
+                    String temp = sdf.format(myCalendar.getTime());
+                    try {
+                        transDateSortAdd = Integer.parseInt(temp);
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+
+                    filterDate = sdf.format(myCalendar.getTime());
+                    mBinding.lyHeaderData.tvDate.setText(filterDate);
+                    mBinding.lyBottomUpSliderFilter.tvFilterDate.setText(filterDate);
+                    mBinding.lyBottomUpSliderFilter.relatifDateChoosen.setVisibility(View.VISIBLE);
+                    mBinding.lyBottomUpSliderFilter.relatifDateNotChoosen.setVisibility(GONE);
                 }
 
             }
@@ -906,6 +960,5 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
-
     //end
 }

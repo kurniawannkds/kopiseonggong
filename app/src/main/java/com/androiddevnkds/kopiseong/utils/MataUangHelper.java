@@ -21,4 +21,11 @@ public class MataUangHelper {
         format = formatRupiah.format(nominal).replace("IDR","IDR. ");
         return format;
     }
+
+    public String formatRupiah(double nominal){
+        String format = "";
+        formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+        format = formatRupiah.format(nominal).replace("IDR","IDR. ");
+        return format;
+    }
 }

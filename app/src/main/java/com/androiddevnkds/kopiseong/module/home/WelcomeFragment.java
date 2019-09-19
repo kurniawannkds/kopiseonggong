@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.data.DataManager;
 import com.androiddevnkds.kopiseong.databinding.FragmentWelcomeBinding;
+import com.androiddevnkds.kopiseong.module.resep.ResepFragment;
 import com.androiddevnkds.kopiseong.utils.FragmentHelper;
 import com.androiddevnkds.kopiseong.utils.HeaderHelper;
 import com.androiddevnkds.kopiseong.utils.K;
@@ -134,6 +135,9 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
             @Override
             public void onClick(View view) {
 
+                FragmentHelper.fragmentChanger(R.id.fl_fragment_container,
+                        ((AppCompatActivity) mContext).getSupportFragmentManager(),
+                        new ResepFragment(), null, false);
             }
         });
 
