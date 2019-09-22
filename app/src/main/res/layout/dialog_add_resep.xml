@@ -141,6 +141,31 @@
 
                                 </RelativeLayout>
 
+                                <LinearLayout
+                                    android:id="@+id/linear_clear_item"
+                                    android:visibility="gone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <Button
+                                        android:id="@+id/btn_clear_all_item"
+                                        android:layout_width="60dp"
+                                        android:layout_height="30dp"
+                                        android:text="clear all"
+                                        android:textSize="7sp"
+                                        />
+
+                                    <Button
+                                        android:id="@+id/btn_clear_item"
+                                        android:layout_width="60dp"
+                                        android:layout_height="30dp"
+                                        android:text="clear"
+                                        android:textSize="7sp"
+                                        />
+
+                                </LinearLayout>
+
                                 <RelativeLayout
                                     android:layout_marginTop="20dp"
                                     android:id="@+id/layout_relatif_time"
@@ -174,6 +199,31 @@
                                     </LinearLayout>
 
                                 </RelativeLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/linear_clear_jumlah"
+                                    android:visibility="gone"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <Button
+                                        android:id="@+id/btn_clear_all_jumlah"
+                                        android:layout_width="60dp"
+                                        android:layout_height="30dp"
+                                        android:text="clear all"
+                                        android:textSize="7sp"
+                                        />
+
+                                    <Button
+                                        android:id="@+id/btn_clear_jumlah"
+                                        android:layout_width="60dp"
+                                        android:layout_height="30dp"
+                                        android:text="clear"
+                                        android:textSize="7sp"
+                                        />
+
+                                </LinearLayout>
 
                                 <RelativeLayout
                                     android:id="@+id/layout_relatif_hpp"

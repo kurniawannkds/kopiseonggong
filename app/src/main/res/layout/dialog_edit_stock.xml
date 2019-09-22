@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/ly_dialog_layout_edit_stock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/recycle_view_detail_trans"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:cardBackgroundColor="@color/colorCardView"
+            app:cardCornerRadius="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/layout2"
+                    android:layout_margin="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_centerHorizontal="true">
+
+                    <TextView
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/title_info"
+                        style="@style/TextViewStyleHeader4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Edit Stock" />
+
+                    <LinearLayout
+                        android:id="@+id/layout_linear_biasa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/title_info"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu" />
+
+                            <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:text="Stock Name" />
+
+                            <me.grantland.widget.AutofitTextView
+                                android:id="@+id/tv_stock_name"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu" />
+
+                            <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:text="Stock Jumlah(gr)" />
+
+                            <EditText
+                                android:id="@+id/et_stock_jumlah"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu" />
+
+                            <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:text="Stock Date" />
+
+                            <me.grantland.widget.AutofitTextView
+                                android:id="@+id/tv_stock_date"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="" />
+
+                            <ImageView
+                                android:id="@+id/iv_date"
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/calendar"
+                                android:layout_marginLeft="5dp"/>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_marginTop="50dp"
+                    android:id="@+id/layout_oke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout2"
+                    android:visibility="visible"
+                    android:layout_centerHorizontal="true">
+
+                    <Button
+                        android:id="@+id/btn_oke"
+                        android:layout_width="150dp"
+                        android:background="@drawable/bg_button"
+                        android:layout_height="30dp"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="10dp"
+                        android:text="Oke"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</layout>

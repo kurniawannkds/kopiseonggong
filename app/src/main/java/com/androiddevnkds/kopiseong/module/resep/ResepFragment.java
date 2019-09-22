@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.androiddevnkds.kopiseong.BaseFragment;
 import com.androiddevnkds.kopiseong.R;
+import com.androiddevnkds.kopiseong.adapter.ListCustomAdapter;
 import com.androiddevnkds.kopiseong.adapter.ResepAdapter;
 import com.androiddevnkds.kopiseong.adapter.ResepItemAdapter;
 import com.androiddevnkds.kopiseong.adapter.TransactionAdapter;
@@ -29,6 +31,7 @@ import com.androiddevnkds.kopiseong.databinding.FragmentLoginBinding;
 import com.androiddevnkds.kopiseong.databinding.FragmentResepBinding;
 import com.androiddevnkds.kopiseong.model.ResepItemModel;
 import com.androiddevnkds.kopiseong.model.ResepModel;
+import com.androiddevnkds.kopiseong.model.StockModel;
 import com.androiddevnkds.kopiseong.module.home.HomeActivity;
 import com.androiddevnkds.kopiseong.module.login.model.LoginCredential;
 import com.androiddevnkds.kopiseong.module.register.RegisterFragment;
@@ -36,12 +39,15 @@ import com.androiddevnkds.kopiseong.utils.FragmentHelper;
 import com.androiddevnkds.kopiseong.utils.HeaderHelper;
 import com.androiddevnkds.kopiseong.utils.K;
 import com.androiddevnkds.kopiseong.utils.MataUangHelper;
+import com.androiddevnkds.kopiseong.utils.listener.OnItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static android.view.View.GONE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,10 +65,11 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
     private List<ResepItemModel> resepItemModelList;
     private int positionEdited = -1, positionClicked = -1;
     private double updateHpp = 0;
+    private ListCustomAdapter listCustomAdapter;
 
     //add resep
     private boolean isResepID = false, isResepItem = false, isResepJumlah, isResepHpp = false, isDialogKeypad = false, isAddResep= false;
-    private String resepID = "", resepItem = "", resepJumlah = "";
+    private String resepID = "", resepItem = "", resepJumlah = "", resepItemName ="";
     private double resepHpp = 0;
 
 
@@ -124,6 +131,10 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
                         mBinding.lyDialogAddResep.lyDialogLayoutAddResep.setVisibility(View.VISIBLE);
                         mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.GONE);
                     }
+                    else if(isResepItem){
+                        mBinding.lyDialogAddResep.lyDialogLayoutAddResep.setVisibility(View.VISIBLE);
+                        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.GONE);
+                    }
                     else {
                         mBinding.lyDialogAddResep.lyDialogLayoutAddResep.setVisibility(View.GONE);
                         mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
@@ -143,6 +154,15 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
                 isAddResep = true;
                 mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
                 mBinding.lyDialogAddResep.lyDialogLayoutAddResep.setVisibility(View.VISIBLE);
+                resepID = "";
+                resepItem = "";
+                resepJumlah = "";
+                resepHpp = 0;
+
+                mBinding.lyDialogAddResep.tvResepId.setText("");
+                mBinding.lyDialogAddResep.tvResepItem.setText("");
+                mBinding.lyDialogAddResep.tvJumlahItem.setText("");
+                mBinding.lyDialogAddResep.tvResepHpp.setText("");
             }
         });
 
@@ -170,13 +190,9 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
 
                 isDialogKeypad = true;
                 isResepItem = true;
-                mBinding.lyDoneEditText.tvEditTextLabel.setText("Input Resep Item");
-                mBinding.lyDoneEditText.etKarakter.setHint("ex : OVL,DLF  (without space!)");
-                mBinding.lyDoneEditText.etKarakter.setText(resepItem);
-                mBinding.lyDoneEditText.etKarakter.setVisibility(View.VISIBLE);
-                mBinding.lyDoneEditText.etNumber.setVisibility(View.GONE);
-                mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.VISIBLE);
-                mBinding.lyDialogAddResep.lyDialogLayoutAddResep.setVisibility(View.GONE);
+
+                mBinding.lyDialogCustomeList.tvDialogListLabel.setText("Input Resep Item");
+                resepPresenter.getAllStock(resepItem);
             }
         });
 
@@ -223,18 +239,16 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
                     mBinding.lyDialogAddResep.tvResepId.setText(resepID);
                 }
 
-                //item
-                else if(isResepItem){
-                    resepItem = mBinding.lyDoneEditText.etKarakter.getText().toString().trim();
-                    mBinding.lyDialogAddResep.tvResepItem.setText(resepItem);
-                    checkHpp();
-                }
-
                 //jumlah
                 else if(isResepJumlah){
                     resepJumlah = mBinding.lyDoneEditText.etKarakter.getText().toString().trim();
                     mBinding.lyDialogAddResep.tvJumlahItem.setText(resepJumlah);
-                    checkHpp();
+                    if(!resepJumlah.equalsIgnoreCase("")){
+                        mBinding.lyDialogAddResep.linearClearJumlah.setVisibility(View.VISIBLE);
+                    }
+                    if(!resepItem.equalsIgnoreCase("")) {
+                        checkHpp();
+                    }
                 }
 
                 //hpp
@@ -248,6 +262,7 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
                     MataUangHelper mataUangHelper = new MataUangHelper();
                     resepTemp = mataUangHelper.formatRupiah(resepHpp);
                     mBinding.lyDialogAddResep.tvResepItem.setText(resepTemp);
+
                 }
 
                 isResepID = false; isResepItem = false; isResepJumlah = false; isResepHpp = false;
@@ -276,6 +291,78 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
             }
         });
 
+        //clear all item
+        mBinding.lyDialogAddResep.btnClearAllItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                resepItem = "";
+                mBinding.lyDialogAddResep.tvResepItem.setText("");
+                mBinding.lyDialogAddResep.linearClearItem.setVisibility(GONE);
+            }
+        });
+
+        //clear last item
+        mBinding.lyDialogAddResep.btnClearItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(resepItem.contains(",")) {
+                    String[] splited = resepItem.trim().split(",");
+                    resepItem = "";
+                    for (int i = 0; i < splited.length - 1; i++) {
+                        if (i == splited.length - 2) {
+                            resepItem = resepItem + splited[i];
+                        } else {
+                            resepItem = resepItem + splited[i] + ",";
+                        }
+                    }
+                    mBinding.lyDialogAddResep.tvResepItem.setText(resepItem);
+                }
+                else {
+                    resepItem = "";
+                    mBinding.lyDialogAddResep.tvResepItem.setText(resepItem);
+                    mBinding.lyDialogAddResep.linearClearItem.setVisibility(GONE);
+                }
+            }
+        });
+
+
+        //clear all jumlah
+        mBinding.lyDialogAddResep.btnClearAllJumlah.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                resepJumlah = "";
+                mBinding.lyDialogAddResep.tvJumlahItem.setText("");
+                mBinding.lyDialogAddResep.linearClearJumlah.setVisibility(GONE);
+            }
+        });
+
+        //clear last jumlah
+        mBinding.lyDialogAddResep.btnClearJumlah.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(resepJumlah.contains(",")) {
+                    String[] splited = resepJumlah.trim().split(",");
+                    resepJumlah = "";
+                    for (int i = 0; i < splited.length - 1; i++) {
+                        if (i == splited.length - 2) {
+                            resepJumlah = resepJumlah + splited[i];
+                        } else {
+                            resepJumlah = resepJumlah + splited[i] + ",";
+                        }
+                    }
+                    mBinding.lyDialogAddResep.tvJumlahItem.setText(resepJumlah);
+                }
+                else {
+                    resepJumlah = "";
+                    mBinding.lyDialogAddResep.tvJumlahItem.setText(resepJumlah);
+                    mBinding.lyDialogAddResep.linearClearJumlah.setVisibility(GONE);
+                }
+            }
+        });
 
     }
 
@@ -299,6 +386,23 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
         }
     }
 
+    @Override
+    public void showAllStock(StockModel stockModel, int selectedPos) {
+
+        setCustomeList(stockModel);
+
+        if (selectedPos != -1) {
+            listCustomAdapter.selectedPosition = selectedPos;
+            listCustomAdapter.notifyDataSetChanged();
+
+            if (stockModel.getStockSatuanModelList().size() > 7) {
+                mBinding.lyDialogCustomeList.rvCustomList.scrollToPosition(selectedPos);
+            }
+        }
+        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.VISIBLE);
+
+    }
+
     //delete resep
     @Override
     public void succesDeleteResep(String message, final int position) {
@@ -306,6 +410,7 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
         final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.SUCCESS_TYPE);
         pDialog.setTitleText("Delete Success");
         pDialog.setConfirmText("Yes");
+        pDialog.setCanceledOnTouchOutside(false);
         pDialog.showCancelButton(false);
         pDialog.show();
 
@@ -333,6 +438,7 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
         final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.SUCCESS_TYPE);
         pDialog.setTitleText(message);
         pDialog.setConfirmText("Yes");
+        pDialog.setCanceledOnTouchOutside(false);
         pDialog.showCancelButton(false);
         pDialog.show();
 
@@ -377,16 +483,11 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
             @Override
             public void onClick(SweetAlertDialog sDialog) {
 
-                //update
-                if(tipe==1) {
-                    mBinding.lyDialogDetailResep.lyDialogLayoutDetailResep.setVisibility(View.GONE);
-                    mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
-                }
                 pDialog.dismiss();
             }
         });
         hideProgressBar();
-        if(tipe==2 || tipe==3){
+        if(tipe!=1){
             mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
         }
     }
@@ -417,6 +518,7 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
         pDialog.setTitleText(message);
         pDialog.setConfirmText("Yes");
         pDialog.showCancelButton(false);
+        pDialog.setCanceledOnTouchOutside(false);
         pDialog.show();
 
         pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -587,5 +689,44 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
 
             resepPresenter.getCountHPP(resepItem,resepJumlah,1);
         }
+    }
+
+    private void setCustomeList(final StockModel stockModel) {
+
+        listCustomAdapter = new ListCustomAdapter(mContext, stockModel, 5);
+        listCustomAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+                if(resepItem.equalsIgnoreCase("")){
+                    resepItem = stockModel.getStockSatuanModelList().get(position).getStockID();
+                }
+                else {
+                    resepItem = resepItem+","+stockModel.getStockSatuanModelList().get(position).getStockID();
+                }
+
+                if(!resepJumlah.equalsIgnoreCase("")){
+                    checkHpp();
+                }
+
+//                if(resepItemName.equalsIgnoreCase("")){
+//                    resepItemName = stockModel.getStockSatuanModelList().get(position).getStockName();
+//                }
+//                else {
+//                    resepItemName = resepItemName+","+stockModel.getStockSatuanModelList().get(position).getStockName();
+//                }
+
+                mBinding.lyDialogAddResep.tvResepItem.setText(resepItem);
+                mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
+                mBinding.lyDialogAddResep.lyDialogLayoutAddResep.setVisibility(View.VISIBLE);
+                mBinding.lyDialogAddResep.linearClearItem.setVisibility(View.VISIBLE);
+            }
+        });
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mBinding.lyDialogCustomeList.rvCustomList.setLayoutManager(mLayoutManager);
+        mBinding.lyDialogCustomeList.rvCustomList.setItemAnimator(new DefaultItemAnimator());
+        mBinding.lyDialogCustomeList.rvCustomList.setAdapter(listCustomAdapter);
+        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.VISIBLE);
     }
 }

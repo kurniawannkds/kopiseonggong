@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".module.home.HomeActivity"/>
+        <activity android:name=".module.stock.StockActivity"/>
     </application>
 
 </manifest>

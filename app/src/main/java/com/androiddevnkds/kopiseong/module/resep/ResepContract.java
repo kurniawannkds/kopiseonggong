@@ -2,6 +2,7 @@ package com.androiddevnkds.kopiseong.module.resep;
 
 import com.androiddevnkds.kopiseong.model.ResepItemModel;
 import com.androiddevnkds.kopiseong.model.ResepModel;
+import com.androiddevnkds.kopiseong.model.StockModel;
 import com.androiddevnkds.kopiseong.model.TransactionModel;
 import com.androiddevnkds.kopiseong.model.TransactionSatuanModel;
 import com.androiddevnkds.kopiseong.model.UpdateResponseModel;
@@ -13,6 +14,8 @@ public interface ResepContract {
     interface resepView{
 
         void setHPP(double hpp, int tipe, String hasilItem, String hasilJumlahItem);
+
+        void showAllStock(StockModel stockModel, int selectedPos);
 
         void succesDeleteResep(String message, int position);
 
@@ -54,5 +57,7 @@ public interface ResepContract {
         void addResep(ResepModel.ResepModelSatuan resepModelSatuan);
 
         void getCountHPP(String item, String jumlahItem, int tipe);
+
+        void getAllStock(String stock);
     }
 }

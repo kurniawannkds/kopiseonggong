@@ -1,11 +1,13 @@
 package com.androiddevnkds.kopiseong.module.resep;
 
 import android.util.Log;
+import android.view.View;
 
 import com.androiddevnkds.kopiseong.data.DataManager;
 import com.androiddevnkds.kopiseong.model.HPPModel;
 import com.androiddevnkds.kopiseong.model.ResepItemModel;
 import com.androiddevnkds.kopiseong.model.ResepModel;
+import com.androiddevnkds.kopiseong.model.StockModel;
 import com.androiddevnkds.kopiseong.model.UpdateResponseModel;
 import com.androiddevnkds.kopiseong.module.register.model.RegisterInteractor;
 import com.androiddevnkds.kopiseong.utils.K;
@@ -21,6 +23,7 @@ import java.util.List;
 public class ResepPresenter implements ResepContract.resepPresenter {
 
     private ResepContract.resepView resepView;
+    private int sizeArray = 0, selectedPos = -1;
 
     public ResepPresenter(ResepContract.resepView  resepView){
         this.resepView = resepView;
@@ -74,7 +77,7 @@ public class ResepPresenter implements ResepContract.resepPresenter {
                     public void onResponse(UpdateResponseModel updateResponseModel) {
                         // do anything with response
                         if(updateResponseModel.getErrorMessage()!=null){
-                            onFailed(1,updateResponseModel.getErrorMessage());
+                            onFailed(2,updateResponseModel.getErrorMessage());
                             Log.e("adapter", "FAILED");
                         }
                         else {
@@ -87,7 +90,7 @@ public class ResepPresenter implements ResepContract.resepPresenter {
                     @Override
                     public void onError(ANError anError) {
                         // handle error
-                        onFailed(1,"ERROR");
+                        onFailed(2,"ERROR");
                         Log.e("base",anError.getErrorDetail());
                     }
                 });
@@ -128,7 +131,7 @@ public class ResepPresenter implements ResepContract.resepPresenter {
     public void onFailed(int tipe, String message) {
 
         resepView.hideProgressBar();
-        resepView.onFailed(1,message);
+        resepView.onFailed(tipe,message);
     }
 
     @Override
@@ -152,7 +155,7 @@ public class ResepPresenter implements ResepContract.resepPresenter {
                     public void onResponse(UpdateResponseModel updateResponseModel) {
                         // do anything with response
                         if(updateResponseModel.getErrorMessage()!=null){
-                            onFailed(1,updateResponseModel.getErrorMessage());
+                            onFailed(3,updateResponseModel.getErrorMessage());
                             Log.e("adapter", "FAILED");
                         }
                         else {
@@ -165,7 +168,7 @@ public class ResepPresenter implements ResepContract.resepPresenter {
                     @Override
                     public void onError(ANError anError) {
                         // handle error
-                        onFailed(1,"ERROR");
+                        onFailed(3,"ERROR");
                         Log.e("base",anError.getErrorDetail());
                     }
                 });
@@ -216,35 +219,73 @@ public class ResepPresenter implements ResepContract.resepPresenter {
     @Override
     public void getCountHPP(final String item, final String jumlahItem, final int tipe) {
 
-        AndroidNetworking.post(K.URL_GET_COUNT_HPP)
-                .addBodyParameter("resep_item", item)
-                .addBodyParameter("resep_jumlah", jumlahItem)
+        String[] splitItem = item.trim().split(",");
+        String[] splitJumlah = jumlahItem.trim().split(",");
+
+        if(splitItem.length ==  splitJumlah.length) {
+            AndroidNetworking.post(K.URL_GET_COUNT_HPP)
+                    .addBodyParameter("resep_item", item)
+                    .addBodyParameter("resep_jumlah", jumlahItem)
+                    .setTag("test")
+                    .setPriority(Priority.MEDIUM)
+                    .build()
+                    .getAsObject(HPPModel.class, new ParsedRequestListener<HPPModel>() {
+                        @Override
+                        public void onResponse(HPPModel hppModel) {
+                            // do anything with response
+                            if (hppModel.getErrorMessage() != null) {
+                                onFailed(3, hppModel.getErrorMessage());
+                                Log.e("adapter", "FAILED");
+                            } else {
+
+                                resepView.hideProgressBar();
+                                resepView.setHPP(hppModel.getHpp(), tipe, item, jumlahItem);
+                                Log.e("adapter", "SUKSES");
+                            }
+                        }
+
+                        @Override
+                        public void onError(ANError anError) {
+                            // handle error
+                            onFailed(3, "ERROR");
+                            Log.e("base", anError.getErrorDetail());
+                        }
+                    });
+        }
+        else {
+
+            onFailed(3,"Item and jumlah item not same");
+        }
+
+    }
+
+    @Override
+    public void getAllStock(final String stock) {
+
+        resepView.showProgressBar();
+        AndroidNetworking.post(K.URL_GET_STOCK_STORE)
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)
                 .build()
-                .getAsObject(HPPModel.class, new ParsedRequestListener<HPPModel>() {
+                .getAsObject(StockModel.class, new ParsedRequestListener<StockModel>() {
                     @Override
-                    public void onResponse(HPPModel hppModel) {
+                    public void onResponse(StockModel stockModel) {
                         // do anything with response
-                        if(hppModel.getErrorMessage()!=null){
-                            onFailed(3,hppModel.getErrorMessage());
-                            Log.e("adapter", "FAILED");
+                        if(stockModel.getErrorMessage()!=null){
+                            onFailed(4,stockModel.getErrorMessage());
                         }
                         else {
 
-                            resepView.hideProgressBar();
-                            resepView.setHPP(hppModel.getHpp(), tipe,item,jumlahItem);
-                            Log.e("adapter","SUKSES");
+                            setCustomeList(stockModel, stock);
                         }
                     }
                     @Override
                     public void onError(ANError anError) {
                         // handle error
-                        onFailed(3,"ERROR");
+                        onFailed(4,"ERROR");
                         Log.e("base",anError.getErrorDetail());
                     }
                 });
-
     }
 
     private boolean hasError(ResepModel.ResepModelSatuan resepModelSatuan){
@@ -252,6 +293,8 @@ public class ResepPresenter implements ResepContract.resepPresenter {
         String id = resepModelSatuan.getResepID();
         String item = resepModelSatuan.getResepItem();
         String jumlah = resepModelSatuan.getResepJumlahItem();
+        String[] splitItem = item.trim().split(",");
+        String[] splitJumlah = jumlah.trim().split(",");
         double hpp = resepModelSatuan.getResepTotalPrice();
         if(id.equalsIgnoreCase("")){
             onFailed(2,"ID cannot be empty");
@@ -265,6 +308,11 @@ public class ResepPresenter implements ResepContract.resepPresenter {
             onFailed(2,"Jumlah cannot be empty");
             return true;
         }
+        else  if(splitItem.length != splitJumlah.length){
+
+            onFailed(2,"Item and jumlah item not same");
+            return  true;
+        }
         else if(hpp == 0){
             onFailed(2,"Hpp cannot be zero");
             return true;
@@ -272,5 +320,36 @@ public class ResepPresenter implements ResepContract.resepPresenter {
         else {
             return false;
         }
+    }
+
+    private void setCustomeList(StockModel stockModel, String stock){
+
+        if (stockModel.getStockSatuanModelList() != null) {
+            sizeArray = stockModel.getStockSatuanModelList().size();
+            if (sizeArray > 0) {
+
+                selectedPos = findPosition(stock, stockModel);
+                resepView.hideProgressBar();
+                resepView.showAllStock(stockModel,selectedPos);
+            }
+        }
+    }
+
+    private int findPosition(String kata, StockModel stockModel) {
+
+        int tempPosition = -1;
+
+        if (!kata.equalsIgnoreCase("")) {
+            //category
+
+                for (int i = 0; i < stockModel.getStockSatuanModelList().size(); i++) {
+                    if (stockModel.getStockSatuanModelList().get(i).getStockID().equalsIgnoreCase(kata)) {
+                        tempPosition = i;
+                        break;
+                    }
+                }
+            }
+
+        return tempPosition;
     }
 }

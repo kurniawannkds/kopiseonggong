@@ -21,6 +21,8 @@ public class K {
     public static String URL_ADD_DETAIL_TRANSACTION = "https://androiddevnkds.com/kopi.seonggong/api/AddDetailTransaction.php";
     public static String URL_GET_ALL_RESEP = "https://androiddevnkds.com/kopi.seonggong/api/editResep.php";
     public static String URL_GET_COUNT_HPP = "https://androiddevnkds.com/kopi.seonggong/api/countHPP.php";
+    public static String URL_GET_STOCK_STORE = "https://androiddevnkds.com/kopi.seonggong/api/getAndUpdateStock.php";
+    public static String URL_GET_STOCK_WAREHOUSE = "https://androiddevnkds.com/kopi.seonggong/api/getAndUpdateStockWareHouse.php";
 
     public static String USER_NAME_USER = "USER_NAME_USER";
     public static String KEY_OBJECT_USER = "OBJECT_USER";
@@ -31,7 +33,10 @@ public class K {
     public static String KEY_ROLE_MASTER = "Master";
 
     public static String KEY_NOT_MEMBERSHIP = "NONE";
-    public static String KEY_MEMBERSHIP = "MEMBER";
+
+    public static String KEY_STOCK = "KEY_STOCK";
+    public static String VALUE_KEY_STOCK_WAREHOUSE = "VALUE_KEY_STOCK_WAREHOUSE";
+    public static String VALUE_KEY_STOCK_STORE = "VALUE_KEY_STOCK_STORE";
 
 
 }
