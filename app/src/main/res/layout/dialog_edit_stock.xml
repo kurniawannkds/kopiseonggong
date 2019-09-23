@@ -103,10 +103,43 @@
                             <EditText
                                 android:id="@+id/et_stock_jumlah"
                                 style="@style/TextViewStyle6"
-                                android:layout_width="100dp"
+                                android:layout_width="150dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:text="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu" />
+
+                            <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:text="Stock Price" />
+
+                            <com.aldoapps.autoformatedittext.AutoFormatEditText
+                                android:maxLength="15"
+                                app:isDecimal="true"
+                                style="@style/TextViewStyle6"
+                                android:id="@+id/et_stock_price"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:hint="IDR"
+                                android:inputType="phone"
+                                />
 
                         </LinearLayout>
 

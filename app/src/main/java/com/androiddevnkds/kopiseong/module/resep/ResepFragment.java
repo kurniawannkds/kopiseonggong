@@ -70,7 +70,7 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
     //add resep
     private boolean isResepID = false, isResepItem = false, isResepJumlah, isResepHpp = false, isDialogKeypad = false, isAddResep= false;
     private String resepID = "", resepItem = "", resepJumlah = "", resepItemName ="";
-    private double resepHpp = 0;
+    private long resepHpp = 0;
 
 
     public ResepFragment() {
@@ -123,6 +123,7 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
                 if(isEditResep){
                     mBinding.lyDialogEditTextResep.lyDialogLayoutEditResep.setVisibility(View.GONE);
                     mBinding.lyDialogDetailResep.lyDialogLayoutDetailResep.setVisibility(View.VISIBLE);
+                    isEditResep = false;
                 }
                 else if(isAddResep){
                     if(isDialogKeypad){
@@ -130,21 +131,23 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
                         mBinding.lyDoneEditText.etKarakter.setText("");
                         mBinding.lyDialogAddResep.lyDialogLayoutAddResep.setVisibility(View.VISIBLE);
                         mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.GONE);
+                        isDialogKeypad = false;
                     }
                     else if(isResepItem){
                         mBinding.lyDialogAddResep.lyDialogLayoutAddResep.setVisibility(View.VISIBLE);
                         mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.GONE);
+                        isResepItem = false;
                     }
                     else {
                         mBinding.lyDialogAddResep.lyDialogLayoutAddResep.setVisibility(View.GONE);
                         mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
+                        isAddResep = false;
                     }
                 }
                 else {
                     mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
                     mBinding.lyDialogDetailResep.lyDialogLayoutDetailResep.setVisibility(View.GONE);
                 }
-                isEditResep = false; isAddResep = false; isDialogKeypad=false;
             }
         });
 
@@ -191,6 +194,7 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
                 isDialogKeypad = true;
                 isResepItem = true;
 
+                mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
                 mBinding.lyDialogCustomeList.tvDialogListLabel.setText("Input Resep Item");
                 resepPresenter.getAllStock(resepItem);
             }
@@ -253,7 +257,7 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
 
                 //hpp
                 else {
-                    String resepTemp = mBinding.lyDoneEditText.etNumber.getText().toString().trim();
+                    String resepTemp = mBinding.lyDoneEditText.etNumber.getText().toString().trim().replace(",","");
                     try {
                         resepHpp = Integer.parseInt(resepTemp);
                     } catch (NumberFormatException e) {
@@ -367,7 +371,7 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
     }
 
     @Override
-    public void setHPP(double hpp, int tipe,String hasilItem, String hasilJumlahItem) {
+    public void setHPP(long hpp, int tipe,String hasilItem, String hasilJumlahItem) {
 
         if(tipe==1) {
             resepHpp = hpp;
@@ -393,12 +397,12 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
 
         if (selectedPos != -1) {
             listCustomAdapter.selectedPosition = selectedPos;
-            listCustomAdapter.notifyDataSetChanged();
+        listCustomAdapter.notifyDataSetChanged();
 
-            if (stockModel.getStockSatuanModelList().size() > 7) {
-                mBinding.lyDialogCustomeList.rvCustomList.scrollToPosition(selectedPos);
-            }
+        if (stockModel.getStockSatuanModelList().size() > 7) {
+            mBinding.lyDialogCustomeList.rvCustomList.scrollToPosition(selectedPos);
         }
+    }
         mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.VISIBLE);
 
     }
@@ -708,13 +712,6 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
                 if(!resepJumlah.equalsIgnoreCase("")){
                     checkHpp();
                 }
-
-//                if(resepItemName.equalsIgnoreCase("")){
-//                    resepItemName = stockModel.getStockSatuanModelList().get(position).getStockName();
-//                }
-//                else {
-//                    resepItemName = resepItemName+","+stockModel.getStockSatuanModelList().get(position).getStockName();
-//                }
 
                 mBinding.lyDialogAddResep.tvResepItem.setText(resepItem);
                 mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);

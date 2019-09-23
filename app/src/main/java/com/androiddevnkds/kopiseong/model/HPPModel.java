@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class HPPModel {
 
     @SerializedName("hpp")
-    private double hpp;
+    private long hpp;
 
     @SerializedName("error_msg")
     private String errorMessage;
@@ -13,16 +13,16 @@ public class HPPModel {
     public HPPModel() {
     }
 
-    public HPPModel(double hpp, String errorMessage) {
+    public HPPModel(long hpp, String errorMessage) {
         this.hpp = hpp;
         this.errorMessage = errorMessage;
     }
 
-    public double getHpp() {
+    public long getHpp() {
         return hpp;
     }
 
-    public void setHpp(double hpp) {
+    public void setHpp(long hpp) {
         this.hpp = hpp;
     }
 

@@ -38,5 +38,11 @@ public class K {
     public static String VALUE_KEY_STOCK_WAREHOUSE = "VALUE_KEY_STOCK_WAREHOUSE";
     public static String VALUE_KEY_STOCK_STORE = "VALUE_KEY_STOCK_STORE";
 
+    public static String FORMAT_TANGGAL_STRING = "dd-MM-yyyy",FORMAT_TANGGAL_SORT = "yyyyMMdd";
+    public static String FORMAT_TIME_STRING = "hh:mm:ss", FORMAT_TIME_SORT = "hhmmss";
+
+    public static String ADD_NEW_STOCK = "ADD NEW STOCK";
+
+
 
 }

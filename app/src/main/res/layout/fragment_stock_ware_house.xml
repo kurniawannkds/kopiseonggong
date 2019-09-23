@@ -26,24 +26,52 @@
         </android.support.design.widget.CoordinatorLayout>
 
         <LinearLayout
-            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_below="@+id/contraint_rv"
-            android:layout_centerHorizontal="true"
-            android:id="@+id/btn_add"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:background="@color/colorAccent"
-            android:orientation="horizontal">
+            android:layout_centerHorizontal="true">
 
-            <TextView
-                android:layout_gravity="center_vertical"
-                android:gravity="center_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                style="@style/TextViewStyle4"
-                android:text="ADD"/>
+            <LinearLayout
+                android:layout_marginTop="5dp"
+                android:id="@+id/btn_add"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:background="@color/colorAccent"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    style="@style/TextViewStyle4"
+                    android:text="ADD"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:id="@+id/btn_add_to_store"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:background="@color/colorAccent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    style="@style/TextViewStyle4"
+                    android:text="ADD TO STORE"/>
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -67,8 +95,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true">
             <include
-                android:id="@+id/ly_dialog_edit_text_resep"
-                layout="@layout/dialog_edit_resep"/>
+                android:id="@+id/ly_dialog_edit_stock"
+                layout="@layout/dialog_edit_stock"/>
 
         </RelativeLayout>
 
@@ -77,8 +105,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true">
             <include
-                android:id="@+id/ly_dialog_add_resep"
-                layout="@layout/dialog_add_resep"/>
+                android:id="@+id/ly_dialog_add_stock"
+                layout="@layout/dialog_add_stock"/>
 
         </RelativeLayout>
 

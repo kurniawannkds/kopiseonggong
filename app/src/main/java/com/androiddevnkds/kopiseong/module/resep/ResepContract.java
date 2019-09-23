@@ -13,7 +13,7 @@ public interface ResepContract {
 
     interface resepView{
 
-        void setHPP(double hpp, int tipe, String hasilItem, String hasilJumlahItem);
+        void setHPP(long hpp, int tipe, String hasilItem, String hasilJumlahItem);
 
         void showAllStock(StockModel stockModel, int selectedPos);
 

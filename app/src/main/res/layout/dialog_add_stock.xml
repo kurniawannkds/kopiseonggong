@@ -4,7 +4,7 @@
     xmlns:card_view="http://schemas.android.com/tools">
 
     <RelativeLayout
-        android:id="@+id/ly_dialog_layout_add_resep"
+        android:id="@+id/ly_dialog_layout_add_stock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -49,7 +49,7 @@
                                 style="@style/TextViewStyleHeader1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Add New Resep" />
+                                android:text="Add New Stock" />
 
 
                     </RelativeLayout>
@@ -74,7 +74,7 @@
                                 android:orientation="vertical">
 
                                 <RelativeLayout
-                                    android:id="@+id/layout_relatif_resepID"
+                                    android:id="@+id/layout_relatif_stockID"
                                     android:layout_width="200dp"
                                     android:layout_height="50dp"
                                     android:layout_gravity="center_horizontal"
@@ -93,10 +93,126 @@
                                             android:layout_height="wrap_content"
                                             android:layout_marginLeft="10dp"
                                             android:layout_marginTop="2dp"
-                                            android:text="ResepID" />
+                                            android:text="StockID" />
 
                                         <me.grantland.widget.AutofitTextView
-                                            android:id="@+id/tv_resep_id"
+                                            android:id="@+id/tv_stock_id"
+                                            android:layout_width="160dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                    <ImageView
+                                        android:layout_width="18dp"
+                                        android:layout_height="18dp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginEnd="6dp"
+                                        android:layout_marginBottom="3dp"
+                                        android:soundEffectsEnabled="false"
+                                        android:visibility="visible"
+                                        android:src="@drawable/ic_keyboard_arrow_down"
+                                        android:layout_marginRight="6dp" />
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_marginTop="20dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:id="@+id/layout_relatif_nama"
+                                    android:layout_width="200dp"
+                                    android:layout_height="50dp"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginTop="2dp"
+                                            android:text="Stock Name" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_stock_name"
+                                            android:layout_width="330dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_marginTop="20dp"
+                                    android:id="@+id/layout_relatif_gram"
+                                    android:layout_width="200dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_height="50dp"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginTop="2dp"
+                                            android:text="Stock Gram (gr)" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_jumlah_stock"
+                                            android:layout_width="330dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/layout_relatif_price"
+                                    android:layout_width="200dp"
+                                    android:layout_height="50dp"
+                                    android:layout_marginTop="20dp"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginTop="2dp"
+                                            android:text="Stock Price" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_price"
                                             android:layout_width="160dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginLeft="10dp"
@@ -108,126 +224,8 @@
                                 </RelativeLayout>
 
                                 <RelativeLayout
-                                    android:layout_marginTop="20dp"
-                                    android:id="@+id/layout_relatif_item"
-                                    android:layout_width="350dp"
-                                    android:layout_height="50dp"
-                                    android:background="@drawable/bg_dropdown"
-                                    android:visibility="visible">
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerVertical="true"
-                                        android:orientation="vertical"
-                                        android:visibility="visible">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="10dp"
-                                            android:layout_marginTop="2dp"
-                                            android:text="Resep Item (please fill with comma ex: OVL,KOPI)" />
-
-                                        <me.grantland.widget.AutofitTextView
-                                            android:id="@+id/tv_resep_item"
-                                            android:layout_width="330dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="10dp"
-                                            android:singleLine="true"
-                                            android:text="" />
-
-                                    </LinearLayout>
-
-                                </RelativeLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/linear_clear_item"
-                                    android:visibility="gone"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <Button
-                                        android:id="@+id/btn_clear_all_item"
-                                        android:layout_width="60dp"
-                                        android:layout_height="30dp"
-                                        android:text="clear all"
-                                        android:textSize="7sp"
-                                        />
-
-                                    <Button
-                                        android:id="@+id/btn_clear_item"
-                                        android:layout_width="60dp"
-                                        android:layout_height="30dp"
-                                        android:text="clear"
-                                        android:textSize="7sp"
-                                        />
-
-                                </LinearLayout>
-
-                                <RelativeLayout
-                                    android:layout_marginTop="20dp"
-                                    android:id="@+id/layout_relatif_time"
-                                    android:layout_width="350dp"
-                                    android:layout_height="50dp"
-                                    android:background="@drawable/bg_dropdown"
-                                    android:visibility="visible">
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerVertical="true"
-                                        android:orientation="vertical"
-                                        android:visibility="visible">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="10dp"
-                                            android:layout_marginTop="2dp"
-                                            android:text="Resep Item Jumlah (please fill with comma ex: 20,23)" />
-
-                                        <me.grantland.widget.AutofitTextView
-                                            android:id="@+id/tv_jumlah_item"
-                                            android:layout_width="330dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="10dp"
-                                            android:singleLine="true"
-                                            android:text="" />
-
-                                    </LinearLayout>
-
-                                </RelativeLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/linear_clear_jumlah"
-                                    android:visibility="gone"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <Button
-                                        android:id="@+id/btn_clear_all_jumlah"
-                                        android:layout_width="60dp"
-                                        android:layout_height="30dp"
-                                        android:text="clear all"
-                                        android:textSize="7sp"
-                                        />
-
-                                    <Button
-                                        android:id="@+id/btn_clear_jumlah"
-                                        android:layout_width="60dp"
-                                        android:layout_height="30dp"
-                                        android:text="clear"
-                                        android:textSize="7sp"
-                                        />
-
-                                </LinearLayout>
-
-                                <RelativeLayout
-                                    android:id="@+id/layout_relatif_hpp"
-                                    android:layout_width="350dp"
+                                    android:id="@+id/layout_relatif_date"
+                                    android:layout_width="200dp"
                                     android:layout_height="50dp"
                                     android:layout_marginTop="20dp"
                                     android:background="@drawable/bg_dropdown"
@@ -245,10 +243,10 @@
                                             android:layout_height="wrap_content"
                                             android:layout_marginLeft="10dp"
                                             android:layout_marginTop="2dp"
-                                            android:text="HPP" />
+                                            android:text="Stock Date Input" />
 
                                         <me.grantland.widget.AutofitTextView
-                                            android:id="@+id/tv_resep_hpp"
+                                            android:id="@+id/tv_date"
                                             android:layout_width="160dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginLeft="10dp"
@@ -256,6 +254,18 @@
                                             android:text="" />
 
                                     </LinearLayout>
+
+                                    <ImageView
+                                        android:layout_width="25dp"
+                                        android:layout_height="25dp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginEnd="6dp"
+                                        android:layout_marginBottom="3dp"
+                                        android:soundEffectsEnabled="false"
+                                        android:visibility="visible"
+                                        android:src="@drawable/calendar"
+                                        android:layout_marginRight="6dp" />
 
                                 </RelativeLayout>
 
@@ -277,7 +287,7 @@
                             android:id="@+id/btn_submit_add"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Submit Resep" />
+                            android:text="Submit Stock" />
 
                     </RelativeLayout>
 

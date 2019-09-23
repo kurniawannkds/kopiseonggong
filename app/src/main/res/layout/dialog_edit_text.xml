@@ -63,16 +63,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <EditText
-                            android:visibility="gone"
+<!--                        <EditText-->
+<!--                            android:visibility="gone"-->
+<!--                            android:id="@+id/et_number"-->
+<!--                            android:layout_width="400dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:textSize="30sp"-->
+<!--                            android:hint="halo"-->
+<!--                            android:inputType="numberDecimal"-->
+<!--                            android:layout_centerHorizontal="true"-->
+<!--                            android:layout_centerVertical="true"/>-->
+
+                        <com.aldoapps.autoformatedittext.AutoFormatEditText
+                            android:maxLength="15"
+                            android:textSize="30sp"
+                            app:isDecimal="true"
+                            style="@style/TextViewStyle6"
                             android:id="@+id/et_number"
                             android:layout_width="400dp"
                             android:layout_height="wrap_content"
-                            android:textSize="30sp"
-                            android:hint="halo"
-                            android:inputType="numberDecimal"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"/>
+                            android:hint="Number only"
+                            android:inputType="phone"
+                            />
 
                         <EditText
                             android:visibility="gone"

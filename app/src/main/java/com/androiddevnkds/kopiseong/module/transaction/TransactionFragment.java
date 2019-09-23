@@ -64,8 +64,7 @@ import static android.view.View.GONE;
 public class TransactionFragment extends BaseFragment implements TransactionContract.transactionView {
 
     private FragmentTransactionBinding mBinding;
-    private static String FORMAT_TANGGAL_STRING = "dd-MM-yyyy", FORMAT_TANGGAL_SORT = "yyyyMMdd";
-    private static String FORMAT_TIME = "hh:mm:ss";
+
     private Context mContext;
     private TransactionModel transactionModelGlobal;
     private TransactionSatuanModel transactionModelAdd;
@@ -150,7 +149,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
         detailTransactionList = new ArrayList<>();
 
         DateAndTime dateAndTime = new DateAndTime();
-        mBinding.lyHeaderData.tvDate.setText(dateAndTime.getCurrentDate(FORMAT_TANGGAL_STRING));
+        mBinding.lyHeaderData.tvDate.setText(dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_STRING));
         transactionPresenter.getAllTransaction(page, filterCategory, filterDate, filterUser, filterMethod);
     }
 
@@ -301,7 +300,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 mBinding.lyBottomUpSliderFilter.relatifDateChoosen.setVisibility(GONE);
                 mBinding.lyBottomUpSliderFilter.relatifDateNotChoosen.setVisibility(View.VISIBLE);
                 DateAndTime dateAndTime = new DateAndTime();
-                mBinding.lyHeaderData.tvDate.setText(dateAndTime.getCurrentDate(FORMAT_TANGGAL_STRING));
+                mBinding.lyHeaderData.tvDate.setText(dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_STRING));
             }
         });
 
@@ -454,7 +453,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 String temp = "";
                 if (isPrice) {
 
-                    temp = mBinding.lyDoneEditText.etNumber.getText().toString().trim();
+                    temp = mBinding.lyDoneEditText.etNumber.getText().toString().trim().replace(",","");
 
                     try {
                         transPriceAdd = Integer.parseInt(temp);
@@ -471,7 +470,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 } else {
 
                     //jumlah
-                    temp = mBinding.lyDoneEditText.etNumber.getText().toString().trim();
+                    temp = mBinding.lyDoneEditText.etNumber.getText().toString().trim().replace(",","");
                     try {
                         detailJumlahAdd = Integer.parseInt(temp);
                         if (detailPriceAddSatuan != 0) {
@@ -933,12 +932,12 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 myCalendar.set(Calendar.MONTH, month);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                sdf = new SimpleDateFormat(FORMAT_TANGGAL_STRING);
+                sdf = new SimpleDateFormat(K.FORMAT_TANGGAL_STRING);
                 if(!fromFilter) {
                     transDateAdd = sdf.format(myCalendar.getTime());
                     mBinding.lyAddTransaction.tvDate.setText(transDateAdd);
 
-                    sdf = new SimpleDateFormat(FORMAT_TANGGAL_SORT);
+                    sdf = new SimpleDateFormat(K.FORMAT_TANGGAL_SORT);
                     String temp = sdf.format(myCalendar.getTime());
                     try {
                         transDateSortAdd = Integer.parseInt(temp);

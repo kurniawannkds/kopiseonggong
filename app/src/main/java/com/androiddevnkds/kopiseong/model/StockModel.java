@@ -57,12 +57,12 @@ public class StockModel {
         private String stockDate;
 
         @SerializedName("stock_price_per_gram")
-        private double stockPricePerGram;
+        private long stockPricePerGram;
 
         public StockSatuanModel() {
         }
 
-        public StockSatuanModel(String stockDateSort, String stockID, String stockName, long stockGram, long stockPrice, String stockDate, double stockPricePerGram) {
+        public StockSatuanModel(String stockDateSort, String stockID, String stockName, long stockGram, long stockPrice, String stockDate, long stockPricePerGram) {
             this.stockDateSort = stockDateSort;
             this.stockID = stockID;
             this.stockName = stockName;
@@ -120,11 +120,11 @@ public class StockModel {
             this.stockDate = stockDate;
         }
 
-        public double getStockPricePerGram() {
+        public long getStockPricePerGram() {
             return stockPricePerGram;
         }
 
-        public void setStockPricePerGram(double stockPricePerGram) {
+        public void setStockPricePerGram(long stockPricePerGram) {
             this.stockPricePerGram = stockPricePerGram;
         }
     }

@@ -17,6 +17,13 @@ public interface StockWHContract {
         void showStockDetail(StockModel.StockSatuanModel stockSatuanModel, int position);
 
         void showSuccessDelete(int position,String message);
+
+        void showSuccessEditStock (String message, StockModel.StockSatuanModel stockSatuanModel, int pos);
+
+        void showStockCustomeList(StockModel stockModel, int pos);
+
+        void showSuccessAddStock(String message, StockModel.StockSatuanModel stockSatuanModel);
+
     }
 
     interface stockPresenter{
@@ -25,6 +32,12 @@ public interface StockWHContract {
 
         void setOnClickStock(StockModel stockModel, int position);
 
-        void deleteStock(String stockID, String dateSort);
+        void deleteStock(String stockID, String dateSort, int position);
+
+        void editStock(StockModel.StockSatuanModel stockSatuanModel, int position);
+
+        void setStockList(StockModel stockList,String stock);
+
+        void addNewStock(StockModel.StockSatuanModel stockSatuanModel);
     }
 }

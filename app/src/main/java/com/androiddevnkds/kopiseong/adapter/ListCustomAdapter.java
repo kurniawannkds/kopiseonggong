@@ -13,6 +13,7 @@ import com.androiddevnkds.kopiseong.model.CategoryModel;
 import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.ProductModel;
 import com.androiddevnkds.kopiseong.model.StockModel;
+import com.androiddevnkds.kopiseong.utils.K;
 import com.androiddevnkds.kopiseong.utils.listener.OnItemClickListener;
 
 public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.ViewHolder> {
@@ -123,7 +124,6 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
         }
         else {
             return stockModel.getStockSatuanModelList().size();
-
         }
     }
 

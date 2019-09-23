@@ -3,6 +3,7 @@ package com.androiddevnkds.kopiseong.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.model.StockModel;
 import com.androiddevnkds.kopiseong.model.TransactionModel;
+import com.androiddevnkds.kopiseong.utils.K;
 import com.androiddevnkds.kopiseong.utils.MataUangHelper;
 
 public class StockAdapter extends RecyclerView.Adapter<StockAdapter.TransactionViewHolder> {
@@ -46,7 +48,14 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.TransactionV
 
     @Override
     public int getItemCount() {
-        return stockModel.getStockSatuanModelList().size();
+
+        if(stockModel.getStockSatuanModelList().get(stockModel.getStockSatuanModelList().size()-1).getStockID().equalsIgnoreCase(K.ADD_NEW_STOCK)){
+            Log.e("ADAP","MASUK SINI");
+            return stockModel.getStockSatuanModelList().size()-1;
+        }
+        else {
+            return stockModel.getStockSatuanModelList().size();
+        }
     }
 
     public class TransactionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
