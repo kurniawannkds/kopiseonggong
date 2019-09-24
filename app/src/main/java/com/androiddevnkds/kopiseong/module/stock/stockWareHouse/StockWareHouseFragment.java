@@ -68,8 +68,9 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
     private long addStockPrice = 0, addStockJumlah = 0;
 
     private boolean isSellStock = false, isSellStockGram = false, isSellStockPrice = false, isSellStockDate = false;
-    private String sellStockID = "", sellStockName = "", sellStockDateSort = "", sellStockDate ="", sellCategory ="", sellPaymentMethode="", sellTime ="";
-    private long sellStockPrice = 0, sellStockJumlah = 0;
+    private String sellStockID = "", sellStockName = "", sellStockDateSort = "",sellStockDateSortUpdate = "", sellStockDate ="", sellCategory ="", sellPaymentMethode="", sellTime ="";
+    private long sellStockPrice = 0, sellStockJumlah = 0, sellStockJumlahCurrent = 0, sellPerGram = 0;
+    private int positionSell = 0;
 
     public StockWareHouseFragment() {
         // Required empty public constructor
@@ -444,14 +445,16 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
             public void onClick(View view) {
 
                 StockModel.StockSatuanModel stockSatuanModel = new StockModel().new StockSatuanModel();
-                stockSatuanModel.setStockDateSort(sellStockDateSort);
+                stockSatuanModel.setStockDateSort(sellStockDateSortUpdate);
                 stockSatuanModel.setStockID(sellStockID);
                 stockSatuanModel.setStockName(sellStockName);
-                stockSatuanModel.setStockGram(sellStockJumlah);
+                stockSatuanModel.setStockGram(sellStockJumlahCurrent);
                 stockSatuanModel.setStockPrice(sellStockPrice);
+                stockSatuanModel.setStockPricePerGram(sellPerGram);
                 stockSatuanModel.setStockDate(sellStockDate);
 
-                stockWHPresenter.addNewStock(stockSatuanModel,sellPaymentMethode,sellCategory,sellTime);
+                stockWHPresenter.sellStock(stockSatuanModel,sellStockDateSort,sellPaymentMethode,
+                        sellCategory,sellTime,sellStockJumlah,positionSell);
             }
         });
 
@@ -799,6 +802,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                 mBinding.lyDialogAddStock.tvDate.setText("");
                 mBinding.lyDialogAddStock.tvPrice.setText("");
                 mBinding.lyDialogAddStock.tvJumlahStock.setText("");
+                mBinding.lyDialogAddStock.tvTipeBayar.setText("");
 
                 long perGram = 0;
                 try {
@@ -811,6 +815,57 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                 stockAdapter.resetStock(stockModelGlobal);
                 stockAdapter.notifyDataSetChanged();
                 mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(View.GONE);
+                mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
+                pDialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void showSuccessSellStock(String message, long gram, final int position) {
+
+        final String[] splited = message.trim().split("---");
+        final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.SUCCESS_TYPE);
+        pDialog.setTitleText(splited[0]);
+        pDialog.setConfirmText("Yes");
+        pDialog.showCancelButton(false);
+        pDialog.setCanceledOnTouchOutside(false);
+        pDialog.show();
+
+        pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sDialog) {
+
+                isSellStock = false;
+                sellStockID ="";
+                sellStockDate ="";
+                sellStockDateSort = "";
+                sellStockJumlah = 0;
+                sellStockName = "";
+                sellStockPrice = 0;
+
+                mBinding.lyDialogSellStock.tvStockId.setText("");
+                mBinding.lyDialogSellStock.tvDate.setText("");
+                mBinding.lyDialogSellStock.tvPrice.setText("");
+                mBinding.lyDialogSellStock.tvJumlahStock.setText("");
+                mBinding.lyDialogSellStock.tvTipeBayar.setText("");
+
+                long newGram = 0;
+                try {
+                    newGram = Integer.parseInt(splited[1]);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+                if(newGram>0){
+                    stockModelGlobal.getStockSatuanModelList().get(position).setStockGram(newGram);
+                }
+                else {
+                    stockModelGlobal.getStockSatuanModelList().remove(position);
+                }
+
+                stockAdapter.resetStock(stockModelGlobal);
+                stockAdapter.notifyDataSetChanged();
+                mBinding.lyDialogSellStock.lyDialogLayoutSellStock.setVisibility(View.GONE);
                 mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
                 pDialog.dismiss();
             }
@@ -937,7 +992,11 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                     else {
                         sellStockID = stockForList.getStockSatuanModelList().get(position).getStockID();
                         sellStockName = stockForList.getStockSatuanModelList().get(position).getStockName();
+                        sellStockDateSortUpdate = stockForList.getStockSatuanModelList().get(position).getStockDateSort();
+                        sellStockJumlahCurrent = stockForList.getStockSatuanModelList().get(position).getStockGram();
+                        sellPerGram = stockForList.getStockSatuanModelList().get(position).getStockPricePerGram();
 
+                        positionSell = position;
                         mBinding.lyDialogSellStock.tvStockId.setText(sellStockID);
                     }
                     isDialogCustomeAdd = false;

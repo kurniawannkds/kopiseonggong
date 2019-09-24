@@ -197,6 +197,11 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
     }
 
     @Override
+    public void sellStock(StockModel.StockSatuanModel stockSatuanModel, String transID, String payment, String category, String time, long gram, int pos) {
+
+    }
+
+    @Override
     public void getAllPayment(final PaymentMethodeModel paymentMethodeModelT, final String paymentT) {
 
         boolean flag = false;
