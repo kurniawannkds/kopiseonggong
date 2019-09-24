@@ -1,5 +1,7 @@
 package com.androiddevnkds.kopiseong.module.stock.stockWareHouse;
 
+import com.androiddevnkds.kopiseong.model.CategoryModel;
+import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.StockModel;
 
 public interface StockWHContract {
@@ -24,6 +26,8 @@ public interface StockWHContract {
 
         void showSuccessAddStock(String message, StockModel.StockSatuanModel stockSatuanModel);
 
+        void showAllPayment(PaymentMethodeModel paymentMethodeModel, int selectedPos);
+
     }
 
     interface stockPresenter{
@@ -38,6 +42,8 @@ public interface StockWHContract {
 
         void setStockList(StockModel stockList,String stock);
 
-        void addNewStock(StockModel.StockSatuanModel stockSatuanModel);
+        void addNewStock(StockModel.StockSatuanModel stockSatuanModel, String payment, String category, String time);
+
+        void getAllPayment(PaymentMethodeModel paymentMethodeModel, String payment);
     }
 }

@@ -43,6 +43,9 @@ public class K {
 
     public static String ADD_NEW_STOCK = "ADD NEW STOCK";
 
+    public static String ID_CATEGORY_STOCK_BUY = "BUY STOCKWH";
+    public static String ID_CATEGORY_STOCK_SELL = "SELL STOCKWH";
+
 
 
 }

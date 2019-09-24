@@ -2,6 +2,9 @@ package com.androiddevnkds.kopiseong.module.stock.stockWareHouse;
 
 import android.util.Log;
 
+import com.androiddevnkds.kopiseong.data.DataManager;
+import com.androiddevnkds.kopiseong.model.CategoryModel;
+import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.StockModel;
 import com.androiddevnkds.kopiseong.model.UpdateResponseModel;
 import com.androiddevnkds.kopiseong.utils.K;
@@ -9,11 +12,16 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.ParsedRequestListener;
+import com.google.gson.Gson;
 
 public class StockWHPresenter implements StockWHContract.stockPresenter {
 
     private StockWHContract.stockView stockView;
     private int selectedPos = -1, sizeArray = 0;
+    private StockModel stockModel;
+    private String stock = "";
+    private PaymentMethodeModel paymentMethodeModelGlobal;
+    private String payment = "";
 
     public StockWHPresenter(StockWHContract.stockView stockView){
         this.stockView = stockView;
@@ -131,15 +139,24 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
     @Override
     public void setStockList(StockModel stockList,String stock) {
 
-        setCustomeList(stockList, stock);
+        stockModel = stockList;
+        this.stock = stock;
+        setCustomeList(1);
     }
 
     @Override
-    public void addNewStock(final StockModel.StockSatuanModel stockSatuanModel) {
+    public void addNewStock(final StockModel.StockSatuanModel stockSatuanModel, String payment, String category, String time) {
 
         stockView.showProgressBar();
+
         if(!validateAdd(stockSatuanModel)){
-            stockView.showProgressBar();
+            String userEmail = "";
+            if(DataManager.can().getUserInfoFromStorage()!=null){
+                if(DataManager.can().getUserInfoFromStorage().getUserEmail()!=null){
+                    userEmail = DataManager.can().getUserInfoFromStorage().getUserEmail();
+                }
+            }
+            String balanceID = stockSatuanModel.getStockDateSort().substring(0,6);
             AndroidNetworking.post(K.URL_GET_STOCK_WAREHOUSE)
                     .setTag("test")
                     .addBodyParameter("stock_add","update")
@@ -149,6 +166,11 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
                     .addBodyParameter("stock_price",stockSatuanModel.getStockPrice()+"")
                     .addBodyParameter("stock_date",stockSatuanModel.getStockDate())
                     .addBodyParameter("stock_gram",stockSatuanModel.getStockGram()+"")
+                    .addBodyParameter("trans_category",category)
+                    .addBodyParameter("trans_time",time)
+                    .addBodyParameter("trans_tipe_pembayaran",payment)
+                    .addBodyParameter("trans_user_email",userEmail)
+                    .addBodyParameter("balance_id",balanceID)
                     .setPriority(Priority.MEDIUM)
                     .build()
                     .getAsObject(UpdateResponseModel.class, new ParsedRequestListener<UpdateResponseModel>() {
@@ -171,6 +193,67 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
                             Log.e("base",anError.getErrorDetail());
                         }
                     });
+        }
+    }
+
+    @Override
+    public void getAllPayment(final PaymentMethodeModel paymentMethodeModelT, final String paymentT) {
+
+        boolean flag = false;
+        if(paymentMethodeModelT!=null) {
+            if(paymentMethodeModelT.getPaymentMethodeSatuanList()!=null){
+                if(paymentMethodeModelT.getPaymentMethodeSatuanList().size()>0){
+
+                }
+                else {
+                    flag = true;
+                }
+            }
+            else {
+                flag = true;
+            }
+        }
+        else {
+            flag = true;
+        }
+
+        //hit api
+        if(flag){
+
+
+            AndroidNetworking.post(K.URL_GET_PAYMENT_METHODE)
+                    .setTag("test")
+                    .setPriority(Priority.MEDIUM)
+                    .build()
+                    .getAsObject(PaymentMethodeModel.class, new ParsedRequestListener<PaymentMethodeModel>() {
+                        @Override
+                        public void onResponse(PaymentMethodeModel paymentMethodeModel) {
+                            // do anything with response
+                            Log.e("BASE",new Gson().toJson(paymentMethodeModel));
+                            if(paymentMethodeModel.getErrorMessage()!=null){
+                                onFailed(5,paymentMethodeModel.getErrorMessage());
+                            }
+                            else {
+
+                                paymentMethodeModelGlobal = paymentMethodeModel;
+                                payment = paymentT;
+                                setCustomeList(2);
+                            }
+                        }
+                        @Override
+                        public void onError(ANError anError) {
+                            // handle error
+                            onFailed(5,"ERROR");
+                        }
+                    });
+        }
+        else {
+
+            //g usah hit
+
+            paymentMethodeModelGlobal = paymentMethodeModelT;
+            payment = paymentT;
+            setCustomeList(2);
         }
     }
 
@@ -245,30 +328,57 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
         }
     }
 
-    private void setCustomeList(StockModel stockModel, String stock){
+    private void setCustomeList(int tipe){
 
-        if (stockModel.getStockSatuanModelList() != null) {
-            sizeArray = stockModel.getStockSatuanModelList().size();
-            if (sizeArray > 0) {
+        if(tipe==1) {
+            if (stockModel.getStockSatuanModelList() != null) {
+                sizeArray = stockModel.getStockSatuanModelList().size();
+                if (sizeArray > 0) {
 
-                selectedPos = findPosition(stock, stockModel);
-                stockView.hideProgressBar();
-                stockView.showStockCustomeList(stockModel,selectedPos);
+                    selectedPos = findPosition(1);
+                    stockView.hideProgressBar();
+                    stockView.showStockCustomeList(stockModel, selectedPos);
+                }
+            }
+        }
+        else {
+            if (paymentMethodeModelGlobal.getPaymentMethodeSatuanList() != null) {
+                sizeArray = paymentMethodeModelGlobal.getPaymentMethodeSatuanList().size();
+                if (sizeArray > 0) {
+
+                    selectedPos = findPosition(2);
+                    stockView.hideProgressBar();
+                    stockView.showAllPayment(paymentMethodeModelGlobal, selectedPos);
+                }
             }
         }
     }
 
-    private int findPosition(String kata, StockModel stockModel) {
+    private int findPosition(int tipe) {
 
         int tempPosition = -1;
 
-        if (!kata.equalsIgnoreCase("")) {
-            //category
+        if(tipe==1) {
+            if (!stock.equalsIgnoreCase("")) {
+                //category
 
-            for (int i = 0; i < stockModel.getStockSatuanModelList().size(); i++) {
-                if (stockModel.getStockSatuanModelList().get(i).getStockID().equalsIgnoreCase(kata)) {
-                    tempPosition = i;
-                    break;
+                for (int i = 0; i < stockModel.getStockSatuanModelList().size(); i++) {
+                    if (stockModel.getStockSatuanModelList().get(i).getStockID().equalsIgnoreCase(stock)) {
+                        tempPosition = i;
+                        break;
+                    }
+                }
+            }
+        }
+        else {
+            if (!payment.equalsIgnoreCase("")) {
+                //category
+
+                for (int i = 0; i < paymentMethodeModelGlobal.getPaymentMethodeSatuanList().size(); i++) {
+                    if (paymentMethodeModelGlobal.getPaymentMethodeSatuanList().get(i).getPaymentMethodeID().equalsIgnoreCase(payment)) {
+                        tempPosition = i;
+                        break;
+                    }
                 }
             }
         }

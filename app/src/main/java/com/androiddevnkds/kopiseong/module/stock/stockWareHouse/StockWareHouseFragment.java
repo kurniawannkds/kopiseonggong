@@ -23,6 +23,8 @@ import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.adapter.ListCustomAdapter;
 import com.androiddevnkds.kopiseong.adapter.StockAdapter;
 import com.androiddevnkds.kopiseong.databinding.FragmentStockWareHouseBinding;
+import com.androiddevnkds.kopiseong.model.CategoryModel;
+import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.StockModel;
 import com.androiddevnkds.kopiseong.utils.DateAndTime;
 import com.androiddevnkds.kopiseong.utils.HeaderHelper;
@@ -46,7 +48,8 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
     private Context mContext;
     private StockWHPresenter stockWHPresenter;
     private StockAdapter stockAdapter;
-    private StockModel stockModelGlobal;
+    private StockModel stockModelGlobal, stockForList;
+    private PaymentMethodeModel paymentForList;
     private String stockID = "", stockName = "", stockDate = "", stockDateSort = "";
     private long stockPrice = 0, stockJumlah = 0;
     private long stockPricePerGram = 0;
@@ -61,8 +64,12 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
     private boolean isInitList = false;
 
     private ListCustomAdapter listCustomAdapter;
-    private String addStockID = "", addStockName = "", addStockDateSort = "", addStockDate ="";
+    private String addStockID = "", addStockName = "", addStockDateSort = "", addStockDate ="", addCategory ="", addPaymentMethode="", addTime ="";
     private long addStockPrice = 0, addStockJumlah = 0;
+
+    private boolean isSellStock = false, isSellStockGram = false, isSellStockPrice = false, isSellStockDate = false;
+    private String sellStockID = "", sellStockName = "", sellStockDateSort = "", sellStockDate ="", sellCategory ="", sellPaymentMethode="", sellTime ="";
+    private long sellStockPrice = 0, sellStockJumlah = 0;
 
     public StockWareHouseFragment() {
         // Required empty public constructor
@@ -133,6 +140,27 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                         isAddStock = false;
                     }
                 }
+                else if(isSellStock){
+                    Log.e("keklik ga",isAddStock+"");
+                    if(isDialogCustomeAdd){
+
+                        mBinding.lyDialogSellStock.lyDialogLayoutSellStock.setVisibility(View.VISIBLE);
+                        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
+                        isDialogCustomeAdd = false;
+                    }
+                    else if(isDialogEditText){
+                        mBinding.lyDialogSellStock.lyDialogLayoutSellStock.setVisibility(View.VISIBLE);
+                        mBinding.lyDoneEditText.lyDialogEditText.setVisibility(GONE);
+                        isDialogEditText = false;
+                    }
+                    else {
+                        Log.e("keklik ga",isAddStock+"");
+                        mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
+                        mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(GONE);
+                        isSellStock = false;
+                    }
+                }
+
                 else {
                     mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
                     mBinding.lyDialogDetailStock.lyDialogLayoutDetailStock.setVisibility(View.GONE);
@@ -179,7 +207,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
             }
         });
 
-        //-------------------------------------------------------------------------------------------------------
+        //------------------------------------------edit  stock finish-------------------------------------------------------------
 
         //----------------------------------------- stock add ---------------------------------------------------
         mBinding.btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -191,12 +219,17 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                 mBinding.lyDialogAddStock.tvDate.setText(addStockDate);
 
                 addStockDateSort = dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_SORT);
+                addTime = dateAndTime.getCurrentTime(K.FORMAT_TIME_STRING);
                 addStockDateSort = addStockDateSort + dateAndTime.getCurrentTime(K.FORMAT_TIME_SORT);
 
+                addCategory = K.ID_CATEGORY_STOCK_BUY;
+
                 isAddStock = true;
+                isSellStock = false;
                 mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
                 mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(View.VISIBLE);
 
+                Log.e("BASE","ADD");
             }
         });
 
@@ -281,6 +314,149 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
             }
         });
 
+        mBinding.lyDialogAddStock.layoutRelatifTipeBayar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                stockWHPresenter.getAllPayment(paymentForList,addPaymentMethode);
+            }
+        });
+
+        //submit
+        mBinding.lyDialogAddStock.btnSubmitAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                StockModel.StockSatuanModel stockSatuanModel = new StockModel().new StockSatuanModel();
+                stockSatuanModel.setStockDateSort(addStockDateSort);
+                stockSatuanModel.setStockID(addStockID);
+                stockSatuanModel.setStockName(addStockName);
+                stockSatuanModel.setStockGram(addStockJumlah);
+                stockSatuanModel.setStockPrice(addStockPrice);
+                stockSatuanModel.setStockDate(addStockDate);
+
+                stockWHPresenter.addNewStock(stockSatuanModel,addPaymentMethode,addCategory,addTime);
+            }
+        });
+
+        //------------------------------------------ add stock finish --------------------------------------------------------------
+
+        // ----------------------------------------- sell stock ---------------------------------------------------------------
+
+        mBinding.btnSellStock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                DateAndTime dateAndTime = new DateAndTime();
+                sellStockDate = dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_STRING);
+                mBinding.lyDialogSellStock.tvDate.setText(addStockDate);
+
+                sellStockDateSort = dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_SORT);
+                sellTime = dateAndTime.getCurrentTime(K.FORMAT_TIME_STRING);
+                sellStockDateSort = sellStockDateSort + dateAndTime.getCurrentTime(K.FORMAT_TIME_SORT);
+
+                sellCategory = K.ID_CATEGORY_STOCK_SELL;
+
+                isSellStock = true;
+                isAddStock = false;
+                mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
+                mBinding.lyDialogSellStock.lyDialogLayoutSellStock.setVisibility(View.VISIBLE);
+
+                Log.e("BASE","SELL");
+
+            }
+        });
+
+        //id
+        mBinding.lyDialogSellStock.layoutRelatifStockID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                stockWHPresenter.setStockList(stockModelGlobal, sellStockID);
+            }
+        });
+
+        //gram
+        mBinding.lyDialogSellStock.layoutRelatifGram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                isSellStockGram = true;
+                isDialogEditText = true;
+
+                mBinding.lyDoneEditText.tvEditTextLabel.setText("Input Jumlah Stock With Number Only");
+                if(sellStockJumlah>0) {
+                    mBinding.lyDoneEditText.etNumber.setText(sellStockJumlah + "");
+                }
+                else {
+                    mBinding.lyDoneEditText.etNumber.setText( "");
+
+                }
+                mBinding.lyDoneEditText.etKarakter.setVisibility(GONE);
+                mBinding.lyDoneEditText.etNumber.setVisibility(View.VISIBLE);
+                mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.VISIBLE);
+                mBinding.lyDialogSellStock.lyDialogLayoutSellStock.setVisibility(GONE);
+            }
+        });
+
+        //price
+        mBinding.lyDialogSellStock.layoutRelatifPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                isSellStockPrice = true;
+                isDialogEditText = true;
+
+                mBinding.lyDoneEditText.tvEditTextLabel.setText("Input Price Stock With Number Only");
+                if(sellStockPrice>0) {
+                    mBinding.lyDoneEditText.etNumber.setText(sellStockPrice + "");
+                }
+                else {
+                    mBinding.lyDoneEditText.etNumber.setText("");
+                }
+                mBinding.lyDoneEditText.etKarakter.setVisibility(GONE);
+                mBinding.lyDoneEditText.etNumber.setVisibility(View.VISIBLE);
+                mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.VISIBLE);
+                mBinding.lyDialogSellStock.lyDialogLayoutSellStock.setVisibility(GONE);
+            }
+        });
+
+        //date
+        mBinding.lyDialogSellStock.layoutRelatifDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDate();
+            }
+        });
+
+        //payment
+        mBinding.lyDialogSellStock.layoutRelatifTipeBayar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                stockWHPresenter.getAllPayment(paymentForList,addPaymentMethode);
+            }
+        });
+
+        //submit
+        mBinding.lyDialogSellStock.btnSubmitAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                StockModel.StockSatuanModel stockSatuanModel = new StockModel().new StockSatuanModel();
+                stockSatuanModel.setStockDateSort(sellStockDateSort);
+                stockSatuanModel.setStockID(sellStockID);
+                stockSatuanModel.setStockName(sellStockName);
+                stockSatuanModel.setStockGram(sellStockJumlah);
+                stockSatuanModel.setStockPrice(sellStockPrice);
+                stockSatuanModel.setStockDate(sellStockDate);
+
+                stockWHPresenter.addNewStock(stockSatuanModel,sellPaymentMethode,sellCategory,sellTime);
+            }
+        });
+
+        //----------------------------------------- sell stock finish -----------------------------------------------
+
         //button submit
         mBinding.lyDoneEditText.btnDoneEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -318,8 +494,37 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                     addStockName = mBinding.lyDoneEditText.etKarakter.getText().toString().trim();
                     mBinding.lyDialogAddStock.tvStockName.setText(addStockName);
                 }
+                //sellll
+                else if(isSellStockGram){
 
-                mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(View.VISIBLE);
+                    String temp = mBinding.lyDoneEditText.etNumber.getText().toString().trim();
+                    mBinding.lyDialogSellStock.tvJumlahStock.setText(temp+" gram");
+                    temp = temp.replace(",","");
+                    try {
+                        sellStockJumlah = Integer.parseInt(temp);
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if(isSellStockPrice){
+
+                    String temp = mBinding.lyDoneEditText.etNumber.getText().toString().trim().replace(",","");;
+                    MataUangHelper mataUangHelper = new MataUangHelper();
+
+                    try {
+                        sellStockPrice = Integer.parseInt(temp);
+                        mBinding.lyDialogSellStock.tvPrice.setText(mataUangHelper.formatRupiah(sellStockPrice));
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if(isAddStock) {
+                    mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(View.VISIBLE);
+                }
+                else {
+                    mBinding.lyDialogSellStock.lyDialogLayoutSellStock.setVisibility(View.VISIBLE);
+                }
                 mBinding.lyDoneEditText.etKarakter.setVisibility(GONE);
                 mBinding.lyDoneEditText.etNumber.setVisibility(GONE);
                 mBinding.lyDoneEditText.lyDialogEditText.setVisibility(GONE);
@@ -329,28 +534,10 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                 isAddPrice = false;
                 isAddStockID = false;
                 isAddStockName = false;
+                isSellStockGram = false;
+                isSellStockPrice = false;
             }
         });
-
-        //submit
-        mBinding.lyDialogAddStock.btnSubmitAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                StockModel.StockSatuanModel stockSatuanModel = new StockModel().new StockSatuanModel();
-                stockSatuanModel.setStockDateSort(addStockDateSort);
-                stockSatuanModel.setStockID(addStockID);
-                stockSatuanModel.setStockName(addStockName);
-                stockSatuanModel.setStockGram(addStockJumlah);
-                stockSatuanModel.setStockPrice(addStockPrice);
-                stockSatuanModel.setStockDate(addStockDate);
-
-                stockWHPresenter.addNewStock(stockSatuanModel);
-            }
-        });
-
-
-        //--------------------------------------------------------------------------------------------------------
     }
 
 
@@ -563,8 +750,14 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
     public void showStockCustomeList(StockModel stockModel, int pos) {
 
         isDialogCustomeAdd = true;
-        mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(GONE);
-        setCustomeList(stockModel);
+        if(isAddStock) {
+            mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(GONE);
+        }
+        else {
+            mBinding.lyDialogSellStock.lyDialogLayoutSellStock.setVisibility(GONE);
+        }
+        stockForList = stockModel;
+        setCustomeList(1);
 
         if (pos != -1) {
             listCustomAdapter.selectedPosition = pos;
@@ -624,6 +817,31 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
         });
     }
 
+    @Override
+    public void showAllPayment(PaymentMethodeModel paymentMethodeModel, int pos) {
+
+        isDialogCustomeAdd = true;
+        if(isAddStock) {
+            mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(GONE);
+        }
+        else {
+            mBinding.lyDialogSellStock.lyDialogLayoutSellStock.setVisibility(GONE);
+        }
+        paymentForList = paymentMethodeModel;
+        setCustomeList(2);
+
+        if (pos != -1) {
+            listCustomAdapter.selectedPosition = pos;
+            listCustomAdapter.notifyDataSetChanged();
+
+            if (paymentMethodeModel.getPaymentMethodeSatuanList().size() > 7) {
+                mBinding.lyDialogCustomeList.rvCustomList.scrollToPosition(pos);
+            }
+        }
+
+        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.VISIBLE);
+    }
+
 
     private void showDate(){
 
@@ -648,6 +866,18 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                     addStockDateSort = sdf.format(myCalendar.getTime());
                     DateAndTime dateAndTime = new DateAndTime();
                     addStockDateSort = addStockDateSort + dateAndTime.getCurrentTime(K.FORMAT_TIME_SORT);
+                    addTime = dateAndTime.getCurrentTime(K.FORMAT_TIME_STRING);
+                }
+                else if(isSellStock){
+
+                    sellStockDate = sdf.format(myCalendar.getTime());
+                    mBinding.lyDialogSellStock.tvDate.setText(sellStockDate);
+
+                    sdf = new SimpleDateFormat(K.FORMAT_TANGGAL_SORT);
+                    sellStockDateSort = sdf.format(myCalendar.getTime());
+                    DateAndTime dateAndTime = new DateAndTime();
+                    sellStockDateSort = sellStockDateSort + dateAndTime.getCurrentTime(K.FORMAT_TIME_SORT);
+                    sellTime = dateAndTime.getCurrentTime(K.FORMAT_TIME_STRING);
                 }
 
             }
@@ -657,43 +887,80 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
     }
 
 
-    private void setCustomeList(final StockModel stockModel) {
+    private void setCustomeList(final int tipe) {
 
-        if(!isInitList) {
-            StockModel.StockSatuanModel stockSatuanModel = new StockModel().new StockSatuanModel();
-            stockSatuanModel.setStockID(K.ADD_NEW_STOCK);
-            stockSatuanModel.setStockName(K.ADD_NEW_STOCK);
-            stockModel.getStockSatuanModelList().add(stockSatuanModel);
-            isInitList = true;
+        if(tipe==1) {
+            if(isAddStock) {
+                if (!isInitList) {
+                    StockModel.StockSatuanModel stockSatuanModel = new StockModel().new StockSatuanModel();
+                    stockSatuanModel.setStockID(K.ADD_NEW_STOCK);
+                    stockSatuanModel.setStockName(K.ADD_NEW_STOCK);
+                    stockForList.getStockSatuanModelList().add(stockSatuanModel);
+                    isInitList = true;
+                }
+                listCustomAdapter = new ListCustomAdapter(mContext, stockForList, 5);
+            }
+            else {
+
+                listCustomAdapter = new ListCustomAdapter(mContext, stockForList, 6);
+            }
+
         }
-
-        listCustomAdapter = new ListCustomAdapter(mContext, stockModel, 5);
+        else if(tipe==2){
+            listCustomAdapter = new ListCustomAdapter(mContext,paymentForList,4);
+        }
         listCustomAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
 
-                if(stockModel.getStockSatuanModelList().get(position).getStockID().equalsIgnoreCase(K.ADD_NEW_STOCK)){
+                if (tipe == 1) {
+                    if(isAddStock) {
+                        if (stockForList.getStockSatuanModelList().get(position).getStockID().equalsIgnoreCase(K.ADD_NEW_STOCK)) {
 
-                    isAddNewStock = true;
-                    mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
+                            isAddNewStock = true;
+                            mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
 
-                    mBinding.lyDoneEditText.tvEditTextLabel.setText("Please fill StockID without space");
-                    mBinding.lyDoneEditText.etKarakter.setText(addStockID);
-                    mBinding.lyDoneEditText.etNumber.setVisibility(GONE);
-                    mBinding.lyDoneEditText.etKarakter.setVisibility(View.VISIBLE);
-                    mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.VISIBLE);
+                            mBinding.lyDoneEditText.tvEditTextLabel.setText("Please fill StockID without space");
+                            mBinding.lyDoneEditText.etKarakter.setText(addStockID);
+                            mBinding.lyDoneEditText.etNumber.setVisibility(GONE);
+                            mBinding.lyDoneEditText.etKarakter.setVisibility(View.VISIBLE);
+                            mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.VISIBLE);
+                        } else {
+                            isAddNewStock = false;
+                            addStockID = stockForList.getStockSatuanModelList().get(position).getStockID();
+                            addStockName = stockForList.getStockSatuanModelList().get(position).getStockName();
+
+                            mBinding.lyDialogAddStock.tvStockId.setText(addStockID);
+                            mBinding.lyDialogAddStock.tvStockName.setText(addStockName);
+                        }
+                    }
+                    else {
+                        sellStockID = stockForList.getStockSatuanModelList().get(position).getStockID();
+                        sellStockName = stockForList.getStockSatuanModelList().get(position).getStockName();
+
+                        mBinding.lyDialogSellStock.tvStockId.setText(sellStockID);
+                    }
+                    isDialogCustomeAdd = false;
                 }
-                else {
-                    isAddNewStock = false;
-                    addStockID = stockModel.getStockSatuanModelList().get(position).getStockID();
-                    addStockName = stockModel.getStockSatuanModelList().get(position).getStockName();
+                else if(tipe==2) {
 
-                    mBinding.lyDialogAddStock.tvStockId.setText(addStockID);
-                    mBinding.lyDialogAddStock.tvStockName.setText(addStockName);
-                    mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
+                    if(isAddStock) {
+                        addPaymentMethode = paymentForList.getPaymentMethodeSatuanList().get(position).getPaymentMethodeID();
+                        mBinding.lyDialogAddStock.tvTipeBayar.setText(paymentForList.getPaymentMethodeSatuanList().get(position).getPaymentMethode());
+                    }
+                    else {
+                        sellPaymentMethode = paymentForList.getPaymentMethodeSatuanList().get(position).getPaymentMethodeID();
+                        mBinding.lyDialogSellStock.tvTipeBayar.setText(paymentForList.getPaymentMethodeSatuanList().get(position).getPaymentMethode());
+                    }
+                }
+
+                mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
+                if(isAddStock) {
                     mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(View.VISIBLE);
                 }
-                isDialogCustomeAdd = false;
+                else {
+                    mBinding.lyDialogSellStock.lyDialogLayoutSellStock.setVisibility(View.VISIBLE);
+                }
             }
         });
 

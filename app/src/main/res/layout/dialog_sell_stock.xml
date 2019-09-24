@@ -4,7 +4,7 @@
     xmlns:card_view="http://schemas.android.com/tools">
 
     <RelativeLayout
-        android:id="@+id/ly_dialog_layout_add_stock"
+        android:id="@+id/ly_dialog_layout_sell_stock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -49,7 +49,7 @@
                                 style="@style/TextViewStyleHeader1"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Add New Stock" />
+                                android:text="Sell Stock" />
 
 
                     </RelativeLayout>
@@ -93,7 +93,7 @@
                                             android:layout_height="wrap_content"
                                             android:layout_marginLeft="10dp"
                                             android:layout_marginTop="2dp"
-                                            android:text="StockID" />
+                                            android:text="From Stock :" />
 
                                         <me.grantland.widget.AutofitTextView
                                             android:id="@+id/tv_stock_id"
@@ -121,41 +121,6 @@
 
                                 <RelativeLayout
                                     android:layout_marginTop="15dp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:id="@+id/layout_relatif_nama"
-                                    android:layout_width="200dp"
-                                    android:layout_height="50dp"
-                                    android:background="@drawable/bg_dropdown"
-                                    android:visibility="visible">
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerVertical="true"
-                                        android:orientation="vertical"
-                                        android:visibility="visible">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="10dp"
-                                            android:layout_marginTop="2dp"
-                                            android:text="Stock Name" />
-
-                                        <me.grantland.widget.AutofitTextView
-                                            android:id="@+id/tv_stock_name"
-                                            android:layout_width="330dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginLeft="10dp"
-                                            android:singleLine="true"
-                                            android:text="" />
-
-                                    </LinearLayout>
-
-                                </RelativeLayout>
-
-                                <RelativeLayout
-                                    android:layout_marginTop="15dp"
                                     android:id="@+id/layout_relatif_gram"
                                     android:layout_width="200dp"
                                     android:layout_gravity="center_horizontal"
@@ -175,7 +140,7 @@
                                             android:layout_height="wrap_content"
                                             android:layout_marginLeft="10dp"
                                             android:layout_marginTop="2dp"
-                                            android:text="Stock Gram (gr)" />
+                                            android:text="Stock Gram to Sell (gr)" />
 
                                         <me.grantland.widget.AutofitTextView
                                             android:id="@+id/tv_jumlah_stock"
@@ -209,7 +174,7 @@
                                             android:layout_height="wrap_content"
                                             android:layout_marginLeft="10dp"
                                             android:layout_marginTop="2dp"
-                                            android:text="Stock Price" />
+                                            android:text="Stock Sell Price" />
 
                                         <me.grantland.widget.AutofitTextView
                                             android:id="@+id/tv_price"
@@ -243,7 +208,7 @@
                                             android:layout_height="wrap_content"
                                             android:layout_marginLeft="10dp"
                                             android:layout_marginTop="2dp"
-                                            android:text="Stock Date Input" />
+                                            android:text="Stock Sell Date" />
 
                                         <me.grantland.widget.AutofitTextView
                                             android:id="@+id/tv_date"
@@ -333,7 +298,7 @@
                             android:id="@+id/btn_submit_add"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Submit Stock" />
+                            android:text="Submit Selling" />
 
                     </RelativeLayout>
 

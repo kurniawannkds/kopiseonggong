@@ -14,6 +14,7 @@ import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.ProductModel;
 import com.androiddevnkds.kopiseong.model.StockModel;
 import com.androiddevnkds.kopiseong.utils.K;
+import com.androiddevnkds.kopiseong.utils.MataUangHelper;
 import com.androiddevnkds.kopiseong.utils.listener.OnItemClickListener;
 
 public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.ViewHolder> {
@@ -25,6 +26,7 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
     private ProductModel productModel;
     private PaymentMethodeModel paymentMethodeModel;
     private StockModel stockModel;
+    private long hargaPerGram = 0;
 
     public int selectedPosition = -1;
     private OnItemClickListener mItemClickListener;
@@ -65,22 +67,36 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         String itemShow = "";
+        //category
         if(tipe == 1){
             itemShow = categoryModel.getCategorySatuanList().get(position).getCategoryName();
         }
+        //category produk
         else if(tipe==3){
             itemShow = productModel.getProductSatuanList().get(position).getProductName();
         }
+        //payment methode
         else if(tipe==4){
             itemShow = paymentMethodeModel.getPaymentMethodeSatuanList().get(position).getPaymentMethode();
         }
+        //stock name
         else if(tipe==5){
             itemShow = stockModel.getStockSatuanModelList().get(position).getStockName();
 
         }
+        else if(tipe==6){
+            itemShow = stockModel.getStockSatuanModelList().get(position).getStockName();
+            hargaPerGram = stockModel.getStockSatuanModelList().get(position).getStockPricePerGram();
 
+        }
 
-        holder.mBinding.tvItem.setText(itemShow);
+        if(tipe==6){
+            MataUangHelper mataUangHelper = new MataUangHelper();
+            holder.mBinding.tvItem.setText(itemShow + " ("+mataUangHelper.formatRupiah(hargaPerGram)+")");
+        }
+        else {
+            holder.mBinding.tvItem.setText(itemShow);
+        }
 
 
         if (selectedPosition != -1 && selectedPosition == position) {
