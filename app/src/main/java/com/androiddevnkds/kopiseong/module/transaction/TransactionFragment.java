@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -36,7 +38,9 @@ import com.androiddevnkds.kopiseong.model.TotalBalanceModel;
 import com.androiddevnkds.kopiseong.model.TransactionModel;
 import com.androiddevnkds.kopiseong.model.TransactionSatuanModel;
 import com.androiddevnkds.kopiseong.model.UserInfoModel;
+import com.androiddevnkds.kopiseong.module.home.HomeActivity;
 import com.androiddevnkds.kopiseong.module.register.model.RegisterInteractor;
+import com.androiddevnkds.kopiseong.module.stock.StockActivity;
 import com.androiddevnkds.kopiseong.module.wallet.WalletContract;
 import com.androiddevnkds.kopiseong.utils.DateAndTime;
 import com.androiddevnkds.kopiseong.utils.FragmentHelper;
@@ -55,6 +59,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import static android.view.View.GONE;
 
@@ -162,15 +167,28 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
 
                 switch (menuItem.getItemId()) {
                     case R.id.home_menu:
-                        FragmentHelper.fragmentChanger(R.id.fl_fragment_container,
-                                ((AppCompatActivity) mContext).getSupportFragmentManager(),
-                                new WelcomeFragment(), null, false);
+                        Intent intent = new Intent(mContext, HomeActivity.class);
+                        startActivity(intent);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            Objects.requireNonNull(getActivity()).finish();
+                        }
                         return true;
                     case R.id.transaction_menu:
-                        Toast.makeText(mContext, "txn", Toast.LENGTH_SHORT).show();
+                        Intent intentTrans = new Intent(mContext, TransactionActivity.class);
+                        intentTrans.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
+                        startActivity(intentTrans);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            Objects.requireNonNull(getActivity()).finish();
+                        }
+
                         return true;
                     case R.id.stock_menu:
-                        Toast.makeText(mContext, "stock", Toast.LENGTH_SHORT).show();
+                        Intent intentStock = new Intent(mContext, StockActivity.class);
+                        intentStock.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
+                        startActivity(intentStock);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            Objects.requireNonNull(getActivity()).finish();
+                        }
 
                         return true;
                 }

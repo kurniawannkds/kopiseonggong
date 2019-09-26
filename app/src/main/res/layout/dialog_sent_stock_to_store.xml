@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/ly_dialog_layout_sent_stock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone">
+
+        <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/recycle_view_detail_trans"-->
+        <!--android:layout_width="1000dp"-->
+        <!--android:layout_height="600dp"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--app:cardBackgroundColor="@color/colorCardView"-->
+        <!--app:cardCornerRadius="10dp">-->
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/recycle_view_detail_trans"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_centerInParent="true"
+            app:cardBackgroundColor="@color/colorCardView"
+            app:cardCornerRadius="10dp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <RelativeLayout
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/layout1"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_title"
+                            style="@style/TextViewStyleHeader1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add Stock to Store" />
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/layout1">
+
+                        <RelativeLayout
+                            android:layout_centerHorizontal="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/title_info"
+                            android:layout_marginTop="5dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp"
+                                android:orientation="vertical">
+
+                                <RelativeLayout
+                                    android:id="@+id/layout_relatif_stockID"
+                                    android:layout_width="200dp"
+                                    android:layout_height="50dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginTop="2dp"
+                                            android:text="From Stock :" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_stock_id"
+                                            android:layout_width="160dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                    <ImageView
+                                        android:layout_width="18dp"
+                                        android:layout_height="18dp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginEnd="6dp"
+                                        android:layout_marginBottom="3dp"
+                                        android:soundEffectsEnabled="false"
+                                        android:visibility="visible"
+                                        android:src="@drawable/ic_keyboard_arrow_down"
+                                        android:layout_marginRight="6dp" />
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_marginTop="15dp"
+                                    android:id="@+id/layout_relatif_gram"
+                                    android:layout_width="200dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_height="50dp"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:layout_marginTop="2dp"
+                                            android:text="Stock Gram to Store (gr)" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_jumlah_stock"
+                                            android:layout_width="330dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="10dp"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/layout2"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="10dp">
+
+                        <Button
+                            android:id="@+id/btn_submit_add"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Submit Store" />
+
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+
+            </ScrollView>
+
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</layout>

@@ -73,6 +73,27 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:id="@+id/btn_sent_stock"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:background="@color/colorAccent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    style="@style/TextViewStyle4"
+                    android:text="SENT STOCK"/>
+
+
+            </LinearLayout>
+
         </LinearLayout>
 
 
@@ -124,6 +145,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true">
+            <include
+                android:id="@+id/ly_dialog_sent_stock"
+                layout="@layout/dialog_sent_stock_to_store"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
 
             <include
                 android:id="@+id/ly_done_edit_text"
@@ -139,6 +170,18 @@
             <include
                 android:id="@+id/ly_dialog_custome_list"
                 layout="@layout/dialog_custome_list" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorNavigation"
+            android:layout_alignParentBottom="true">
+
+            <include
+                android:id="@+id/ly_bottom_nav"
+                layout="@layout/bottom" />
 
         </RelativeLayout>
 

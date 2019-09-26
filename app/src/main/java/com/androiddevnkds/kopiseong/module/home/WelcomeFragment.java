@@ -19,8 +19,11 @@ import android.widget.Toast;
 
 import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.databinding.FragmentWelcomeBinding;
+import com.androiddevnkds.kopiseong.module.resep.ResepActivity;
 import com.androiddevnkds.kopiseong.module.resep.ResepFragment;
 import com.androiddevnkds.kopiseong.module.stock.StockActivity;
+import com.androiddevnkds.kopiseong.module.transaction.TransactionActivity;
+import com.androiddevnkds.kopiseong.module.wallet.WalletActivity;
 import com.androiddevnkds.kopiseong.utils.FragmentHelper;
 import com.androiddevnkds.kopiseong.utils.HeaderHelper;
 import com.androiddevnkds.kopiseong.utils.K;
@@ -83,17 +86,25 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
 
                 switch (menuItem.getItemId()) {
                     case R.id.home_menu:
-                        Toast.makeText(mContext,"home",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(mContext, HomeActivity.class);
+                        startActivity(intent);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            Objects.requireNonNull(getActivity()).finish();
+                        }
                         return true;
                     case R.id.transaction_menu:
-                        FragmentHelper.fragmentChanger(R.id.fl_fragment_container,
-                                ((AppCompatActivity) mContext).getSupportFragmentManager(),
-                                new TransactionFragment(), null, false);
+                        Intent intentTrans = new Intent(mContext, TransactionActivity.class);
+                        intentTrans.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
+                        startActivity(intentTrans);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            Objects.requireNonNull(getActivity()).finish();
+                        }
+
                         return true;
                     case R.id.stock_menu:
-                        Intent intent = new Intent(mContext, StockActivity.class);
-                        intent.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
-                        startActivity(intent);
+                        Intent intentStock = new Intent(mContext, StockActivity.class);
+                        intentStock.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
+                        startActivity(intentStock);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             Objects.requireNonNull(getActivity()).finish();
                         }
@@ -118,9 +129,12 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
             @Override
             public void onClick(View view) {
 
-                FragmentHelper.fragmentChanger(R.id.fl_fragment_container,
-                        ((AppCompatActivity) mContext).getSupportFragmentManager(),
-                        new WalletFragment(), null, false);
+                Intent intentStock = new Intent(mContext, WalletActivity.class);
+                intentStock.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
+                startActivity(intentStock);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    Objects.requireNonNull(getActivity()).finish();
+                }
             }
         });
 
@@ -142,9 +156,12 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
             @Override
             public void onClick(View view) {
 
-                FragmentHelper.fragmentChanger(R.id.fl_fragment_container,
-                        ((AppCompatActivity) mContext).getSupportFragmentManager(),
-                        new ResepFragment(), null, false);
+                Intent intentStock = new Intent(mContext, ResepActivity.class);
+                intentStock.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
+                startActivity(intentStock);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    Objects.requireNonNull(getActivity()).finish();
+                }
             }
         });
 

@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import com.androiddevnkds.kopiseong.BaseActivity;
 import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.databinding.ActivityStockBinding;
+import com.androiddevnkds.kopiseong.module.stock.stockStore.StockStoreFragment;
 import com.androiddevnkds.kopiseong.module.stock.stockWareHouse.StockWareHouseFragment;
 import com.androiddevnkds.kopiseong.utils.FragmentHelper;
 import com.androiddevnkds.kopiseong.utils.K;
@@ -35,6 +36,11 @@ public class StockActivity extends BaseActivity {
             Bundle bundle = new Bundle();
             bundle.putString(K.KEY_MAIN_FIRST_TIME, "Stock");
             FragmentHelper.fragmentInitializer(R.id.fl_fragment_container, fm, new StockWareHouseFragment(), bundle);
+        }
+        else {
+            Bundle bundle = new Bundle();
+            bundle.putString(K.KEY_MAIN_FIRST_TIME, "Stock");
+            FragmentHelper.fragmentInitializer(R.id.fl_fragment_container, fm, new StockStoreFragment(), bundle);
         }
 
     }

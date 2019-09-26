@@ -26,7 +26,9 @@ public interface StockWHContract {
 
         void showSuccessAddStock(String message, StockModel.StockSatuanModel stockSatuanModel);
 
-        void showSuccessSellStock(String message, long gram, int position);
+        void showSuccessSellStock(String message, int position);
+
+        void showSuccessSentStock(String message, int position);
 
         void showAllPayment(PaymentMethodeModel paymentMethodeModel, int selectedPos);
 
@@ -48,6 +50,8 @@ public interface StockWHContract {
 
         void sellStock(StockModel.StockSatuanModel stockSatuanModel,String transID,
                        String payment, String category, String time, long gram, int pos);
+
+        void sentStock(StockModel.StockSatuanModel stockSatuanModel, long gram, int pos);
 
         void getAllPayment(PaymentMethodeModel paymentMethodeModel, String payment);
     }

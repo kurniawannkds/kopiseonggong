@@ -2,8 +2,10 @@ package com.androiddevnkds.kopiseong.module.wallet;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,6 +25,9 @@ import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.data.DataManager;
 import com.androiddevnkds.kopiseong.databinding.FragmentWalletBinding;
 import com.androiddevnkds.kopiseong.model.TotalBalanceModel;
+import com.androiddevnkds.kopiseong.module.home.HomeActivity;
+import com.androiddevnkds.kopiseong.module.stock.StockActivity;
+import com.androiddevnkds.kopiseong.module.transaction.TransactionActivity;
 import com.androiddevnkds.kopiseong.module.transaction.TransactionFragment;
 import com.androiddevnkds.kopiseong.utils.FragmentHelper;
 import com.androiddevnkds.kopiseong.utils.HeaderHelper;
@@ -35,6 +40,8 @@ import com.razerdp.widget.animatedpieview.AnimatedPieViewConfig;
 import com.razerdp.widget.animatedpieview.callback.OnPieSelectListener;
 import com.razerdp.widget.animatedpieview.data.IPieInfo;
 import com.razerdp.widget.animatedpieview.data.SimplePieInfo;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,15 +101,28 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
 
                 switch (menuItem.getItemId()) {
                     case R.id.home_menu:
-                        Toast.makeText(mContext,"home",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(mContext, HomeActivity.class);
+                        startActivity(intent);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            Objects.requireNonNull(getActivity()).finish();
+                        }
                         return true;
                     case R.id.transaction_menu:
-                        FragmentHelper.fragmentChanger(R.id.fl_fragment_container,
-                                ((AppCompatActivity) mContext).getSupportFragmentManager(),
-                                new TransactionFragment(), null, false);
+                        Intent intentTrans = new Intent(mContext, TransactionActivity.class);
+                        intentTrans.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
+                        startActivity(intentTrans);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            Objects.requireNonNull(getActivity()).finish();
+                        }
+
                         return true;
                     case R.id.stock_menu:
-                        Toast.makeText(mContext,"stock",Toast.LENGTH_SHORT).show();
+                        Intent intentStock = new Intent(mContext, StockActivity.class);
+                        intentStock.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
+                        startActivity(intentStock);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            Objects.requireNonNull(getActivity()).finish();
+                        }
 
                         return true;
                 }

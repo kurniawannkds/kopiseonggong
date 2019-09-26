@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -17,6 +18,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -35,6 +37,8 @@ import com.androiddevnkds.kopiseong.model.StockModel;
 import com.androiddevnkds.kopiseong.module.home.HomeActivity;
 import com.androiddevnkds.kopiseong.module.login.model.LoginCredential;
 import com.androiddevnkds.kopiseong.module.register.RegisterFragment;
+import com.androiddevnkds.kopiseong.module.stock.StockActivity;
+import com.androiddevnkds.kopiseong.module.transaction.TransactionActivity;
 import com.androiddevnkds.kopiseong.utils.FragmentHelper;
 import com.androiddevnkds.kopiseong.utils.HeaderHelper;
 import com.androiddevnkds.kopiseong.utils.K;
@@ -114,6 +118,41 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
     @Override
     public void initEvent() {
 
+        mBinding.lyBottomNav.navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                switch (menuItem.getItemId()) {
+                    case R.id.home_menu:
+                        Intent intent = new Intent(mContext, HomeActivity.class);
+                        startActivity(intent);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            Objects.requireNonNull(getActivity()).finish();
+                        }
+                        return true;
+                    case R.id.transaction_menu:
+                        Intent intentTrans = new Intent(mContext, TransactionActivity.class);
+                        intentTrans.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
+                        startActivity(intentTrans);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            Objects.requireNonNull(getActivity()).finish();
+                        }
+
+                        return true;
+                    case R.id.stock_menu:
+                        Intent intentStock = new Intent(mContext, StockActivity.class);
+                        intentStock.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
+                        startActivity(intentStock);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            Objects.requireNonNull(getActivity()).finish();
+                        }
+
+                        return true;
+                }
+
+                return false;
+            }
+        });
 
         mBinding.lyBlack.lyBlack.setOnClickListener(new View.OnClickListener() {
             @Override

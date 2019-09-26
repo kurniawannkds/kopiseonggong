@@ -149,7 +149,7 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
 
         stockView.showProgressBar();
 
-        if(!validateAdd(stockSatuanModel)){
+        if(!validateAdd(stockSatuanModel, payment)){
             String userEmail = "";
             if(DataManager.can().getUserInfoFromStorage()!=null){
                 if(DataManager.can().getUserInfoFromStorage().getUserEmail()!=null){
@@ -197,8 +197,96 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
     }
 
     @Override
-    public void sellStock(StockModel.StockSatuanModel stockSatuanModel, String transID, String payment, String category, String time, long gram, int pos) {
+    public void sellStock(StockModel.StockSatuanModel stockSatuanModel, String transID, String payment, String category, String time, long gram, final int pos) {
 
+        stockView.showProgressBar();
+        if(!validateSell(stockSatuanModel,transID,payment,gram)){
+            String userEmail = "";
+            if(DataManager.can().getUserInfoFromStorage()!=null){
+                if(DataManager.can().getUserInfoFromStorage().getUserEmail()!=null){
+                    userEmail = DataManager.can().getUserInfoFromStorage().getUserEmail();
+                }
+            }
+            String balanceID = stockSatuanModel.getStockDateSort().substring(0,6);
+            AndroidNetworking.post(K.URL_GET_STOCK_WAREHOUSE)
+                    .setTag("test")
+                    .addBodyParameter("stock_sell","update")
+                    .addBodyParameter("stock_date_sort",stockSatuanModel.getStockDateSort())
+                    .addBodyParameter("stock_id",stockSatuanModel.getStockID())
+                    .addBodyParameter("stock_price",stockSatuanModel.getStockPrice()+"")
+                    .addBodyParameter("stock_date",stockSatuanModel.getStockDate())
+                    .addBodyParameter("stock_gram",gram+"")
+                    .addBodyParameter("stock_price_per_gram",stockSatuanModel.getStockPricePerGram()+"")
+                    .addBodyParameter("trans_category",category)
+                    .addBodyParameter("trans_time",time)
+                    .addBodyParameter("trans_tipe_pembayaran",payment)
+                    .addBodyParameter("trans_user_email",userEmail)
+                    .addBodyParameter("trans_id",transID)
+                    .addBodyParameter("balance_id",balanceID)
+                    .setPriority(Priority.MEDIUM)
+                    .build()
+                    .getAsObject(UpdateResponseModel.class, new ParsedRequestListener<UpdateResponseModel>() {
+                        @Override
+                        public void onResponse(UpdateResponseModel updateResponseModel) {
+                            // do anything with response
+                            if(updateResponseModel.getErrorMessage()!=null){
+                                onFailed(6,updateResponseModel.getErrorMessage());
+                            }
+                            else {
+
+                                stockView.hideProgressBar();
+                                stockView.showSuccessSellStock(updateResponseModel.getSuccessMessage(),pos);
+                            }
+                        }
+                        @Override
+                        public void onError(ANError anError) {
+                            // handle error
+                            onFailed(6,"ERROR");
+                            Log.e("base",anError.getErrorDetail());
+                        }
+                    });
+        }
+    }
+
+    @Override
+    public void sentStock(StockModel.StockSatuanModel stockSatuanModel, long gram, final int pos) {
+
+        stockView.showProgressBar();
+        if(!validateSent(stockSatuanModel,gram)) {
+
+            AndroidNetworking.post(K.URL_GET_STOCK_WAREHOUSE)
+                    .setTag("test")
+                    .addBodyParameter("stock_add_to_store", "update")
+                    .addBodyParameter("stock_date_sort", stockSatuanModel.getStockDateSort())
+                    .addBodyParameter("stock_id", stockSatuanModel.getStockID())
+                    .addBodyParameter("stock_price", stockSatuanModel.getStockPrice() + "")
+                    .addBodyParameter("stock_date", stockSatuanModel.getStockDate())
+                    .addBodyParameter("stock_name", stockSatuanModel.getStockName())
+                    .addBodyParameter("stock_gram", gram + "")
+                    .addBodyParameter("stock_price_per_gram", stockSatuanModel.getStockPricePerGram() + "")
+                    .setPriority(Priority.MEDIUM)
+                    .build()
+                    .getAsObject(UpdateResponseModel.class, new ParsedRequestListener<UpdateResponseModel>() {
+                        @Override
+                        public void onResponse(UpdateResponseModel updateResponseModel) {
+                            // do anything with response
+                            if (updateResponseModel.getErrorMessage() != null) {
+                                onFailed(7, updateResponseModel.getErrorMessage());
+                            } else {
+
+                                stockView.hideProgressBar();
+                                stockView.showSuccessSentStock(updateResponseModel.getSuccessMessage(), pos);
+                            }
+                        }
+
+                        @Override
+                        public void onError(ANError anError) {
+                            // handle error
+                            onFailed(7, "ERROR");
+                            Log.e("base", anError.getErrorDetail());
+                        }
+                    });
+        }
     }
 
     @Override
@@ -293,7 +381,7 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
         }
     }
 
-    private boolean validateAdd(StockModel.StockSatuanModel stockSatuanModel){
+    private boolean validateAdd(StockModel.StockSatuanModel stockSatuanModel, String payment){
 
         long stockJumlah = stockSatuanModel.getStockGram();
         long stockPrice = stockSatuanModel.getStockPrice();
@@ -326,6 +414,105 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
         }
         else if(stockName.equalsIgnoreCase("")){
             onFailed(4,"Stock name cannot be empty");
+            return true;
+        }
+        else if(payment.equalsIgnoreCase("")){
+            onFailed(4,"Stock payment cannot be empty");
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+
+    private boolean validateSell(StockModel.StockSatuanModel stockSatuanModel,String transID,String payment, long gramSell){
+
+        long stockJumlah = stockSatuanModel.getStockGram();
+        long stockPrice = stockSatuanModel.getStockPrice();
+        String stockDate = stockSatuanModel.getStockDate();
+        String dateSort = stockSatuanModel.getStockDateSort();
+        String stockId = stockSatuanModel.getStockID();
+
+        if(gramSell==0){
+
+            onFailed(6,"Stock gram cannot be empty");
+            return true;
+        }
+        else if(stockPrice == 0){
+
+            onFailed(6,"Price cannot be empty");
+            return true;
+        }
+        else if(stockDate.equalsIgnoreCase("")){
+            onFailed(6,"Stock date cannot be empty");
+            return true;
+        }
+        else if(dateSort.equalsIgnoreCase("")){
+            onFailed(6,"Stock date cannot be empty");
+            return true;
+        }
+        else if(stockId.equalsIgnoreCase("")){
+            onFailed(6,"Stock ID cannot be empty");
+            return true;
+        }
+        else if(payment.equalsIgnoreCase("")){
+            onFailed(6,"Stock payment cannot be empty");
+            return true;
+        }
+        else if(gramSell > stockJumlah){
+            onFailed(6,"Gram sell bigger than current gram stock");
+            return true;
+        }
+        else if(transID.equalsIgnoreCase("")){
+            onFailed(6,"TransID cannot be empty");
+            return true;
+        }
+        else if(stockSatuanModel.getStockPricePerGram() ==0){
+            onFailed(6,"Price per gram cannot be zero");
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    private boolean validateSent(StockModel.StockSatuanModel stockSatuanModel,long gramSell){
+
+        long stockJumlah = stockSatuanModel.getStockGram();
+        long stockPrice = stockSatuanModel.getStockPrice();
+        String stockDate = stockSatuanModel.getStockDate();
+        String dateSort = stockSatuanModel.getStockDateSort();
+        String stockId = stockSatuanModel.getStockID();
+
+        if(gramSell==0){
+
+            onFailed(7,"Stock gram cannot be empty");
+            return true;
+        }
+        else if(stockPrice == 0){
+
+            onFailed(7,"Price cannot be empty");
+            return true;
+        }
+        else if(stockDate.equalsIgnoreCase("")){
+            onFailed(7,"Stock date cannot be empty");
+            return true;
+        }
+        else if(dateSort.equalsIgnoreCase("")){
+            onFailed(7,"Stock date cannot be empty");
+            return true;
+        }
+        else if(stockId.equalsIgnoreCase("")){
+            onFailed(7,"Stock ID cannot be empty");
+            return true;
+        }
+        else if(gramSell > stockJumlah){
+            onFailed(7,"Gram sent bigger than current gram stock");
+            return true;
+        }
+        else if(stockSatuanModel.getStockPricePerGram() ==0){
+            onFailed(7,"Price per gram cannot be zero");
             return true;
         }
         else {

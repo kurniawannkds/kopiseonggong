@@ -92,7 +92,7 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
 
         if(tipe==6){
             MataUangHelper mataUangHelper = new MataUangHelper();
-            holder.mBinding.tvItem.setText(itemShow + " ("+mataUangHelper.formatRupiah(hargaPerGram)+")");
+            holder.mBinding.tvItem.setText(itemShow + " ("+mataUangHelper.formatRupiah(hargaPerGram)+"/gr)");
         }
         else {
             holder.mBinding.tvItem.setText(itemShow);

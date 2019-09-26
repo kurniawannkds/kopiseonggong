@@ -6,7 +6,7 @@
     <RelativeLayout
         android:id="@+id/layoutHeader"
         android:layout_width="match_parent"
-        android:layout_height="71dp"
+        android:layout_height="170dp"
         tools:ignore="MissingPrefix">
 
         <TextView
@@ -20,6 +20,113 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:id="@+id/linear_stock_header_wh"
+            android:layout_below="@+id/tv_header_label"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+                android:background="@color/colorAccent"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:singleLine="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Stock WH"
+                    android:textSize="23sp"
+                    android:textColor="#fcfcfc"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:textAlignment="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+                android:background="@color/colorPrimaryDark"
+                android:id="@+id/linear_stock_store"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:singleLine="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Stock Store"
+                    android:textSize="17sp"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:textAlignment="center"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:id="@+id/linear_stock_header_store"
+            android:layout_below="@+id/tv_header_label"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+                android:background="@color/colorPrimaryDark"
+                android:orientation="horizontal"
+                android:id="@+id/linear_stock_wh"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:singleLine="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Stock WH"
+                    android:textSize="17sp"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:textAlignment="center"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+                android:background="@color/colorAccent"
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_weight="1">
+
+                <TextView
+                    android:singleLine="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Stock Store"
+                    android:textSize="23sp"
+                    android:textColor="#fcfcfc"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:textAlignment="center"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+
 
     </RelativeLayout>
 

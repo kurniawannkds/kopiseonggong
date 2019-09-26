@@ -14,7 +14,7 @@ public class HeaderHelper {
     private static View parentView;
 
     public static TextView tvHeaderLabel, tvHeaderLabelContent;
-    public static LinearLayout linearLayoutAtas, linearReport;
+    public static LinearLayout linearLayoutAtas, linearReport, linearStockWH, linearStockStore;
     public static RelativeLayout relativeLayoutAwal;
 
     public static void initialize(View parentView) {
@@ -40,6 +40,10 @@ public class HeaderHelper {
         linearLayoutAtas = (LinearLayout) parentView.findViewById(R.id.linear_atas);
         linearReport = (LinearLayout) parentView.findViewById(R.id.reportLinearTitle2);
         relativeLayoutAwal = (RelativeLayout) parentView.findViewById(R.id.relative_awal);
+        linearStockWH = (LinearLayout) parentView.findViewById(R.id.linear_stock_header_wh);
+        linearStockStore = (LinearLayout) parentView.findViewById(R.id.linear_stock_header_store);
+//        linearWH = (LinearLayout) parentView.findViewById(R.id.linear_stock_wh);
+//        linearStore = (LinearLayout) parentView.findViewById(R.id.linear_stock_store);
 
     }
 
@@ -79,5 +83,17 @@ public class HeaderHelper {
     public static void setLinearReportVisible(boolean visible) {
         if (linearReport != null)
             linearReport.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    //linear stock
+    public static void setLinearStockWHVisible(boolean visible) {
+        if (linearStockWH != null)
+            linearStockWH.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    //linear stock
+    public static void setLinearStockSTVisible(boolean visible) {
+        if (linearStockStore != null)
+            linearStockStore.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 }
