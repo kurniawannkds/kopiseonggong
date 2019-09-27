@@ -73,7 +73,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
     private Context mContext;
     private TransactionModel transactionModelGlobal;
     private TransactionSatuanModel transactionModelAdd;
-    private int page = 0, rows = 0;
+    private int page = 0, rows = 0, totalRows =0;
     private TransactionAdapter transactionAdapter;
     private DetailTransactionAdapter detailTransactionAdapter, detailTransactionAddAdapter;
     private boolean isPanelShown = false, isDone = false;
@@ -87,7 +87,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
     private int selectedPositionCategory = -1, selectedPositionUser = -1, selectedPositionProduct = -1;
     private int filterPosCat = -1, filterPosUser = -1, filterPosMethod = -1;
     private boolean fromFilter = false;
-    private boolean isPrice = false, isCustomer = false;
+    private boolean isPrice = false, isCustomer = false, isFilter = false;
 
     private CategoryModel categoryModelGlobal;
     private int flagListChoosen = -1, sizeArray = 0;
@@ -330,6 +330,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 isPanelShown = true;
                 mBinding.lyBlack.lyBlack.setVisibility(GONE);
                 slideUpDown(mBinding.lyBottomUpSliderFilter.bottomSheet);
+                isFilter = true;
                 transactionPresenter.getAllTransaction(page,filterCategory,filterDate,filterUser,filterMethod);
             }
         });
@@ -343,7 +344,25 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 mBinding.btnPrevius.setVisibility(View.VISIBLE);
                 //hit api
                 page++;
-                transactionPresenter.getAllTransaction(page, filterCategory, filterDate, filterUser, filterMethod);
+                rows = rows - (page*20);
+                if(transactionModelGlobal.getTransactionModelLists().size()>(page*20)){
+
+                    TransactionModel transactionModel = new TransactionModel();
+                    int sizeGlobal = transactionModelGlobal.getTransactionModelLists().size();
+                    List<TransactionSatuanModel> transactionSatuanModelList = new ArrayList<>();
+                    if(sizeGlobal -(page*20) >20){
+                        transactionSatuanModelList = transactionModelGlobal.getTransactionModelLists().subList(page*20,(page*20)+20);
+                    }
+                    else {
+                        transactionSatuanModelList = transactionModelGlobal.getTransactionModelLists().subList(page*20,transactionModelGlobal.getTransactionModelLists().size());
+                    }
+
+                    transactionModel.setTransactionModelLists(transactionSatuanModelList);
+                    setAdapter(transactionModel,"");
+                }
+                else {
+                    transactionPresenter.getAllTransaction(page, filterCategory, filterDate, filterUser, filterMethod);
+                }
 
             }
         });
@@ -352,8 +371,13 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
             public void onClick(View view) {
                 page--;
 
+                rows = rows + 20;
                 //hit api
-                transactionPresenter.getAllTransaction(page, filterCategory, filterDate, filterUser, filterMethod);
+                TransactionModel transactionModel = new TransactionModel();
+                List<TransactionSatuanModel> transactionSatuanModelList = transactionModelGlobal.getTransactionModelLists().subList(page*20,(page*20)+20);
+                transactionModel.setTransactionModelLists(transactionSatuanModelList);
+                setAdapter(transactionModel,"");
+
             }
         });
 
@@ -748,38 +772,27 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
     @Override
     public void showAllTransaction(TransactionModel transactionModel) {
 
-        if(transactionModelGlobal==null || transactionModelGlobal.getTransactionModelLists()==null ||
-                transactionModelGlobal.getTransactionModelLists().size()==0){
-
-            transactionModelGlobal = transactionModel;
-        }
         //else if(transactionModelGlobal.getTransactionModelLists().size()<)
 
-        transactionAdapter = new TransactionAdapter(mContext, transactionModel);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
-        mBinding.rvTransaction.setLayoutManager(layoutManager);
-        mBinding.rvTransaction.setAdapter(transactionAdapter);
+        if(isFilter||transactionModelGlobal == null || transactionModelGlobal.getTransactionModelLists()==null || transactionModelGlobal.getTransactionModelLists().size()==0) {
+            transactionModelGlobal = transactionModel;
+            rows = transactionModel.getTotalRow();
+            totalRows = rows;
 
-        rows = transactionModel.getTotalRow();
-        if (rows > 0) {
-            mBinding.btnNext.setVisibility(View.VISIBLE);
-        } else {
-            mBinding.btnNext.setVisibility(View.GONE);
+            isFilter = false;
+            setAdapter(transactionModel,"init");
         }
+        else {
 
-        if (page == 0) {
-            mBinding.btnPrevius.setVisibility(View.GONE);
-        } else {
-            mBinding.btnPrevius.setVisibility(View.VISIBLE);
+            Log.e("TRAN PARM",transactionModel.getTransactionModelLists().size()+"");
+            int sizeTemp = transactionModelGlobal.getTransactionModelLists().size();
+            Log.e("TRAN SIZE",sizeTemp+"");
 
+            transactionModelGlobal.getTransactionModelLists().addAll(sizeTemp,transactionModel.getTransactionModelLists());
+            setAdapter(transactionModel,"");
         }
+        Log.e("TRAN GLOBAL",transactionModelGlobal.getTransactionModelLists().size()+"");
 
-        transactionAdapter.setOnItemClickListener(new TransactionAdapter.ClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-                transactionPresenter.setOnClickTransaction(transactionModelGlobal, position);
-            }
-        });
     }
 
     @Override
@@ -976,6 +989,42 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
         },
                 myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    private void setAdapter(TransactionModel transactionModel,String action){
+
+        if(action.equalsIgnoreCase("INIT")) {
+            transactionAdapter = new TransactionAdapter(mContext, transactionModel);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
+            mBinding.rvTransaction.setLayoutManager(layoutManager);
+            mBinding.rvTransaction.setAdapter(transactionAdapter);
+
+            transactionAdapter.setOnItemClickListener(new TransactionAdapter.ClickListener() {
+                @Override
+                public void onItemClick(int position, View v) {
+                    transactionPresenter.setOnClickTransaction(transactionModelGlobal, position);
+                }
+            });
+        }
+        else {
+
+            Log.e("TRANS",transactionModel.getTransactionModelLists().size()+"");
+            transactionAdapter.resetListTransaction(transactionModel);
+            transactionAdapter.notifyDataSetChanged();
+        }
+
+        if (rows > 20) {
+            mBinding.btnNext.setVisibility(View.VISIBLE);
+        } else {
+            mBinding.btnNext.setVisibility(View.GONE);
+        }
+
+        if (page == 0) {
+            mBinding.btnPrevius.setVisibility(View.GONE);
+        } else {
+            mBinding.btnPrevius.setVisibility(View.VISIBLE);
+
+        }
     }
     //end
 }

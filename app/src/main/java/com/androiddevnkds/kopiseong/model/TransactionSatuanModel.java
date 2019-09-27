@@ -10,9 +10,6 @@ public class TransactionSatuanModel {
     @SerializedName("trans_category")
     private String transactionCategory;
 
-    @SerializedName("trans_date_sort")
-    private int transactionDateSort;
-
     @SerializedName("trans_date")
     private String transactionDate;
 
@@ -49,14 +46,6 @@ public class TransactionSatuanModel {
         this.transactionDate = transactionDate;
     }
 
-    public int getTransactionDateSort() {
-        return transactionDateSort;
-    }
-
-    public void setTransactionDateSort(int transactionDateSort) {
-        this.transactionDateSort = transactionDateSort;
-    }
-
     public String getTransactionTime() {
         return transactionTime;
     }
@@ -81,10 +70,9 @@ public class TransactionSatuanModel {
         this.userEmail = userEmail;
     }
 
-    public TransactionSatuanModel(String transactionID, String transactionCategory, int transactionDateSort, String transactionDate, String transactionTime, int transactionBalance, String userEmail) {
+    public TransactionSatuanModel(String transactionID, String transactionCategory, String transactionDate, String transactionTime, long transactionBalance, String userEmail) {
         this.transactionID = transactionID;
         this.transactionCategory = transactionCategory;
-        this.transactionDateSort = transactionDateSort;
         this.transactionDate = transactionDate;
         this.transactionTime = transactionTime;
         this.transactionBalance = transactionBalance;

@@ -47,11 +47,20 @@ public class TransactionPresenter implements TransactionContract.transactionPres
     public void getAllTransaction(int currentPage, String category, String date, String userName, String pembayaran) {
 
         transactionView.showProgressBar();
+        String userRole = "";
+        if(DataManager.can().getUserInfoFromStorage()!=null){
+            if(DataManager.can().getUserInfoFromStorage().getUserRole()!=null){
+                userRole = DataManager.can().getUserInfoFromStorage().getUserRole();
+            }
+        }
+        userRole = "Master";
+        Log.e("TRANS",userRole);
         AndroidNetworking.post(K.URL_GET_ALL_TRANSACTION)
                 .addBodyParameter("currentPage",currentPage+"")
                 .addBodyParameter("trans_category",category)
                 .addBodyParameter("trans_date",date)
                 .addBodyParameter("trans_user_email",userName)
+                .addBodyParameter("trans_user_role",userRole)
                 .addBodyParameter("trans_tipe_pembayaran",pembayaran)
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)
@@ -164,7 +173,6 @@ public class TransactionPresenter implements TransactionContract.transactionPres
 
         TransactionSatuanModel transactionModelAdd = new TransactionSatuanModel();
         transactionModelAdd.setTransactionID(transIDADD);
-        transactionModelAdd.setTransactionDateSort(transDateSortAdd);
         transactionModelAdd.setTransactionDate(transDateAdd);
         transactionModelAdd.setTransactionTime(transTimeAdd);
         transactionModelAdd.setUserEmail(transUserEmailAdd);

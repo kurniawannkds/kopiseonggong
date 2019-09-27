@@ -73,4 +73,8 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     public interface ClickListener {
         void onItemClick(int position, View v);
     }
+
+    public void resetListTransaction(TransactionModel transactionModel){
+        this.transactionModel = transactionModel;
+    }
 }
