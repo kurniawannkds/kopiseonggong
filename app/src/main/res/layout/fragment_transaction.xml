@@ -158,32 +158,6 @@
             android:layout_centerInParent="true">
 
             <include
-                android:id="@+id/ly_add_transaction"
-                layout="@layout/dialog_add_transaction" />
-
-        </RelativeLayout>
-
-        <include
-            android:id="@+id/ly_black_2"
-            layout="@layout/layout_black" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
-
-            <include
-                android:id="@+id/ly_done_edit_text"
-                layout="@layout/dialog_edit_text" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
-
-            <include
                 android:id="@+id/ly_dialog_custome_list"
                 layout="@layout/dialog_custome_list" />
 

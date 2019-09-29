@@ -109,6 +109,7 @@ public class StockStoreFragment extends BaseFragment implements StockStoreContra
         HeaderHelper.setLabelVisible(true);
         HeaderHelper.setLinearStockSTVisible(true);
         stockStorePresenter.getAllStock();
+        mBinding.lyBottomNav.navigation.setSelectedItemId(R.id.stock_menu);
     }
 
     @Override

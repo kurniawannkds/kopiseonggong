@@ -22,6 +22,17 @@ public class TransactionSatuanModel {
     @SerializedName("trans_user_email")
     private String userEmail;
 
+    @SerializedName("trans_tipe_pembayaran")
+    private String tipePembayaran;
+
+    public String getTipePembayaran() {
+        return tipePembayaran;
+    }
+
+    public void setTipePembayaran(String tipePembayaran) {
+        this.tipePembayaran = tipePembayaran;
+    }
+
     public String getTransactionID() {
         return transactionID;
     }
@@ -70,13 +81,14 @@ public class TransactionSatuanModel {
         this.userEmail = userEmail;
     }
 
-    public TransactionSatuanModel(String transactionID, String transactionCategory, String transactionDate, String transactionTime, long transactionBalance, String userEmail) {
+    public TransactionSatuanModel(String transactionID, String transactionCategory, String transactionDate, String transactionTime, long transactionBalance, String userEmail, String tipePembayaran) {
         this.transactionID = transactionID;
         this.transactionCategory = transactionCategory;
         this.transactionDate = transactionDate;
         this.transactionTime = transactionTime;
         this.transactionBalance = transactionBalance;
         this.userEmail = userEmail;
+        this.tipePembayaran = tipePembayaran;
     }
 
     public TransactionSatuanModel() {

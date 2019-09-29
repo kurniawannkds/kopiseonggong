@@ -45,7 +45,14 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     @Override
     public int getItemCount() {
-        return transactionModel.getTransactionModelLists().size();
+        if(transactionModel!=null && transactionModel.getTransactionModelLists()!=null
+                && transactionModel.getTransactionModelLists().size()>0){
+            return transactionModel.getTransactionModelLists().size();
+        }
+        else {
+            return 0;
+        }
+
     }
 
     public class TransactionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{

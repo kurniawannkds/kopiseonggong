@@ -6,7 +6,7 @@
     <RelativeLayout
         android:id="@+id/layoutHeader"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="100dp"
         android:background="@drawable/bg_header"
         tools:ignore="MissingPrefix">
 

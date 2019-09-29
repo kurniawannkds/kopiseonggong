@@ -1,5 +1,6 @@
 package com.androiddevnkds.kopiseong.module.stock;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import com.androiddevnkds.kopiseong.BaseActivity;
 import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.databinding.ActivityStockBinding;
+import com.androiddevnkds.kopiseong.module.home.HomeActivity;
 import com.androiddevnkds.kopiseong.module.stock.stockStore.StockStoreFragment;
 import com.androiddevnkds.kopiseong.module.stock.stockWareHouse.StockWareHouseFragment;
 import com.androiddevnkds.kopiseong.utils.FragmentHelper;
@@ -51,6 +53,13 @@ public class StockActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     //end
 }

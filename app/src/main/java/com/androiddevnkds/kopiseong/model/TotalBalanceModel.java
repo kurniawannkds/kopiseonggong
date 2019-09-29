@@ -59,17 +59,28 @@ public class TotalBalanceModel {
         @SerializedName("total_pengeluaran")
         private long totalBalancePengeluaran;
 
-        @SerializedName("total_pajak")
-        private long totalBalancePajak;
+        @SerializedName("total_rekening_income")
+        private long totalBalancePemasukanRek;
+
+        @SerializedName("total_rekening_expense")
+        private long totalBalancePengeluaranRek;
+
+        @SerializedName("total_balance_hpp")
+        private long totalBalanceHpp;
+
 
         public TotalBalanceSatuan() {
         }
 
-        public TotalBalanceSatuan(int totalBalanceID, long totalBalancePemasukan, long totalBalancePengeluaran, long totalBalancePajak) {
+        public TotalBalanceSatuan(int totalBalanceID, long totalBalancePemasukan, long totalBalancePengeluaran,
+                                  long totalBalancePemasukanRek, long totalBalancePengeluaranRek,
+                                  long totalBalanceHpp) {
             this.totalBalanceID = totalBalanceID;
             this.totalBalancePemasukan = totalBalancePemasukan;
             this.totalBalancePengeluaran = totalBalancePengeluaran;
-            this.totalBalancePajak = totalBalancePajak;
+            this.totalBalancePemasukanRek = totalBalancePemasukanRek;
+            this.totalBalancePengeluaranRek = totalBalancePengeluaranRek;
+            this.totalBalanceHpp = totalBalanceHpp;
         }
 
         public int getTotalBalanceID() {
@@ -96,12 +107,28 @@ public class TotalBalanceModel {
             this.totalBalancePengeluaran = totalBalancePengeluaran;
         }
 
-        public long getTotalBalancePajak() {
-            return totalBalancePajak;
+        public long getTotalBalancePemasukanRek() {
+            return totalBalancePemasukanRek;
         }
 
-        public void setTotalBalancePajak(long totalBalancePajak) {
-            this.totalBalancePajak = totalBalancePajak;
+        public void setTotalBalancePemasukanRek(long totalBalancePemasukanRek) {
+            this.totalBalancePemasukanRek = totalBalancePemasukanRek;
+        }
+
+        public long getTotalBalancePengeluaranRek() {
+            return totalBalancePengeluaranRek;
+        }
+
+        public void setTotalBalancePengeluaranRek(long totalBalancePengeluaranRek) {
+            this.totalBalancePengeluaranRek = totalBalancePengeluaranRek;
+        }
+
+        public long getTotalBalanceHpp() {
+            return totalBalanceHpp;
+        }
+
+        public void setTotalBalanceHpp(long totalBalanceHpp) {
+            this.totalBalanceHpp = totalBalanceHpp;
         }
     }
 
@@ -113,16 +140,49 @@ public class TotalBalanceModel {
         @SerializedName("total_all_pengeluaran")
         private long totalAllPengeluaran;
 
-        @SerializedName("total_all_pajak")
-        private long totalAllPajak;
+        @SerializedName("total_all_rekening_income")
+        private long totalAllPemasukanRek;
+
+        @SerializedName("total_all_rekening_expense")
+        private long totalAllPengeluaranRek;
+
+        @SerializedName("total_all_hpp")
+        private long totalAllHpp;
 
         public TotalAllSum() {
         }
 
-        public TotalAllSum(long totalAllPemasukan, long totalAllPengeluaran, long totalAllPajak) {
+        public TotalAllSum(long totalAllPemasukan, long totalAllPengeluaran, long totalAllPemasukanRek,
+                           long totalAllPengeluaranRek, long totalAllHpp) {
             this.totalAllPemasukan = totalAllPemasukan;
             this.totalAllPengeluaran = totalAllPengeluaran;
-            this.totalAllPajak = totalAllPajak;
+            this.totalAllPemasukanRek = totalAllPemasukanRek;
+            this.totalAllPengeluaranRek = totalAllPengeluaranRek;
+            this.totalAllHpp = totalAllHpp;
+        }
+
+        public long getTotalAllPemasukanRek() {
+            return totalAllPemasukanRek;
+        }
+
+        public void setTotalAllPemasukanRek(long totalAllPemasukanRek) {
+            this.totalAllPemasukanRek = totalAllPemasukanRek;
+        }
+
+        public long getTotalAllPengeluaranRek() {
+            return totalAllPengeluaranRek;
+        }
+
+        public void setTotalAllPengeluaranRek(long totalAllPengeluaranRek) {
+            this.totalAllPengeluaranRek = totalAllPengeluaranRek;
+        }
+
+        public long getTotalAllHpp() {
+            return totalAllHpp;
+        }
+
+        public void setTotalAllHpp(long totalAllHpp) {
+            this.totalAllHpp = totalAllHpp;
         }
 
         public long getTotalAllPemasukan() {
@@ -139,14 +199,6 @@ public class TotalBalanceModel {
 
         public void setTotalAllPengeluaran(long totalAllPengeluaran) {
             this.totalAllPengeluaran = totalAllPengeluaran;
-        }
-
-        public long getTotalAllPajak() {
-            return totalAllPajak;
-        }
-
-        public void setTotalAllPajak(long totalAllPajak) {
-            this.totalAllPajak = totalAllPajak;
         }
     }
 }

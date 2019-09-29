@@ -75,6 +75,7 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
 
         HeaderHelper.initialize(mBinding.getRoot());
         homePresenter.getUserName();
+        mBinding.lyBottomNav.navigation.setSelectedItemId(R.id.home_menu);
     }
 
     @Override
@@ -96,18 +97,18 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
                         Intent intentTrans = new Intent(mContext, TransactionActivity.class);
                         intentTrans.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
                         startActivity(intentTrans);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            Objects.requireNonNull(getActivity()).finish();
-                        }
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//                            Objects.requireNonNull(getActivity()).finish();
+//                        }
 
                         return true;
                     case R.id.stock_menu:
                         Intent intentStock = new Intent(mContext, StockActivity.class);
                         intentStock.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
                         startActivity(intentStock);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                            Objects.requireNonNull(getActivity()).finish();
-                        }
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//                            Objects.requireNonNull(getActivity()).finish();
+//                        }
 
                         return true;
                 }

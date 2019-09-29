@@ -166,13 +166,15 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
     }
 
     @Override
-    public void showDiagram(long totalIncome, long totalExpense, long totalTax) {
+    public void showDiagram(long totalIncome, long totalExpense, long totalIncomeRek, long totalExpenseRek, long hpp) {
 
         AnimatedPieViewConfig config = new AnimatedPieViewConfig();
         config.startAngle(-90);
         config.addData(new SimplePieInfo(totalIncome, Color.parseColor(colorIncome),mataUangHelper.formatRupiah(totalIncome)));
-        config.addData(new SimplePieInfo(totalTax, Color.parseColor(colorTax),mataUangHelper.formatRupiah(totalTax)));
+        config.addData(new SimplePieInfo(totalIncomeRek, Color.parseColor(colorIncome),mataUangHelper.formatRupiah(totalIncomeRek)));
+        config.addData(new SimplePieInfo(hpp, Color.parseColor(colorTax),mataUangHelper.formatRupiah(hpp)));
         config.addData(new SimplePieInfo(totalExpense, Color.parseColor(colorExpense),mataUangHelper.formatRupiah(totalExpense)));
+        config.addData(new SimplePieInfo(totalExpenseRek, Color.parseColor(colorExpense),mataUangHelper.formatRupiah(totalExpenseRek)));
         config.drawText(true).focusAlphaType(AnimatedPieViewConfig.FOCUS_WITH_ALPHA_REV).strokeMode(false).textSize(13);
         config.selectListener(new OnPieSelectListener<IPieInfo>() {
             @Override
@@ -196,13 +198,15 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
     }
 
     @Override
-    public void showBalance(long totalIncome, long totalExpense, long totalTax, long avalaibleBalance, TotalBalanceModel totalBalanceModel) {
+    public void showBalance(long totalIncome, long totalExpense, long totalIncomeRek,long totalExpenseRek, long totalHpp, long avalaibleBalance, TotalBalanceModel totalBalanceModel) {
 
         totalBalanceModelGlobal = totalBalanceModel;
 
         mBinding.tvTotalIncome.setText(mataUangHelper.formatRupiah(totalIncome));
         mBinding.tvTotalExpense.setText(mataUangHelper.formatRupiah(totalExpense));
-        mBinding.tvTotalTax.setText(mataUangHelper.formatRupiah(totalTax));
+        mBinding.tvTotalIncomeRek.setText(mataUangHelper.formatRupiah(totalIncomeRek));
+        mBinding.tvTotalExpenseRek.setText(mataUangHelper.formatRupiah(totalExpenseRek));
+        mBinding.tvTotalHpp.setText(mataUangHelper.formatRupiah(totalHpp));
         mBinding.tvAvalaibleBalance.setText(mataUangHelper.formatRupiah(avalaibleBalance));
 
         balanceAdapter = new BalanceAdapter(mContext, totalBalanceModelGlobal);

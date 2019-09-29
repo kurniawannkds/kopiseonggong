@@ -17,27 +17,29 @@ import android.widget.Toast;
 
 import com.androiddevnkds.kopiseong.BaseFragment;
 import com.androiddevnkds.kopiseong.R;
+import com.androiddevnkds.kopiseong.databinding.DialogAddTransactionBinding;
 import com.androiddevnkds.kopiseong.databinding.FragmentLoginBinding;
 import com.androiddevnkds.kopiseong.module.home.HomeActivity;
 import com.androiddevnkds.kopiseong.module.login.LoginContract;
 import com.androiddevnkds.kopiseong.module.login.LoginPresenter;
 import com.androiddevnkds.kopiseong.module.login.model.LoginCredential;
 import com.androiddevnkds.kopiseong.module.register.RegisterFragment;
+import com.androiddevnkds.kopiseong.module.transaction.TransactionFragment;
 import com.androiddevnkds.kopiseong.utils.FragmentHelper;
 import com.androiddevnkds.kopiseong.utils.HeaderHelper;
 import com.androiddevnkds.kopiseong.utils.K;
 
 import java.util.Objects;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddTransactionFragment extends BaseFragment implements LoginContract.loginView {
+public class AddTransactionFragment extends BaseFragment implements AddTransactionContract.addTransactionView {
 
-    private FragmentLoginBinding mBinding;
+    private DialogAddTransactionBinding mBinding;
     private Context mContext;
-    private String email = "", password = "";
-    private LoginPresenter loginPresenter;
 
     public AddTransactionFragment() {
         // Required empty public constructor
@@ -58,8 +60,8 @@ public class AddTransactionFragment extends BaseFragment implements LoginContrac
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false);
-        loginPresenter = new LoginPresenter(this);
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_add_transaction, container, false);
+
 
         initUI();
         initEvent();
@@ -70,57 +72,24 @@ public class AddTransactionFragment extends BaseFragment implements LoginContrac
     @Override
     public void initUI() {
 
-        HeaderHelper.initialize(mBinding.getRoot());
-        HeaderHelper.setLabelText("Login");
-        HeaderHelper.setLabelVisible(true);
+
     }
 
     @Override
     public void initEvent() {
 
-        mBinding.btnLogin.setOnClickListener(new View.OnClickListener() {
+
+        mBinding.ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-
-                email = mBinding.etUserName.getText().toString().trim();
-                password = mBinding.etUserPassword.getText().toString().trim();
-
-                LoginCredential loginCredential = new LoginCredential(email,password);
-                loginPresenter.login(loginCredential);
-
+                FragmentHelper.fragmentChanger(R.id.fl_fragment_container,
+                        ((AppCompatActivity) mContext).getSupportFragmentManager(),
+                        new TransactionFragment(), null, false);
             }
         });
-
-            mBinding.tvRegister.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    FragmentHelper.fragmentChanger(R.id.fl_fragment_container,
-                            ((AppCompatActivity) mContext).getSupportFragmentManager(),
-                            new RegisterFragment(), null, false);
-                }
-            });
-
     }
 
-//    @Override
-//    protected void successLogin(UserInfoModel userResponseModel) {
-//        super.successLogin(userResponseModel);
-//
-//
-//
-//
-//
-//    }
-
-//    @Override
-//    protected void failedLogin(String message) {
-//        super.failedLogin(message);
-//
-//        Toast.makeText(mContext,message,Toast.LENGTH_SHORT).show();
-//
-//    }
 
     @Override
     public void showProgressBar() {
@@ -137,28 +106,27 @@ public class AddTransactionFragment extends BaseFragment implements LoginContrac
     }
 
     @Override
-    public void onSuccess() {
-
-        Intent intent = new Intent(mContext, HomeActivity.class);
-        startActivity(intent);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Objects.requireNonNull(getActivity()).finish();
-        }
+    public void onFailedGetAllAPI(String message) {
+        hideProgressBar();
+        showError(message);
     }
 
-    @Override
-    public void onFailed(int tipe,String message) {
 
-        //email
-        if(tipe==1){
+    private void showError(String message){
 
-            mBinding.etUserName.setError(message);
-        }
-        else if(tipe==2){
-            mBinding.etUserPassword.setError(message);
-        }
-        else {
-            Toast.makeText(mContext,message,Toast.LENGTH_SHORT).show();
-        }
+        final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.ERROR_TYPE);
+        pDialog.setTitleText(message);
+        pDialog.setConfirmText("Yes");
+        pDialog.showCancelButton(false);
+        pDialog.setCanceledOnTouchOutside(false);
+        pDialog.show();
+
+        pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sDialog) {
+
+                pDialog.dismiss();
+            }
+        });
     }
 }

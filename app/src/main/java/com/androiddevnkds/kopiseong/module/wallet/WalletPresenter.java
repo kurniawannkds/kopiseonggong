@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 public class WalletPresenter implements WalletContract.walletPresenter {
 
     private WalletContract.walletView walletView;
-    private long income, expense, tax, avalaible;
+    private long income=0, expense=0,incomeRek=0, expenseRek=0, hpp=0, avalaible=0;
     private String userName, status;
 
     public WalletPresenter(WalletContract.walletView walletView){
@@ -61,13 +61,15 @@ public class WalletPresenter implements WalletContract.walletPresenter {
 
         expense = totalBalanceModel.getTotalAllSum().getTotalAllPengeluaran();
         income = totalBalanceModel.getTotalAllSum().getTotalAllPemasukan();
-        tax = totalBalanceModel.getTotalAllSum().getTotalAllPajak();
+        incomeRek = totalBalanceModel.getTotalAllSum().getTotalAllPemasukanRek();
+        expenseRek = totalBalanceModel.getTotalAllSum().getTotalAllPengeluaranRek();
+        hpp = totalBalanceModel.getTotalAllSum().getTotalAllHpp();
 
-        avalaible = income - expense - tax;
+        avalaible = (income + incomeRek) - expense - hpp - expenseRek;
 
         walletView.hideProgressBar();
-        walletView.showDiagram(income,expense,tax);
-        walletView.showBalance(income,expense,tax,avalaible,totalBalanceModel);
+        walletView.showDiagram(income,expense,incomeRek,expenseRek,hpp);
+        walletView.showBalance(income,expense,incomeRek,expenseRek,hpp,avalaible,totalBalanceModel);
     }
 
     @Override

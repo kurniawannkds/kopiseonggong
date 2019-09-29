@@ -9,10 +9,26 @@
         android:layout_height="match_parent"
         android:background="@color/colorAccent2">
 
-        <include
-            android:id="@+id/ly_header_data"
-            layout="@layout/header_content" />
+        <ProgressBar
+            android:id="@+id/pb_bar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
 
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorNavigation">
+
+            <include
+                android:id="@+id/ly_bottom_nav"
+                layout="@layout/bottom" />
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -28,40 +44,33 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="50dp"
-                        android:layout_gravity="center_vertical">
-
-                        <com.razerdp.widget.animatedpieview.AnimatedPieView
-                            android:id="@+id/mainPieChart"
-                            android:layout_centerHorizontal="true"
-                            android:layout_width="400dp"
-                            android:layout_height="400dp"
-                            android:minHeight="400dp"
-                            android:minWidth="400dp" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="50dp">
 
                         <LinearLayout
-                            android:layout_centerHorizontal="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/mainPieChart"
+                            android:layout_centerHorizontal="true"
                             android:background="@null"
                             android:orientation="horizontal">
                             //need
+
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/mainPieChart"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginBottom="10dp"
                                 android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="10dp"
+                                android:layout_marginBottom="10dp"
                                 android:background="@null"
                                 android:orientation="horizontal">
 
@@ -69,72 +78,77 @@
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:layout_alignParentTop="true"
-                                    android:background="#37DC74"
-                                    />
+                                    android:background="#37DC74" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
                                     android:gravity="center"
                                     android:text=" Income"
-                                    android:textStyle="bold"
-                                    android:layout_gravity="center_vertical"
-                                    android:textSize="17sp" />
+                                    android:textSize="17sp"
+                                    android:textStyle="bold" />
 
                             </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginBottom="10dp"
                                 android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="10dp"
+                                android:layout_marginBottom="10dp"
                                 android:orientation="horizontal">
 
                                 <ImageView
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
-                                    android:background="#FFA340"
-                                    />
+                                    android:background="#FFA340" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
                                     android:gravity="center"
                                     android:text=" Tax"
-                                    android:textStyle="bold"
-                                    android:layout_gravity="center_vertical"
-                                    android:textSize="17sp" />
+                                    android:textSize="17sp"
+                                    android:textStyle="bold" />
 
                             </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginBottom="10dp"
                                 android:layout_marginLeft="10dp"
+                                android:layout_marginTop="10dp"
                                 android:layout_marginRight="10dp"
+                                android:layout_marginBottom="10dp"
                                 android:orientation="horizontal">
 
                                 <ImageView
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
-                                    android:background="#f5211d"
-                                    />
+                                    android:background="#f5211d" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
                                     android:gravity="center"
                                     android:text=" Expense"
-                                    android:textStyle="bold"
-                                    android:layout_gravity="center_vertical"
-                                    android:textSize="17sp" />
+                                    android:textSize="17sp"
+                                    android:textStyle="bold" />
 
                             </LinearLayout>
                         </LinearLayout>
+
+                        <com.razerdp.widget.animatedpieview.AnimatedPieView
+                            android:id="@+id/mainPieChart"
+                            android:layout_width="400dp"
+                            android:layout_height="400dp"
+                            android:layout_centerHorizontal="true"
+                            android:minWidth="400dp"
+                            android:minHeight="400dp" />
 
                     </RelativeLayout>
 
@@ -143,8 +157,8 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -158,194 +172,255 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
                             android:gravity="center"
                             android:text="Available Balance"
-                            android:layout_marginTop="5dp"
-                            android:textStyle="bold"
-                            android:textSize="20sp" />
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
 
                         <me.grantland.widget.AutofitTextView
-                            android:layout_gravity="center_horizontal"
-                            android:singleLine="true"
-                            android:textAlignment="center"
                             android:id="@+id/tv_avalaible_balance"
                             android:layout_width="500dp"
                             android:layout_height="wrap_content"
-                            android:text="" />
+                            android:layout_gravity="center_horizontal"
+                            android:singleLine="true"
+                            android:text=""
+                            android:textAlignment="center" />
 
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="fill_parent"
-                        android:layout_height="2dp"
-                        android:background="@color/colorBlack"
-                        android:layout_margin="10dp"
-                        android:layout_below="@+id/layoutAtasAvalaible"
-                        />
-
-                    <LinearLayout
+                    <ScrollView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="5dp"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:gravity="center"
-                            android:paddingRight="10dp"
-                            android:paddingLeft="10dp"
-                            android:paddingBottom="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="10dp"
                             android:orientation="vertical">
-
-                            //Total Income
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:gravity="center"
-                                android:orientation="horizontal">
+                                android:orientation="vertical"
+                                android:paddingLeft="10dp"
+                                android:paddingRight="10dp"
+                                android:paddingBottom="10dp">
+
+                                //Total Income
 
                                 <LinearLayout
-                                    android:layout_width="200dp"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
                                     android:gravity="center"
-                                    android:layout_marginRight="10dp"
-                                    android:orientation="vertical">
+                                    android:orientation="horizontal">
 
-                                    <ImageView
-                                        android:layout_width="80dp"
-                                        android:layout_height="80dp"
-                                        android:src="@drawable/icons8_request_money_48"
-                                        />
-
-                                    <TextView
-                                        android:layout_width="match_parent"
+                                    <LinearLayout
+                                        android:layout_width="200dp"
                                         android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginRight="10dp"
                                         android:gravity="center"
-                                        android:text="Cash In"
-                                        android:textSize="20sp" />
+                                        android:orientation="vertical">
 
-                                    //Total Expense
+                                        <ImageView
+                                            android:layout_width="80dp"
+                                            android:layout_height="80dp"
+                                            android:src="@drawable/icons8_request_money_48" />
 
-                                    <me.grantland.widget.AutofitTextView
-                                        android:singleLine="true"
-                                        android:id="@+id/tv_total_income"
-                                        android:layout_width="match_parent"
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:text="Cash In"
+                                            android:textSize="20sp" />
+
+                                        //Total Expense
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_total_income"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="7dp"
+                                            android:gravity="center"
+                                            android:singleLine="true"
+                                            android:textAlignment="center"
+                                            android:textSize="17sp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="200dp"
                                         android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
                                         android:gravity="center"
-                                        android:textAlignment="center"
-                                        android:layout_marginBottom="7dp"
-                                        android:textSize="17sp" />
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:text="Cash Out"
+                                            android:textSize="20sp" />
+
+                                        <View
+                                            android:layout_width="80dp"
+                                            android:layout_height="80dp"
+                                            android:background="@drawable/icons8_initiate_money_transfer_48" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_total_expense"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="7dp"
+                                            android:gravity="center"
+                                            android:singleLine="true"
+                                            android:textAlignment="center"
+                                            android:textSize="17sp" />
+
+                                    </LinearLayout>
                                 </LinearLayout>
+                                //Total Current Saving
 
                                 <LinearLayout
-                                    android:layout_width="200dp"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
+                                    android:layout_marginTop="10dp"
                                     android:gravity="center"
-                                    android:orientation="vertical">
-                                    <View
-                                        android:layout_width="80dp"
-                                        android:layout_height="80dp"
-                                        android:background="@drawable/icons8_initiate_money_transfer_48"
-                                        />
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:text="Cash Out"
-                                        android:textSize="20sp" />
-                                    <me.grantland.widget.AutofitTextView
-                                        android:singleLine="true"
-                                        android:textAlignment="center"
-                                        android:id="@+id/tv_total_expense"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:layout_marginBottom="7dp"
-                                        android:textSize="17sp" />
+                                    android:orientation="horizontal">
 
+                                    <LinearLayout
+                                        android:layout_width="200dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginRight="10dp"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <ImageView
+                                            android:layout_width="80dp"
+                                            android:layout_height="80dp"
+                                            android:src="@drawable/icons8_request_money_48" />
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:text="Rek In"
+                                            android:textSize="20sp" />
+
+                                        //Total Expense
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_total_income_rek"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="7dp"
+                                            android:gravity="center"
+                                            android:singleLine="true"
+                                            android:textAlignment="center"
+                                            android:textSize="17sp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="200dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:gravity="center"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="center"
+                                            android:text="Rek Out"
+                                            android:textSize="20sp" />
+
+                                        <View
+                                            android:layout_width="80dp"
+                                            android:layout_height="80dp"
+                                            android:background="@drawable/icons8_initiate_money_transfer_48" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_total_expense_rek"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="7dp"
+                                            android:gravity="center"
+                                            android:singleLine="true"
+                                            android:textAlignment="center"
+                                            android:textSize="17sp" />
+
+                                    </LinearLayout>
                                 </LinearLayout>
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="center"
+                                    android:text="Hpp"
+                                    android:textSize="20sp" />
+
+                                <me.grantland.widget.AutofitTextView
+                                    android:id="@+id/tv_total_hpp"
+                                    android:layout_width="200dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="7dp"
+                                    android:gravity="center"
+                                    android:singleLine="true"
+                                    android:textSize="17sp" />
+
                             </LinearLayout>
-                            //Total Current Saving
+
 
                             <TextView
-                                android:layout_marginTop="5dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="Tax"
+                                android:text="Total Balance/month"
                                 android:textSize="20sp" />
 
-                            <me.grantland.widget.AutofitTextView
-                                android:singleLine="true"
-                                android:id="@+id/tv_total_tax"
-                                android:layout_width="200dp"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:layout_marginBottom="7dp"
-                                android:textSize="17sp" />
+                            <View
+                                android:layout_width="fill_parent"
+                                android:layout_height="2dp"
+                                android:layout_below="@+id/layoutAtasAvalaible"
+                                android:layout_margin="10dp"
+                                android:background="@color/colorBlack" />
+
+                            <android.support.design.widget.CoordinatorLayout
+                                android:id="@+id/contraint_rv_wallet"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <android.support.v7.widget.RecyclerView
+                                    android:id="@+id/rv_transaction_wallet"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="90dp"
+                                    android:layout_margin="15dp" />
+
+                            </android.support.design.widget.CoordinatorLayout>
+
 
                         </LinearLayout>
+                    </ScrollView>
 
-                        <View
-                            android:layout_width="fill_parent"
-                            android:layout_height="2dp"
-                            android:background="@color/colorBlack"
-                            android:layout_margin="10dp"
-                            android:layout_below="@+id/layoutAtasAvalaible"
-                            />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="Total Balance/month"
-                            android:textSize="20sp" />
-
-                        <android.support.design.widget.CoordinatorLayout
-                            android:id="@+id/contraint_rv_wallet"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <android.support.v7.widget.RecyclerView
-                                android:layout_margin="15dp"
-                                android:id="@+id/rv_transaction_wallet"
-                                android:layout_width="match_parent"
-                                android:layout_height="90dp" />
-
-                        </android.support.design.widget.CoordinatorLayout>
-
-
-                    </LinearLayout>
+                    <View
+                        android:layout_width="fill_parent"
+                        android:layout_height="2dp"
+                        android:layout_below="@+id/layoutAtasAvalaible"
+                        android:layout_margin="10dp"
+                        android:background="@color/colorBlack" />
 
                 </LinearLayout>
 
             </LinearLayout>
 
-
-
-        </RelativeLayout>
-
-        <include
-            android:id="@+id/ly_black"
-            layout="@layout/layout_black" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorNavigation"
-            android:layout_alignParentBottom="true">
-
-            <include
-                android:id="@+id/ly_bottom_nav"
-                layout="@layout/bottom" />
 
         </RelativeLayout>
 
@@ -355,15 +430,15 @@
             android:layout_height="match_parent"
             android:alpha="0.8"
             android:background="@color/colorBlack"
-            android:visibility="gone"/>
-
-        <ProgressBar
-            android:id="@+id/pb_bar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:visibility="gone" />
+
+        <include
+            android:id="@+id/ly_black"
+            layout="@layout/layout_black" />
+
+        <include
+            android:id="@+id/ly_header_data"
+            layout="@layout/header_content" />
 
     </RelativeLayout>
 

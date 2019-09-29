@@ -12,6 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,35 +25,36 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.androiddevnkds.kopiseong.R;
-import com.androiddevnkds.kopiseong.data.DataManager;
+
 import com.androiddevnkds.kopiseong.databinding.FragmentTransactionBinding;
 import com.androiddevnkds.kopiseong.model.CategoryModel;
 import com.androiddevnkds.kopiseong.model.DetailTransactionModel;
+import com.androiddevnkds.kopiseong.model.ListUserModel;
 import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.ProductModel;
-import com.androiddevnkds.kopiseong.model.TotalBalanceModel;
+
+import com.androiddevnkds.kopiseong.model.StockModel;
 import com.androiddevnkds.kopiseong.model.TransactionModel;
 import com.androiddevnkds.kopiseong.model.TransactionSatuanModel;
-import com.androiddevnkds.kopiseong.model.UserInfoModel;
+import com.androiddevnkds.kopiseong.module.addTransaction.AddTransactionActivity;
+import com.androiddevnkds.kopiseong.module.addTransaction.AddTransactionFragment;
 import com.androiddevnkds.kopiseong.module.home.HomeActivity;
-import com.androiddevnkds.kopiseong.module.register.model.RegisterInteractor;
+import com.androiddevnkds.kopiseong.module.login.LoginFragment;
 import com.androiddevnkds.kopiseong.module.stock.StockActivity;
-import com.androiddevnkds.kopiseong.module.wallet.WalletContract;
 import com.androiddevnkds.kopiseong.utils.DateAndTime;
+
 import com.androiddevnkds.kopiseong.utils.FragmentHelper;
 import com.androiddevnkds.kopiseong.utils.HeaderHelper;
 import com.androiddevnkds.kopiseong.utils.K;
 import com.androiddevnkds.kopiseong.utils.MataUangHelper;
-import com.androiddevnkds.kopiseong.utils.listener.OnItemClickListener;
+
 import com.androiddevnkds.kopiseong.adapter.DetailTransactionAdapter;
 import com.androiddevnkds.kopiseong.adapter.ListCustomAdapter;
 import com.androiddevnkds.kopiseong.adapter.TransactionAdapter;
 import com.androiddevnkds.kopiseong.BaseFragment;
-import com.androiddevnkds.kopiseong.module.home.WelcomeFragment;
+import com.androiddevnkds.kopiseong.utils.listener.OnItemClickListener;
 
 
 import java.text.SimpleDateFormat;
@@ -60,6 +62,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.view.View.GONE;
 
@@ -72,28 +76,19 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
 
     private Context mContext;
     private TransactionModel transactionModelGlobal;
-    private TransactionSatuanModel transactionModelAdd;
-    private int page = 0, rows = 0, totalRows =0;
+    private int page = 0, rows = 0;
     private TransactionAdapter transactionAdapter;
-    private DetailTransactionAdapter detailTransactionAdapter, detailTransactionAddAdapter;
-    private boolean isPanelShown = false, isDone = false;
-    private DetailTransactionModel detailTransactionModelAdd;
-    private List<DetailTransactionModel.DetailTransaction> detailTransactionList;
+    private DetailTransactionAdapter detailTransactionAdapter;
+    private boolean isPanelShown = false;
 
-    //untuk tambah
-    private String transIDADD = "", transCatAdd = "", transDateAdd = "", transTimeAdd = "", transUserEmailAdd = "", detailProductAdd = "";
-    private int transDateSortAdd = 0, transPriceAdd = 0, detailJumlahAdd = 0, detailPriceAdd = 0, detailPriceAddSatuan = 0;
+    private boolean isFilter = false, isDialogCustome = false, isDetailTrans = false;
 
-    private int selectedPositionCategory = -1, selectedPositionUser = -1, selectedPositionProduct = -1;
-    private int filterPosCat = -1, filterPosUser = -1, filterPosMethod = -1;
-    private boolean fromFilter = false;
-    private boolean isPrice = false, isCustomer = false, isFilter = false;
+    private CategoryModel categoryForList;
+    private PaymentMethodeModel paymentForList;
+    private ListUserModel userForList;
 
-    private CategoryModel categoryModelGlobal;
-    private int flagListChoosen = -1, sizeArray = 0;
     private ListCustomAdapter listCustomAdapter;
     private MataUangHelper mataUangHelper;
-    private ProductModel productModelGlobal;
     private TransactionPresenter transactionPresenter;
 
     //date
@@ -103,14 +98,13 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
 
     //filter
     private String filterCategory = "NONE", filterDate = "NONE", filterUser = "NONE", filterMethod = "NONE";
-    private PaymentMethodeModel paymentMethodeModelGlobal;
 
     @Override
     public void onResume() {
         super.onResume();
-
         //callAllTransaction();
     }
+
 
     public TransactionFragment() {
         // Required empty public constructor
@@ -151,7 +145,6 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
 
         mataUangHelper = new MataUangHelper();
         mBinding.lyBottomNav.navigation.setSelectedItemId(R.id.transaction_menu);
-        detailTransactionList = new ArrayList<>();
 
         DateAndTime dateAndTime = new DateAndTime();
         mBinding.lyHeaderData.tvDate.setText(dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_STRING));
@@ -175,7 +168,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                         return true;
                     case R.id.transaction_menu:
                         Intent intentTrans = new Intent(mContext, TransactionActivity.class);
-                        intentTrans.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
+                        intentTrans.putExtra(K.KEY_STOCK, K.VALUE_KEY_STOCK_WAREHOUSE);
                         startActivity(intentTrans);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             Objects.requireNonNull(getActivity()).finish();
@@ -184,7 +177,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                         return true;
                     case R.id.stock_menu:
                         Intent intentStock = new Intent(mContext, StockActivity.class);
-                        intentStock.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
+                        intentStock.putExtra(K.KEY_STOCK, K.VALUE_KEY_STOCK_WAREHOUSE);
                         startActivity(intentStock);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                             Objects.requireNonNull(getActivity()).finish();
@@ -210,47 +203,19 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
             public void onClick(View view) {
                 if (isPanelShown) {
                     slideUpDown(mBinding.lyBottomUpSliderFilter.bottomSheet);
-                } else {
+                } else if(isDialogCustome){
+                    isDialogCustome = false;
+                    mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.GONE);
+                }else {
+                    isDetailTrans = false;
                     mBinding.lyDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(View.GONE);
-                    mBinding.lyAddTransaction.lyDialogLayoutAddTransaction.setVisibility(View.GONE);
-
                 }
                 mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
             }
         });
 
-        mBinding.lyBlack2.lyBlack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.GONE);
-                mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
-                mBinding.lyBlack2.lyBlack.setVisibility(View.GONE);
-            }
-        });
 
         //--------------------------- FILTER --------------------------------------------------------
-
-        //category not choosen -- do filter
-        mBinding.lyBottomUpSliderFilter.relatifCategoryNotChoosen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                fromFilter = true;
-                if (categoryModelGlobal != null && categoryModelGlobal.getCategorySatuanList() != null &&
-                        categoryModelGlobal.getCategorySatuanList().size() > 0) {
-
-                    sizeArray = categoryModelGlobal.getCategorySatuanList().size();
-                    if (sizeArray > 0) {
-
-                        filterPosCat = findPosition(filterCategory, 1);
-                        callCustomList(1, filterPosCat, sizeArray);
-                    }
-
-                } else {
-                    transactionPresenter.getCategoryTransaction();
-                }
-            }
-        });
 
         //category choosen, disappear border
         mBinding.lyBottomUpSliderFilter.relatifCategoryChoosen.setOnClickListener(new View.OnClickListener() {
@@ -264,26 +229,12 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
             }
         });
 
-
-        //payment not choosen -- do filter
-        mBinding.lyBottomUpSliderFilter.relatifMethodNotChoosen.setOnClickListener(new View.OnClickListener() {
+        //categorynot choosen, show list cat
+        mBinding.lyBottomUpSliderFilter.relatifCategoryNotChoosen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                fromFilter = true;
-                if (paymentMethodeModelGlobal != null && paymentMethodeModelGlobal.getPaymentMethodeSatuanList() != null &&
-                        paymentMethodeModelGlobal.getPaymentMethodeSatuanList().size() > 0) {
-
-                    sizeArray = paymentMethodeModelGlobal.getPaymentMethodeSatuanList().size();
-                    if (sizeArray > 0) {
-
-                        filterPosMethod = findPosition(filterMethod, 4);
-                        callCustomList(4, filterPosMethod, sizeArray);
-                    }
-
-                } else {
-                    transactionPresenter.getAllPaymentMethod();
-                }
+                transactionPresenter.showListCategory(categoryForList,filterCategory);
             }
         });
 
@@ -299,16 +250,25 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
             }
         });
 
-        //date filter not choosen
+        //payment not choosen, show payment list
+        mBinding.lyBottomUpSliderFilter.relatifMethodNotChoosen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                transactionPresenter.showListPayment(paymentForList,filterMethod);
+            }
+        });
+
+        //date filter not choosen, show date
         mBinding.lyBottomUpSliderFilter.relatifDateNotChoosen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                fromFilter = true;
                 showDate();
             }
         });
 
+        //date filter choosen, disappear border
         mBinding.lyBottomUpSliderFilter.relatifDateChoosen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -322,6 +282,28 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
             }
         });
 
+        //user not choosen, show userList
+        mBinding.lyBottomUpSliderFilter.relatifUserNotChoosen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                transactionPresenter.showListUser(userForList,filterUser);
+            }
+        });
+
+        //user choosen, disappear border
+        mBinding.lyBottomUpSliderFilter.relatifUserChoosen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mBinding.lyBottomUpSliderFilter.tvFilterUser.setText("");
+                filterUser = "NONE";
+                mBinding.lyBottomUpSliderFilter.relatifUserChoosen.setVisibility(GONE);
+                mBinding.lyBottomUpSliderFilter.relatifUserNotChoosen.setVisibility(View.VISIBLE);
+            }
+        });
+
+        //submit filter
         mBinding.lyBottomUpSliderFilter.btnSumbit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -331,11 +313,11 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 mBinding.lyBlack.lyBlack.setVisibility(GONE);
                 slideUpDown(mBinding.lyBottomUpSliderFilter.bottomSheet);
                 isFilter = true;
-                transactionPresenter.getAllTransaction(page,filterCategory,filterDate,filterUser,filterMethod);
+                transactionPresenter.getAllTransaction(page, filterCategory, filterDate, filterUser, filterMethod);
             }
         });
 
-        //-------------------------------------------------------------------------------------------
+        //---------------------------------------- filter finish------------------------------------------------------------
 
 
         mBinding.btnNext.setOnClickListener(new View.OnClickListener() {
@@ -344,23 +326,22 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 mBinding.btnPrevius.setVisibility(View.VISIBLE);
                 //hit api
                 page++;
-                rows = rows - (page*20);
-                if(transactionModelGlobal.getTransactionModelLists().size()>(page*20)){
+                rows = rows - (page * 20);
+                if (transactionModelGlobal.getTransactionModelLists().size() > (page * 20)) {
 
                     TransactionModel transactionModel = new TransactionModel();
                     int sizeGlobal = transactionModelGlobal.getTransactionModelLists().size();
                     List<TransactionSatuanModel> transactionSatuanModelList = new ArrayList<>();
-                    if(sizeGlobal -(page*20) >20){
-                        transactionSatuanModelList = transactionModelGlobal.getTransactionModelLists().subList(page*20,(page*20)+20);
-                    }
-                    else {
-                        transactionSatuanModelList = transactionModelGlobal.getTransactionModelLists().subList(page*20,transactionModelGlobal.getTransactionModelLists().size());
+                    if (sizeGlobal - (page * 20) > 20) {
+                        transactionSatuanModelList = transactionModelGlobal.getTransactionModelLists().subList(page * 20, (page * 20) + 20);
+                    } else {
+                        transactionSatuanModelList = transactionModelGlobal.getTransactionModelLists().subList(page * 20, transactionModelGlobal.getTransactionModelLists().size());
                     }
 
                     transactionModel.setTransactionModelLists(transactionSatuanModelList);
-                    setAdapter(transactionModel,"");
-                }
-                else {
+                    setAdapter(transactionModel, "");
+                } else {
+                    Log.e("trans","hit baru");
                     transactionPresenter.getAllTransaction(page, filterCategory, filterDate, filterUser, filterMethod);
                 }
 
@@ -374,9 +355,9 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 rows = rows + 20;
                 //hit api
                 TransactionModel transactionModel = new TransactionModel();
-                List<TransactionSatuanModel> transactionSatuanModelList = transactionModelGlobal.getTransactionModelLists().subList(page*20,(page*20)+20);
+                List<TransactionSatuanModel> transactionSatuanModelList = transactionModelGlobal.getTransactionModelLists().subList(page * 20, (page * 20) + 20);
                 transactionModel.setTransactionModelLists(transactionSatuanModelList);
-                setAdapter(transactionModel,"");
+                setAdapter(transactionModel, "");
 
             }
         });
@@ -391,207 +372,18 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
             }
         });
 
-
-        //--------------------------------ADD DATA---------------------------------------------------------
         mBinding.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                transactionPresenter.initialAddTransactionLayout();
-
-                mBinding.lyAddTransaction.lyDialogLayoutAddTransaction.setVisibility(View.VISIBLE);
-                mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
-
-            }
-        });
-
-        //submit transaction
-        mBinding.lyAddTransaction.btnSubmitAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (!transCatAdd.equalsIgnoreCase("") && transPriceAdd != 0 && detailTransactionList != null && detailTransactionList.size() > 0) {
-                    transactionModelAdd = new TransactionSatuanModel();
-
-                    transIDADD = transDateAdd + transTimeAdd;
-                    transactionPresenter.addNewTransaction(transIDADD, transDateSortAdd, transDateAdd, transTimeAdd,
-                            transUserEmailAdd, transCatAdd, transPriceAdd, detailTransactionList);
-
-                } else {
-
-                    if (transPriceAdd == 0) {
-                        Toast.makeText(mContext, "Please fill total price on the left", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(mContext, "Please detail transaction on the right", Toast.LENGTH_SHORT).show();
-
-                    }
-                }
-
-            }
-        });
-
-        mBinding.lyAddTransaction.btnAddDetail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (!detailProductAdd.equalsIgnoreCase("") && detailJumlahAdd != 0) {
-
-                    DetailTransactionModel.DetailTransaction detailTransactionSatuan = new DetailTransactionModel().new DetailTransaction();
-                    detailTransactionSatuan.setDetailProductID(detailProductAdd);
-                    detailTransactionSatuan.setDetailJumlah(detailJumlahAdd);
-                    detailTransactionSatuan.setDetailTransactionID(transIDADD);
-                    detailTransactionList.add(detailTransactionSatuan);
-
-                    DetailTransactionModel detailTemp = new DetailTransactionModel();
-                    detailTemp.setDetailTransactionList(detailTransactionList);
-                    detailTransactionAddAdapter.setNewItemList(detailTemp);
-                    detailTransactionAddAdapter.notifyDataSetChanged();
-
-                } else {
-                    if (detailProductAdd.equalsIgnoreCase("")) {
-                        Toast.makeText(mContext, "Please fill product on the right", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(mContext, "Please fill quantity of product on the right", Toast.LENGTH_SHORT).show();
-                    }
+                Intent intent = new Intent(mContext, AddTransactionActivity.class);
+                startActivity(intent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    Objects.requireNonNull(getActivity()).finish();
                 }
             }
         });
 
-        //price transaction
-        mBinding.lyAddTransaction.layoutRelatifPrice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                mBinding.lyDoneEditText.etNumber.setVisibility(View.VISIBLE);
-                mBinding.lyDoneEditText.etKarakter.setVisibility(View.GONE);
-
-                mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.VISIBLE);
-                mBinding.lyBlack2.lyBlack.setVisibility(View.VISIBLE);
-
-                isPrice = true;
-            }
-        });
-
-        // customer transaction
-        mBinding.lyAddTransaction.layoutRelatifCustomer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                mBinding.lyDoneEditText.etNumber.setVisibility(View.GONE);
-                mBinding.lyDoneEditText.etKarakter.setVisibility(View.VISIBLE);
-
-                mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.VISIBLE);
-                mBinding.lyBlack2.lyBlack.setVisibility(View.VISIBLE);
-
-                isCustomer = true;
-            }
-        });
-
-
-        //edit text
-        mBinding.lyDoneEditText.btnDoneEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String temp = "";
-                if (isPrice) {
-
-                    temp = mBinding.lyDoneEditText.etNumber.getText().toString().trim().replace(",","");
-
-                    try {
-                        transPriceAdd = Integer.parseInt(temp);
-                        String uang = mataUangHelper.formatRupiah(transPriceAdd);
-                        mBinding.lyAddTransaction.tvPrice.setText(uang);
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
-                } else if (isCustomer) {
-
-                    transUserEmailAdd = mBinding.lyDoneEditText.etKarakter.getText().toString().trim();
-                    mBinding.lyAddTransaction.tvCutsomer.setText(transUserEmailAdd);
-
-                } else {
-
-                    //jumlah
-                    temp = mBinding.lyDoneEditText.etNumber.getText().toString().trim().replace(",","");
-                    try {
-                        detailJumlahAdd = Integer.parseInt(temp);
-                        if (detailPriceAddSatuan != 0) {
-
-                            detailPriceAdd = detailJumlahAdd * detailPriceAddSatuan;
-                            String uang = mataUangHelper.formatRupiah(detailPriceAdd);
-                            mBinding.lyAddTransaction.tvDetailPrice.setText(uang);
-                        }
-                        mBinding.lyAddTransaction.tvJumlah.setText(temp);
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
-
-                    Toast.makeText(mContext, "satuan :" + detailPriceAddSatuan, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(mContext, "jumlah :" + detailJumlahAdd, Toast.LENGTH_SHORT).show();
-
-                }
-
-                isCustomer = false;
-                isPrice = false;
-
-                mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.GONE);
-                mBinding.lyBlack2.lyBlack.setVisibility(View.GONE);
-            }
-        });
-
-
-        //category transaction
-        mBinding.lyAddTransaction.layoutRelatifCategory.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                mBinding.lyDialogCustomeList.tvDialogListLabel.setText("Choose Category Transaction");
-                transactionPresenter.getCategoryTransaction();
-
-            }
-        });
-
-        //date
-        mBinding.lyAddTransaction.layoutRelatifDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                showDate();
-            }
-        });
-
-
-        //time
-        mBinding.lyAddTransaction.layoutRelatifTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                showTime();
-            }
-        });
-
-        //product
-        mBinding.lyAddTransaction.layoutRelatifProduk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                mBinding.lyDialogCustomeList.tvDialogListLabel.setText("Choose Product");
-                transactionPresenter.getAllProduct();
-            }
-        });
-
-        mBinding.lyAddTransaction.layoutRelatifJumlah.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mBinding.lyDoneEditText.etNumber.setVisibility(View.VISIBLE);
-                mBinding.lyDoneEditText.etKarakter.setVisibility(View.GONE);
-
-                mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.VISIBLE);
-                mBinding.lyBlack2.lyBlack.setVisibility(View.VISIBLE);
-            }
-        });
-
-        //------------------------------- sampai sini -------------------------------------------------------
     }
 
     private void slideUpDown(final View view) {
@@ -614,184 +406,27 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
         }
     }
 
-    private int findPosition(String kata, int tipe) {
-        ArrayList<String> temp = new ArrayList<>();
-        int tempPosition = -1;
-
-        if (!kata.equalsIgnoreCase("")) {
-            //category
-            if (tipe == 1) {
-
-                for (int i = 0; i < categoryModelGlobal.getCategorySatuanList().size(); i++) {
-                    if (categoryModelGlobal.getCategorySatuanList().get(i).getCategoryID().equalsIgnoreCase(kata)) {
-                        tempPosition = i;
-                        break;
-                    }
-                }
-            }
-
-            //user
-            else if (tipe == 2) {
-
-
-            }
-
-            //product
-            else if (tipe == 3) {
-
-                for (int i = 0; i < productModelGlobal.getProductSatuanList().size(); i++) {
-                    if (productModelGlobal.getProductSatuanList().get(i).getProductID().equalsIgnoreCase(kata)) {
-                        tempPosition = i;
-                        break;
-                    }
-                }
-            }
-
-            //methode
-            else if (tipe == 4) {
-
-                for (int i = 0; i < paymentMethodeModelGlobal.getPaymentMethodeSatuanList().size(); i++) {
-                    if (paymentMethodeModelGlobal.getPaymentMethodeSatuanList().get(i).getPaymentMethodeID().equalsIgnoreCase(kata)) {
-                        tempPosition = i;
-                        break;
-                    }
-                }
-            }
-        }
-
-        return tempPosition;
-    }
-
-
-    private void callCustomList(int flag, int selectedPosition, int sizeArray) {
-
-        flagListChoosen = flag;
-        setCustomeList();
-
-        if (selectedPosition != -1) {
-            listCustomAdapter.selectedPosition = selectedPosition;
-            listCustomAdapter.notifyDataSetChanged();
-
-            if (sizeArray > 7) {
-                mBinding.lyDialogCustomeList.rvCustomList.scrollToPosition(selectedPosition);
-            }
-        }
-        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.VISIBLE);
-    }
-
-
-    private void setCustomeList() {
-
-        if (flagListChoosen == 1) {
-            listCustomAdapter = new ListCustomAdapter(mContext, categoryModelGlobal, 1);
-        } else if(flagListChoosen == 4){
-            //dummy
-            listCustomAdapter = new ListCustomAdapter(mContext, paymentMethodeModelGlobal, 4);
-        }
-        else {
-
-        }
-
-
-        listCustomAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-
-                switch (flagListChoosen) {
-
-                    //category
-                    case 1:
-                        if (fromFilter) {
-                            filterPosCat = position;
-                            filterCategory = categoryModelGlobal.getCategorySatuanList().get(position).getCategoryID();
-                            mBinding.lyBottomUpSliderFilter.tvFilterCat.setText
-                                    (categoryModelGlobal.getCategorySatuanList().get(position).getCategoryName());
-                            mBinding.lyBottomUpSliderFilter.relatifCategoryChoosen.setVisibility(View.VISIBLE);
-                            mBinding.lyBottomUpSliderFilter.relatifCategoryNotChoosen.setVisibility(GONE);
-
-                        } else {
-                            selectedPositionCategory = position;
-                            transCatAdd = categoryModelGlobal.getCategorySatuanList().get(position).getCategoryID();
-                            mBinding.lyAddTransaction.tvCategory.setText(categoryModelGlobal.getCategorySatuanList().get(position).getCategoryName());
-                        }
-                        break;
-
-                    //user
-                    case 2:
-
-
-                        break;
-
-                    //produk
-                    case 3:
-
-                        selectedPositionProduct = position;
-                        detailProductAdd = productModelGlobal.getProductSatuanList().get(position).getProductID();
-                        mBinding.lyAddTransaction.tvProduct.setText(productModelGlobal.getProductSatuanList().get(position).getProductName());
-                        detailPriceAddSatuan = productModelGlobal.getProductSatuanList().get(position).getProductPrice();
-
-                        if (detailJumlahAdd > 0) {
-
-                            if (detailJumlahAdd > 0) {
-                                detailPriceAdd = detailPriceAddSatuan * detailJumlahAdd;
-                                mBinding.lyAddTransaction.tvDetailPrice.setText(mataUangHelper.formatRupiah(detailPriceAdd));
-                            }
-                        }
-
-                        Toast.makeText(mContext, "stauan price p: " + detailPriceAddSatuan, Toast.LENGTH_SHORT).show();
-
-                        break;
-
-                    //methode
-                    case 4:
-
-                        filterPosMethod = position;
-                        filterMethod = paymentMethodeModelGlobal.getPaymentMethodeSatuanList().get(position).getPaymentMethodeID();
-                        mBinding.lyBottomUpSliderFilter.tvFilterMethod.setText
-                                (paymentMethodeModelGlobal.getPaymentMethodeSatuanList().get(position).getPaymentMethode());
-                        mBinding.lyBottomUpSliderFilter.relatifMethodChoosen.setVisibility(View.VISIBLE);
-                        mBinding.lyBottomUpSliderFilter.relatifMethodNotChoosen.setVisibility(GONE);
-                        break;
-                }
-
-                fromFilter = false;
-                mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
-                mBinding.lyBlack2.lyBlack.setVisibility(View.GONE);
-            }
-        });
-
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        mBinding.lyDialogCustomeList.rvCustomList.setLayoutManager(mLayoutManager);
-        mBinding.lyDialogCustomeList.rvCustomList.setItemAnimator(new DefaultItemAnimator());
-        mBinding.lyDialogCustomeList.rvCustomList.setAdapter(listCustomAdapter);
-        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.VISIBLE);
-        mBinding.lyBlack2.lyBlack.setVisibility(View.VISIBLE);
-    }
 
     //MVP
     @Override
     public void showAllTransaction(TransactionModel transactionModel) {
 
-        //else if(transactionModelGlobal.getTransactionModelLists().size()<)
-
-        if(isFilter||transactionModelGlobal == null || transactionModelGlobal.getTransactionModelLists()==null || transactionModelGlobal.getTransactionModelLists().size()==0) {
+        if (isFilter || transactionModelGlobal == null || transactionModelGlobal.getTransactionModelLists() == null || transactionModelGlobal.getTransactionModelLists().size() == 0) {
             transactionModelGlobal = transactionModel;
             rows = transactionModel.getTotalRow();
-            totalRows = rows;
 
             isFilter = false;
-            setAdapter(transactionModel,"init");
-        }
-        else {
+            setAdapter(transactionModel, "init");
+        } else {
 
-            Log.e("TRAN PARM",transactionModel.getTransactionModelLists().size()+"");
+            Log.e("TRAN PARM", transactionModel.getTransactionModelLists().size() + "");
             int sizeTemp = transactionModelGlobal.getTransactionModelLists().size();
-            Log.e("TRAN SIZE",sizeTemp+"");
+            Log.e("TRAN SIZE", sizeTemp + "");
 
-            transactionModelGlobal.getTransactionModelLists().addAll(sizeTemp,transactionModel.getTransactionModelLists());
-            setAdapter(transactionModel,"");
+            transactionModelGlobal.getTransactionModelLists().addAll(sizeTemp, transactionModel.getTransactionModelLists());
+            setAdapter(transactionModel, "");
         }
-        Log.e("TRAN GLOBAL",transactionModelGlobal.getTransactionModelLists().size()+"");
+        Log.e("TRAN GLOBAL", transactionModelGlobal.getTransactionModelLists().size() + "");
 
     }
 
@@ -811,25 +446,25 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
 
     @Override
     public void onFailedGetAllAPI(String message) {
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+        if(isFilter){
+            transactionModelGlobal = new TransactionModel();
+            transactionAdapter.resetListTransaction(transactionModelGlobal);
+            transactionAdapter.notifyDataSetChanged();
+        }
+        showError(message);
+        hideProgressBar();
     }
 
     @Override
-    public void onSuccessAddtAllAPI(String message) {
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+    public void showOnClickTransaction(TransactionSatuanModel transactionSatuanModel, DetailTransactionModel detailTransactionModel) {
 
-    }
-
-    @Override
-    public void showOnClickTransaction(String transID, String transCat, String transDate,
-                                       String transTime, String transUserName, String transEmail,
-                                       long transBalance, DetailTransactionModel detailTransactionModel) {
-
-        mBinding.lyDetailTransaction.tvCategory.setText(transCat);
-        mBinding.lyDetailTransaction.tvTransDate.setText(transDate);
-        mBinding.lyDetailTransaction.tvTransTime.setText(transTime);
-        mBinding.lyDetailTransaction.tvName.setText(transUserName);
-        mBinding.lyDetailTransaction.tvTotalBalance.setText(mataUangHelper.formatRupiah(transBalance));
+        mBinding.lyDetailTransaction.tvName.setText("Detail Transaction");
+        mBinding.lyDetailTransaction.tvCategory.setText(transactionSatuanModel.getTransactionCategory());
+        mBinding.lyDetailTransaction.tvTransDate.setText(transactionSatuanModel.getTransactionDate());
+        mBinding.lyDetailTransaction.tvTransTime.setText(transactionSatuanModel.getTransactionTime());
+        mBinding.lyDetailTransaction.tvUserEmail.setText(transactionSatuanModel.getUserEmail());
+        mBinding.lyDetailTransaction.tvPaymentType.setText(transactionSatuanModel.getTipePembayaran());
+        mBinding.lyDetailTransaction.tvTotalBalance.setText(mataUangHelper.formatRupiah(transactionSatuanModel.getTransactionBalance()));
 
 
         detailTransactionAdapter = new DetailTransactionAdapter(mContext, detailTransactionModel);
@@ -837,122 +472,73 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
         mBinding.lyDetailTransaction.rvTransactionDetail.setLayoutManager(layoutManager);
         mBinding.lyDetailTransaction.rvTransactionDetail.setAdapter(detailTransactionAdapter);
 
+        isDetailTrans = true;
         mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
         mBinding.lyDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(View.VISIBLE);
 
-
     }
 
     @Override
-    public void showAddTransactionLayout() {
+    public void showAllCategory(CategoryModel categoryModel, int pos) {
 
-        detailTransactionModelAdd = new DetailTransactionModel();
+        isDialogCustome = true;
 
-        try {
-            detailTransactionAddAdapter = new DetailTransactionAdapter(mContext, detailTransactionModelAdd);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
-            mBinding.lyAddTransaction.rvTransactionAdd.setLayoutManager(layoutManager);
-            mBinding.lyAddTransaction.rvTransactionAdd.setAdapter(detailTransactionAddAdapter);
-        } catch (Exception e) {
-            e.printStackTrace();
+        categoryForList = categoryModel;
+        setCustomeList(1);
+
+        if (pos != -1) {
+            listCustomAdapter.selectedPosition = pos;
+            listCustomAdapter.notifyDataSetChanged();
+
+            if (categoryModel.getCategorySatuanList().size() > 7) {
+                mBinding.lyDialogCustomeList.rvCustomList.scrollToPosition(pos);
+            }
         }
+
+        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void showDialogListCategory(CategoryModel categoryModel) {
-        categoryModelGlobal = categoryModel;
-        if(fromFilter){
-            if (categoryModelGlobal.getCategorySatuanList() != null) {
-                sizeArray = categoryModelGlobal.getCategorySatuanList().size();
-                if (sizeArray > 0) {
+    public void showAllPayment(PaymentMethodeModel paymentMethodeModel, int pos) {
 
-                    filterPosCat = findPosition(filterCategory, 1);
-                    callCustomList(1, filterPosCat, sizeArray);
-                }
+        isDialogCustome = true;
+
+        paymentForList = paymentMethodeModel;
+        setCustomeList(2);
+
+        if (pos != -1) {
+            listCustomAdapter.selectedPosition = pos;
+            listCustomAdapter.notifyDataSetChanged();
+
+            if (paymentMethodeModel.getPaymentMethodeSatuanList().size() > 7) {
+                mBinding.lyDialogCustomeList.rvCustomList.scrollToPosition(pos);
             }
         }
-        else {
-            if (categoryModelGlobal.getCategorySatuanList() != null) {
-                sizeArray = categoryModelGlobal.getCategorySatuanList().size();
-                if (sizeArray > 0) {
 
-                    selectedPositionCategory = findPosition(transCatAdd, 1);
-                    callCustomList(1, selectedPositionCategory, sizeArray);
-                }
-            }
-        }
+        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void showDialogListProduct(ProductModel productModel) {
-        productModelGlobal = productModel;
-        if (productModelGlobal.getProductSatuanList() != null) {
-            sizeArray = productModelGlobal.getProductSatuanList().size();
-            if (sizeArray > 0) {
+    public void showAllUser(ListUserModel listUserModel, int pos) {
 
-                selectedPositionProduct = findPosition(detailProductAdd, 3);
-                callCustomList(3, selectedPositionProduct, sizeArray);
+        isDialogCustome = true;
+
+        userForList = listUserModel;
+        setCustomeList(3);
+
+        if (pos != -1) {
+            listCustomAdapter.selectedPosition = pos;
+            listCustomAdapter.notifyDataSetChanged();
+
+            if (listUserModel.getUserInfoModelList().size() > 7) {
+                mBinding.lyDialogCustomeList.rvCustomList.scrollToPosition(pos);
             }
         }
+
+        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void showDialogListPaymentMethode(PaymentMethodeModel paymentMethodeModel) {
-
-        paymentMethodeModelGlobal = paymentMethodeModel;
-        if (paymentMethodeModelGlobal.getPaymentMethodeSatuanList() != null) {
-            sizeArray = paymentMethodeModelGlobal.getPaymentMethodeSatuanList().size();
-            if (sizeArray > 0) {
-
-                filterPosMethod = findPosition(filterMethod, 4);
-                callCustomList(4, filterPosMethod, sizeArray);
-            }
-        }
-    }
-
-
-    private void showTime(){
-        myCalendar = Calendar.getInstance();
-        int hour = myCalendar.get(Calendar.HOUR_OF_DAY);
-        int minute = myCalendar.get(Calendar.MINUTE);
-        final int second = myCalendar.get(Calendar.SECOND);
-        // Launch Time Picker Dialog
-        TimePickerDialog timePickerDialog = new TimePickerDialog(mContext,
-                new TimePickerDialog.OnTimeSetListener() {
-
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay,
-                                          int minuteOfDay) {
-                        String timeString = "", secondString = "";
-                        if (second < 9) {
-                            secondString = "0" + second;
-                        } else {
-                            secondString = second + "";
-                        }
-
-                        if (hourOfDay < 10) {
-                            if (minuteOfDay < 10) {
-                                timeString = "0" + hourOfDay + ":" + "0" + minuteOfDay + ":" + secondString;
-                            } else {
-                                timeString = "0" + hourOfDay + ":" + minuteOfDay + ":" + secondString;
-                            }
-                        } else {
-                            if (minuteOfDay < 10) {
-                                timeString = hourOfDay + ":" + "0" + minuteOfDay + ":" + secondString;
-                            } else {
-                                timeString = hourOfDay + ":" + minuteOfDay + ":" + secondString;
-                            }
-                        }
-
-                        transTimeAdd = timeString;
-                        mBinding.lyAddTransaction.tvTime.setText(transTimeAdd);
-                    }
-                }, hour, minute, false);
-        timePickerDialog.setTitle("Select Time");
-        timePickerDialog.show();
-    }
-
-    private void showDate(){
+    private void showDate() {
 
         myCalendar = Calendar.getInstance();
         new DatePickerDialog(mContext, new DatePickerDialog.OnDateSetListener() {
@@ -964,26 +550,12 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                 sdf = new SimpleDateFormat(K.FORMAT_TANGGAL_STRING);
-                if(!fromFilter) {
-                    transDateAdd = sdf.format(myCalendar.getTime());
-                    mBinding.lyAddTransaction.tvDate.setText(transDateAdd);
 
-                    sdf = new SimpleDateFormat(K.FORMAT_TANGGAL_SORT);
-                    String temp = sdf.format(myCalendar.getTime());
-                    try {
-                        transDateSortAdd = Integer.parseInt(temp);
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    }
-                }
-                else {
-
-                    filterDate = sdf.format(myCalendar.getTime());
-                    mBinding.lyHeaderData.tvDate.setText(filterDate);
-                    mBinding.lyBottomUpSliderFilter.tvFilterDate.setText(filterDate);
-                    mBinding.lyBottomUpSliderFilter.relatifDateChoosen.setVisibility(View.VISIBLE);
-                    mBinding.lyBottomUpSliderFilter.relatifDateNotChoosen.setVisibility(GONE);
-                }
+                filterDate = sdf.format(myCalendar.getTime());
+                mBinding.lyHeaderData.tvDate.setText(filterDate);
+                mBinding.lyBottomUpSliderFilter.tvFilterDate.setText(filterDate);
+                mBinding.lyBottomUpSliderFilter.relatifDateChoosen.setVisibility(View.VISIBLE);
+                mBinding.lyBottomUpSliderFilter.relatifDateNotChoosen.setVisibility(GONE);
 
             }
         },
@@ -991,9 +563,9 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 myCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    private void setAdapter(TransactionModel transactionModel,String action){
+    private void setAdapter(TransactionModel transactionModel, String action) {
 
-        if(action.equalsIgnoreCase("INIT")) {
+        if (action.equalsIgnoreCase("INIT")) {
             transactionAdapter = new TransactionAdapter(mContext, transactionModel);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
             mBinding.rvTransaction.setLayoutManager(layoutManager);
@@ -1005,10 +577,9 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                     transactionPresenter.setOnClickTransaction(transactionModelGlobal, position);
                 }
             });
-        }
-        else {
+        } else {
 
-            Log.e("TRANS",transactionModel.getTransactionModelLists().size()+"");
+            Log.e("TRANS", transactionModel.getTransactionModelLists().size() + "");
             transactionAdapter.resetListTransaction(transactionModel);
             transactionAdapter.notifyDataSetChanged();
         }
@@ -1026,5 +597,77 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
 
         }
     }
+
+    private void showError(String message){
+
+        final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.ERROR_TYPE);
+        pDialog.setTitleText(message);
+        pDialog.setConfirmText("Yes");
+        pDialog.showCancelButton(false);
+        pDialog.setCanceledOnTouchOutside(false);
+        pDialog.show();
+
+        pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sDialog) {
+
+                pDialog.dismiss();
+            }
+        });
+    }
+
+    private void setCustomeList(final int tipe) {
+
+        if(tipe==1) {
+            listCustomAdapter = new ListCustomAdapter(mContext, categoryForList, 1);
+        }
+        else if(tipe==2){
+            listCustomAdapter = new ListCustomAdapter(mContext, paymentForList, 4);
+        }
+        else {
+            listCustomAdapter = new ListCustomAdapter(mContext, userForList, 2);
+        }
+        listCustomAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+                if (tipe == 1) {
+                    filterCategory = categoryForList.getCategorySatuanList().get(position).getCategoryID();
+                    mBinding.lyBottomUpSliderFilter.tvFilterCat.setText
+                            (categoryForList.getCategorySatuanList().get(position).getCategoryName());
+                    mBinding.lyBottomUpSliderFilter.relatifCategoryChoosen.setVisibility(View.VISIBLE);
+                    mBinding.lyBottomUpSliderFilter.relatifCategoryNotChoosen.setVisibility(GONE);
+                }
+                else if(tipe==2) {
+
+                    filterMethod = paymentForList.getPaymentMethodeSatuanList().get(position).getPaymentMethodeID();
+                    mBinding.lyBottomUpSliderFilter.tvFilterMethod.setText
+                            (paymentForList.getPaymentMethodeSatuanList().get(position).getPaymentMethode());
+                    mBinding.lyBottomUpSliderFilter.relatifMethodChoosen.setVisibility(View.VISIBLE);
+                    mBinding.lyBottomUpSliderFilter.relatifMethodNotChoosen.setVisibility(GONE);
+
+                }
+                else {
+                    filterUser = userForList.getUserInfoModelList().get(position).getUserEmail();
+                    mBinding.lyBottomUpSliderFilter.tvFilterUser.setText
+                            (userForList.getUserInfoModelList().get(position).getNameUser());
+                    mBinding.lyBottomUpSliderFilter.relatifUserChoosen.setVisibility(View.VISIBLE);
+                    mBinding.lyBottomUpSliderFilter.relatifUserNotChoosen.setVisibility(GONE);
+                }
+
+                isDialogCustome = false;
+                slideUpDown(mBinding.lyBottomUpSliderFilter.bottomSheet);
+                mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
+            }
+        });
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        mBinding.lyDialogCustomeList.rvCustomList.setLayoutManager(mLayoutManager);
+        mBinding.lyDialogCustomeList.rvCustomList.setItemAnimator(new DefaultItemAnimator());
+        mBinding.lyDialogCustomeList.rvCustomList.setAdapter(listCustomAdapter);
+        slideUpDown(mBinding.lyBottomUpSliderFilter.bottomSheet);
+        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.VISIBLE);
+    }
+
     //end
 }

@@ -297,6 +297,9 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
             if(paymentMethodeModelT.getPaymentMethodeSatuanList()!=null){
                 if(paymentMethodeModelT.getPaymentMethodeSatuanList().size()>0){
 
+                    paymentMethodeModelGlobal = paymentMethodeModelT;
+                    payment = paymentT;
+                    setCustomeList(2);
                 }
                 else {
                     flag = true;
@@ -340,14 +343,14 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
                         }
                     });
         }
-        else {
-
-            //g usah hit
-
-            paymentMethodeModelGlobal = paymentMethodeModelT;
-            payment = paymentT;
-            setCustomeList(2);
-        }
+//        else {
+//
+//            //g usah hit
+//
+//            paymentMethodeModelGlobal = paymentMethodeModelT;
+//            payment = paymentT;
+//            setCustomeList(2);
+//        }
     }
 
     private void onFailed(int tipe, String message){

@@ -26,6 +26,7 @@
         <activity android:name=".module.resep.ResepActivity"/>
         <activity android:name=".module.transaction.TransactionActivity"/>
         <activity android:name=".module.wallet.WalletActivity"/>
+        <activity android:name=".module.addTransaction.AddTransactionActivity"/>
     </application>
 
 </manifest>

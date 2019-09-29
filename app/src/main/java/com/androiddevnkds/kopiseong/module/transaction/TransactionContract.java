@@ -2,10 +2,12 @@ package com.androiddevnkds.kopiseong.module.transaction;
 
 import com.androiddevnkds.kopiseong.model.CategoryModel;
 import com.androiddevnkds.kopiseong.model.DetailTransactionModel;
+import com.androiddevnkds.kopiseong.model.ListUserModel;
 import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.ProductModel;
 import com.androiddevnkds.kopiseong.model.TotalBalanceModel;
 import com.androiddevnkds.kopiseong.model.TransactionModel;
+import com.androiddevnkds.kopiseong.model.TransactionSatuanModel;
 
 import java.util.List;
 
@@ -21,20 +23,13 @@ public interface TransactionContract {
 
         void onFailedGetAllAPI(String message);
 
-        void onSuccessAddtAllAPI(String message);
+        void showOnClickTransaction(TransactionSatuanModel transactionSatuanModel, DetailTransactionModel detailTransactionModel);
 
-        void showOnClickTransaction(String transID, String transCat, String transDate,
-                                    String transTime, String transUserName, String transEmail,
-                                    long transBalance, DetailTransactionModel detailTransactionModel);
+        void showAllCategory(CategoryModel categoryModel, int pos);
 
-        void showAddTransactionLayout();
+        void showAllPayment(PaymentMethodeModel paymentMethodeModel, int pos);
 
-        void showDialogListCategory(CategoryModel categoryModel);
-
-        void showDialogListProduct(ProductModel productModel);
-
-        void showDialogListPaymentMethode(PaymentMethodeModel paymentMethodeModel);
-
+        void showAllUser(ListUserModel listUserModel, int pos);
     }
     interface transactionPresenter{
 
@@ -42,17 +37,11 @@ public interface TransactionContract {
 
         void setOnClickTransaction(TransactionModel transactionModel, int position);
 
-        void initialAddTransactionLayout();
+        void showListCategory(CategoryModel categoryModel, String category);
 
-        void addNewTransaction(String transIDADD, int transDateSortAdd, String transDateAdd, String transTimeAdd,
-                               String transUserEmailAdd, String transCatAdd, long transPriceAdd,
-                               List<DetailTransactionModel.DetailTransaction> detailTransactionModel);
+        void showListPayment(PaymentMethodeModel paymentMethodeModelT, String payment);
 
-        void getCategoryTransaction();
-
-        void getAllProduct();
-
-        void getAllPaymentMethod();
+        void showListUser(ListUserModel listUserModel, String userEmail);
 
     }
 }

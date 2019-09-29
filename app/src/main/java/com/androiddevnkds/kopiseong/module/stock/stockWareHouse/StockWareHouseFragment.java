@@ -121,6 +121,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
         HeaderHelper.setLabelVisible(true);
         HeaderHelper.setLinearStockWHVisible(true);
         stockWHPresenter.getAllStock();
+        mBinding.lyBottomNav.navigation.setSelectedItemId(R.id.stock_menu);
     }
 
     @Override
@@ -1246,6 +1247,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                     }
                 }
 
+                isDialogCustomeAdd = false;
                 mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
                 if(isAddStock) {
                     mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(View.VISIBLE);

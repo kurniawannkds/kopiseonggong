@@ -12,11 +12,11 @@ public interface WalletContract {
 
         void hideProgressBar();
 
-        void showDiagram(long totalIncome, long totalExpense, long totalTax);
+        void showDiagram(long totalIncome, long totalExpense, long totalIncomeRek, long totalExpenseRek, long hpp);
 
         void onFailed(String message);
 
-        void showBalance(long totalIncome, long totalExpense, long totalTax, long avalaibleBalance,
+        void showBalance(long totalIncome, long totalExpense, long incomeRek, long expenseRek, long hpp, long avalaibleBalance,
                          TotalBalanceModel totalBalanceModel);
     }
 

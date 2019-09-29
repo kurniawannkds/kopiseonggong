@@ -10,12 +10,16 @@ import android.view.ViewGroup;
 import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.databinding.ItemListCustomBinding;
 import com.androiddevnkds.kopiseong.model.CategoryModel;
+import com.androiddevnkds.kopiseong.model.ListUserModel;
 import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.ProductModel;
 import com.androiddevnkds.kopiseong.model.StockModel;
+import com.androiddevnkds.kopiseong.model.UserInfoModel;
 import com.androiddevnkds.kopiseong.utils.K;
 import com.androiddevnkds.kopiseong.utils.MataUangHelper;
 import com.androiddevnkds.kopiseong.utils.listener.OnItemClickListener;
+
+import java.util.List;
 
 public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.ViewHolder> {
 
@@ -25,6 +29,7 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
     private CategoryModel categoryModel;
     private ProductModel productModel;
     private PaymentMethodeModel paymentMethodeModel;
+    private ListUserModel userInfoModelList;
     private StockModel stockModel;
     private long hargaPerGram = 0;
 
@@ -55,6 +60,12 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
         this.tipe = tipe;
     }
 
+    public ListCustomAdapter(Context mContext, ListUserModel userInfoModelList, int tipe) {
+        this.mContext = mContext;
+        this.userInfoModelList = userInfoModelList;
+        this.tipe = tipe;
+    }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -71,7 +82,11 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
         if(tipe == 1){
             itemShow = categoryModel.getCategorySatuanList().get(position).getCategoryName();
         }
-        //category produk
+        //user
+        else if(tipe==2){
+            itemShow = userInfoModelList.getUserInfoModelList().get(position).getNameUser();
+        }
+        //produk
         else if(tipe==3){
             itemShow = productModel.getProductSatuanList().get(position).getProductName();
         }
@@ -131,6 +146,11 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
         if(tipe==1) {
             return categoryModel.getCategorySatuanList().size();
         }
+        else if(tipe==2){
+            //dummy
+            return userInfoModelList.getUserInfoModelList().size();
+        }
+
         else if(tipe==3){
             //dummy
             return productModel.getProductSatuanList().size();

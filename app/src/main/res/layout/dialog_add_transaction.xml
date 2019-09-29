@@ -10,7 +10,7 @@
         android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <!--<android.support.v7.widget.CardView-->
             <!--android:id="@+id/recycle_view_detail_trans"-->
@@ -27,6 +27,14 @@
             android:layout_centerInParent="true"
             app:cardBackgroundColor="@color/colorCardView"
             app:cardCornerRadius="10dp">
+
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/ic_close"/>
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -636,5 +644,21 @@
             </ScrollView>
 
         </android.support.v7.widget.CardView>
+
+        <View
+            android:id="@+id/view_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.8"
+            android:background="@color/colorBlack"
+            android:visibility="gone"/>
+
+        <ProgressBar
+            android:id="@+id/pb_bar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
     </RelativeLayout>
 </layout>
