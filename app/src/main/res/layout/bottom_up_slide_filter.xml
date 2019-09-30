@@ -190,7 +190,7 @@
             android:layout_gravity="center_horizontal">
 
             <RelativeLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/relatif_date_choosen"
                 android:layout_width="95dp"
                 android:layout_height="95dp"
@@ -225,6 +225,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:visibility="gone"
                 android:id="@+id/relatif_date_not_choosen"
                 android:layout_width="95dp"
                 android:layout_height="95dp">

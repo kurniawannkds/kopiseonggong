@@ -29,6 +29,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <ImageView
+                        android:id="@+id/iv_delete"
+                        android:visibility="gone"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/password"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="10dp"/>
+
                     <RelativeLayout
                         android:id="@+id/layout_title"
                         android:layout_width="wrap_content"
@@ -37,13 +47,12 @@
                         android:layout_margin="10dp">
 
                         <TextView
-                            android:id="@+id/tv_name"
                             android:layout_margin="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             style="@style/TextViewStyleHeader1"
                             android:layout_centerHorizontal="true"
-                            android:text="Kurniawan"/>
+                            android:text="Detail Product Transaction"/>
 
                     </RelativeLayout>
 
@@ -55,6 +64,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/layout1"
                     android:layout_centerHorizontal="true">
+
 
                     <LinearLayout
                         android:id="@+id/layout_linear_biasa"
@@ -85,166 +95,104 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="10dp"
-                                android:text="Transaction Category" />
+                                android:text="Product Name" />
 
                             <TextView
+                                android:id="@+id/tv_product_name"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="end"
+                                android:text="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu" />
+
+                            <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:text="Total Product" />
+
+                            <TextView
+                                android:id="@+id/tv_total_product"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="end"
+                                android:text="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu" />
+
+                            <TextView
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:text="Product Resep" />
+
+                            <TextView
+                                android:id="@+id/tv_resep"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="70dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:text="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="3dp">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu"/>
+
+                            <TextView
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:layout_height="wrap_content"
+                                android:text="Product Category"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"/>
+
+                            <TextView
+                                android:layout_gravity="center_vertical"
                                 android:id="@+id/tv_category"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="70dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="end"
-                                android:text="" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="5dp"
-                                android:layout_height="5dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/oval_abu" />
-
-                            <TextView
-                                style="@style/TextViewStyle6"
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="10dp"
-                                android:text="Transaction Date" />
-
-                            <TextView
-                                android:id="@+id/tv_trans_date"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="70dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:gravity="end"
-                                android:text="" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="5dp"
-                                android:layout_height="5dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/oval_abu" />
-
-                            <TextView
-                                style="@style/TextViewStyle6"
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="10dp"
-                                android:text="Transaction Time" />
-
-                            <TextView
-                                android:id="@+id/tv_trans_time"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="70dp"
-                                android:layout_gravity="center_vertical"
-                                android:layout_height="wrap_content"
-                                android:gravity="end"
-                                android:text="" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="3dp">
-
-                            <ImageView
-                                android:layout_width="5dp"
-                                android:layout_height="5dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/oval_abu"/>
-
-                            <TextView
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="10dp"
-                                android:layout_height="wrap_content"
-                                android:text="Total Transaction Balance"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="80dp"/>
-
-                            <TextView
-                                android:layout_gravity="center_vertical"
-                                android:id="@+id/tv_total_balance"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="70dp"
-                                android:gravity="end"
-                                android:layout_height="wrap_content"
-                                android:text="" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="3dp">
-
-                            <ImageView
-                                android:layout_width="5dp"
-                                android:layout_height="5dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/oval_abu"/>
-
-                            <TextView
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="10dp"
-                                android:layout_height="wrap_content"
-                                android:text="User email"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="80dp"/>
-
-                            <TextView
-                                android:id="@+id/tv_user_email"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="70dp"
-                                android:gravity="end"
-                                android:layout_gravity="center_vertical"
-                                android:layout_height="wrap_content"
-                                android:text="" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="3dp">
-
-                            <ImageView
-                                android:layout_width="5dp"
-                                android:layout_height="5dp"
-                                android:layout_gravity="center_vertical"
-                                android:src="@drawable/oval_abu"/>
-
-                            <TextView
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="10dp"
-                                android:layout_height="wrap_content"
-                                android:text="Payment Type"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="80dp"/>
-
-                            <TextView
-                                android:id="@+id/tv_payment_type"
-                                android:layout_gravity="center_vertical"
                                 style="@style/TextViewStyle6"
                                 android:layout_width="70dp"
                                 android:gravity="end"
@@ -254,30 +202,6 @@
                         </LinearLayout>
 
                     </LinearLayout>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/layout3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@+id/layout2">
-
-                    <android.support.design.widget.CoordinatorLayout
-                        android:id="@+id/contraint_rv_detail"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="30dp">
-
-                        <android.support.v7.widget.RecyclerView
-                            android:layout_margin="20dp"
-                            android:id="@+id/rv_transaction_detail"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-
-                    </android.support.design.widget.CoordinatorLayout>
-
 
                 </RelativeLayout>
 

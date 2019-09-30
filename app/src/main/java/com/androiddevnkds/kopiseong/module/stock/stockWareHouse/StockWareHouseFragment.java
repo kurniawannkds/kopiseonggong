@@ -633,7 +633,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
 
                 if(isAddJumlah){
 
-                    String temp = mBinding.lyDoneEditText.etNumber.getText().toString().trim();
+                    String temp = mBinding.lyDoneEditText.etNumber.getText().toString().trim().replace(",","");
                     mBinding.lyDialogAddStock.tvJumlahStock.setText(temp+" gram");
                     temp = temp.replace(",","");
                     try {
@@ -666,7 +666,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                 //sellll
                 else if(isSellStockGram){
 
-                    String temp = mBinding.lyDoneEditText.etNumber.getText().toString().trim();
+                    String temp = mBinding.lyDoneEditText.etNumber.getText().toString().trim().replace(",","");
                     mBinding.lyDialogSellStock.tvJumlahStock.setText(temp+" gram");
                     temp = temp.replace(",","");
                     try {
@@ -691,7 +691,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                 //sent
                 else if(isSentStockGram){
 
-                    String temp = mBinding.lyDoneEditText.etNumber.getText().toString().trim();
+                    String temp = mBinding.lyDoneEditText.etNumber.getText().toString().trim().replace(",","");
                     mBinding.lyDialogSentStock.tvJumlahStock.setText(temp+" gram");
                     temp = temp.replace(",","");
                     try {

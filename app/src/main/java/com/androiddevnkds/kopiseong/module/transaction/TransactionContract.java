@@ -25,6 +25,8 @@ public interface TransactionContract {
 
         void showOnClickTransaction(TransactionSatuanModel transactionSatuanModel, DetailTransactionModel detailTransactionModel);
 
+        void showMoreDetailTransaction(DetailTransactionModel.DetailTransaction detailTransaction);
+
         void showAllCategory(CategoryModel categoryModel, int pos);
 
         void showAllPayment(PaymentMethodeModel paymentMethodeModel, int pos);
@@ -35,7 +37,9 @@ public interface TransactionContract {
 
         void getAllTransaction(int currentPage, String cat, String date, String user, String pembayaran);
 
-        void setOnClickTransaction(TransactionModel transactionModel, int position);
+        void setOnClickTransaction(TransactionModel transactionModel, int position, int page);
+
+        void setOnClickDetailTransaction(DetailTransactionModel detailTransactionModel, int position);
 
         void showListCategory(CategoryModel categoryModel, String category);
 

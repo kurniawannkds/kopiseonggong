@@ -8,8 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.telecom.Call;
 import android.util.Log;
 
-import com.androiddevnkds.kopiseong.MyApplication;
-import com.androiddevnkds.kopiseong.model.AddDetailTransactionRequestModel;
+
 import com.androiddevnkds.kopiseong.model.CategoryModel;
 import com.androiddevnkds.kopiseong.model.DetailTransactionModel;
 import com.androiddevnkds.kopiseong.model.GeneralAddResponseModel;
@@ -261,59 +260,59 @@ public abstract class BaseFragment extends Fragment {
     }
 
 
-    //add detail transaction
-    protected void callAddDetailTransactionAPI(DetailTransactionModel detailTransactionModel){
-
-        Log.e("transaction model",new Gson().toJson(detailTransactionModel));
-
-        AddDetailTransactionRequestModel addDetail = new AddDetailTransactionRequestModel();
-        addDetail.setTransactionID(detailTransactionModel.getDetailTransactionList().get(0).getDetailTransactionID());
-
-        int sizeModel = detailTransactionModel.getDetailTransactionList().size();
-        addDetail.setSizeModel(sizeModel);
-
-        String[] detailProduct =new String[sizeModel];
-        String[] detailJumlah=new String[sizeModel];
-        for(int i=0;i<sizeModel;i++){
-
-            detailJumlah[i] = detailTransactionModel.getDetailTransactionList().get(i).getDetailJumlah()+"";
-            detailProduct[i] = detailTransactionModel.getDetailTransactionList().get(i).getDetailProductID();
-        }
-
-        addDetail.setDetailJumlah(detailJumlah);
-        addDetail.setDetailProduct(detailProduct);
-
-        Log.e("transaction model",new Gson().toJson(addDetail));
-        AndroidNetworking.post(K.URL_ADD_DETAIL_TRANSACTION)
-                .addBodyParameter(addDetail)
-                .addBodyParameter("detail_jumlah[]", Arrays.toString(detailJumlah))
-                .addBodyParameter("detail_product[]",Arrays.toString(detailProduct))
-                .addBodyParameter("transaction_id",addDetail.getTransactionID())
-                .addBodyParameter("size_model",sizeModel+"")
-                .setTag("test")
-                .setPriority(Priority.MEDIUM)
-                .build()
-                .getAsObject(GeneralAddResponseModel.class, new ParsedRequestListener<GeneralAddResponseModel>() {
-                    @Override
-                    public void onResponse(GeneralAddResponseModel generalAddResponseModel) {
-                        // do anything with response
-                        Log.e("BASE",new Gson().toJson(generalAddResponseModel));
-                        if(generalAddResponseModel.getErrorMessage()!=null){
-                            failedAddResponse(generalAddResponseModel.getErrorMessage());
-                        }
-                        else {
-                            successAddDetailResponseTransaction(generalAddResponseModel.getSuccessMessage());
-                        }
-                    }
-                    @Override
-                    public void onError(ANError anError) {
-                        // handle error
-                        failedGetAllTransaction("ERROR");
-                        Log.e("ERROR",anError.getErrorDetail());
-                        Log.e("ERROR",anError.getErrorBody());
-                    }
-                });
-    }
+//    //add detail transaction
+//    protected void callAddDetailTransactionAPI(DetailTransactionModel detailTransactionModel){
+//
+//        Log.e("transaction model",new Gson().toJson(detailTransactionModel));
+//
+//        AddDetailTransactionRequestModel addDetail = new AddDetailTransactionRequestModel();
+//        addDetail.setTransactionID(detailTransactionModel.getDetailTransactionList().get(0).getDetailTransactionID());
+//
+//        int sizeModel = detailTransactionModel.getDetailTransactionList().size();
+//        addDetail.setSizeModel(sizeModel);
+//
+//        String[] detailProduct =new String[sizeModel];
+//        String[] detailJumlah=new String[sizeModel];
+//        for(int i=0;i<sizeModel;i++){
+//
+//            detailJumlah[i] = detailTransactionModel.getDetailTransactionList().get(i).getDetailJumlah()+"";
+//            detailProduct[i] = detailTransactionModel.getDetailTransactionList().get(i).getDetailProductID();
+//        }
+//
+//        addDetail.setDetailJumlah(detailJumlah);
+//        addDetail.setDetailProduct(detailProduct);
+//
+//        Log.e("transaction model",new Gson().toJson(addDetail));
+//        AndroidNetworking.post(K.URL_ADD_DETAIL_TRANSACTION)
+//                .addBodyParameter(addDetail)
+//                .addBodyParameter("detail_jumlah[]", Arrays.toString(detailJumlah))
+//                .addBodyParameter("detail_product[]",Arrays.toString(detailProduct))
+//                .addBodyParameter("transaction_id",addDetail.getTransactionID())
+//                .addBodyParameter("size_model",sizeModel+"")
+//                .setTag("test")
+//                .setPriority(Priority.MEDIUM)
+//                .build()
+//                .getAsObject(GeneralAddResponseModel.class, new ParsedRequestListener<GeneralAddResponseModel>() {
+//                    @Override
+//                    public void onResponse(GeneralAddResponseModel generalAddResponseModel) {
+//                        // do anything with response
+//                        Log.e("BASE",new Gson().toJson(generalAddResponseModel));
+//                        if(generalAddResponseModel.getErrorMessage()!=null){
+//                            failedAddResponse(generalAddResponseModel.getErrorMessage());
+//                        }
+//                        else {
+//                            successAddDetailResponseTransaction(generalAddResponseModel.getSuccessMessage());
+//                        }
+//                    }
+//                    @Override
+//                    public void onError(ANError anError) {
+//                        // handle error
+//                        failedGetAllTransaction("ERROR");
+//                        Log.e("ERROR",anError.getErrorDetail());
+//                        Log.e("ERROR",anError.getErrorBody());
+//                    }
+//                });
+//    }
 
     protected void successAddDetailResponseTransaction(String message) {
 

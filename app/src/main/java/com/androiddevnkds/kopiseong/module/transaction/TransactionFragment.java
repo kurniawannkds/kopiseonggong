@@ -81,7 +81,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
     private DetailTransactionAdapter detailTransactionAdapter;
     private boolean isPanelShown = false;
 
-    private boolean isFilter = false, isDialogCustome = false, isDetailTrans = false;
+    private boolean isFilter = false, isDialogCustome = false, isDetailTrans = false, isMoreDetailTrans = false;
 
     private CategoryModel categoryForList;
     private PaymentMethodeModel paymentForList;
@@ -147,7 +147,9 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
         mBinding.lyBottomNav.navigation.setSelectedItemId(R.id.transaction_menu);
 
         DateAndTime dateAndTime = new DateAndTime();
-        mBinding.lyHeaderData.tvDate.setText(dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_STRING));
+        filterDate = dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_STRING);
+        mBinding.lyBottomUpSliderFilter.tvFilterDate.setText(filterDate);
+        mBinding.lyHeaderData.tvDate.setText(filterDate);
         transactionPresenter.getAllTransaction(page, filterCategory, filterDate, filterUser, filterMethod);
     }
 
@@ -203,14 +205,20 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
             public void onClick(View view) {
                 if (isPanelShown) {
                     slideUpDown(mBinding.lyBottomUpSliderFilter.bottomSheet);
-                } else if(isDialogCustome){
+                    mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
+                } else if (isDialogCustome) {
                     isDialogCustome = false;
                     mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.GONE);
-                }else {
+                    mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
+                } else if (isMoreDetailTrans) {
+                    isMoreDetailTrans = false;
+                    mBinding.lyMoreDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(View.GONE);
+                    mBinding.lyDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(View.VISIBLE);
+                } else {
                     isDetailTrans = false;
                     mBinding.lyDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(View.GONE);
+                    mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
                 }
-                mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
             }
         });
 
@@ -234,7 +242,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
             @Override
             public void onClick(View view) {
 
-                transactionPresenter.showListCategory(categoryForList,filterCategory);
+                transactionPresenter.showListCategory(categoryForList, filterCategory);
             }
         });
 
@@ -255,7 +263,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
             @Override
             public void onClick(View view) {
 
-                transactionPresenter.showListPayment(paymentForList,filterMethod);
+                transactionPresenter.showListPayment(paymentForList, filterMethod);
             }
         });
 
@@ -287,7 +295,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
             @Override
             public void onClick(View view) {
 
-                transactionPresenter.showListUser(userForList,filterUser);
+                transactionPresenter.showListUser(userForList, filterUser);
             }
         });
 
@@ -313,6 +321,9 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 mBinding.lyBlack.lyBlack.setVisibility(GONE);
                 slideUpDown(mBinding.lyBottomUpSliderFilter.bottomSheet);
                 isFilter = true;
+                if(!filterDate.equalsIgnoreCase("NONE")){
+                    mBinding.lyHeaderData.tvDate.setText(filterDate);
+                }
                 transactionPresenter.getAllTransaction(page, filterCategory, filterDate, filterUser, filterMethod);
             }
         });
@@ -341,7 +352,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                     transactionModel.setTransactionModelLists(transactionSatuanModelList);
                     setAdapter(transactionModel, "");
                 } else {
-                    Log.e("trans","hit baru");
+                    Log.e("trans", "hit baru");
                     transactionPresenter.getAllTransaction(page, filterCategory, filterDate, filterUser, filterMethod);
                 }
 
@@ -446,7 +457,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
 
     @Override
     public void onFailedGetAllAPI(String message) {
-        if(isFilter){
+        if (isFilter) {
             transactionModelGlobal = new TransactionModel();
             transactionAdapter.resetListTransaction(transactionModelGlobal);
             transactionAdapter.notifyDataSetChanged();
@@ -456,7 +467,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
     }
 
     @Override
-    public void showOnClickTransaction(TransactionSatuanModel transactionSatuanModel, DetailTransactionModel detailTransactionModel) {
+    public void showOnClickTransaction(TransactionSatuanModel transactionSatuanModel, final DetailTransactionModel detailTransactionModel) {
 
         mBinding.lyDetailTransaction.tvName.setText("Detail Transaction");
         mBinding.lyDetailTransaction.tvCategory.setText(transactionSatuanModel.getTransactionCategory());
@@ -472,10 +483,31 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
         mBinding.lyDetailTransaction.rvTransactionDetail.setLayoutManager(layoutManager);
         mBinding.lyDetailTransaction.rvTransactionDetail.setAdapter(detailTransactionAdapter);
 
+        detailTransactionAdapter.setOnItemClickListener(new DetailTransactionAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int pos, View v) {
+
+                isMoreDetailTrans = true;
+                transactionPresenter.setOnClickDetailTransaction(detailTransactionModel, pos);
+            }
+        });
+
         isDetailTrans = true;
         mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
         mBinding.lyDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(View.VISIBLE);
 
+    }
+
+    @Override
+    public void showMoreDetailTransaction(DetailTransactionModel.DetailTransaction detailTransaction) {
+
+        mBinding.lyDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(GONE);
+        mBinding.lyMoreDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(View.VISIBLE);
+
+        mBinding.lyMoreDetailTransaction.tvCategory.setText(detailTransaction.getProductGeneralCat());
+        mBinding.lyMoreDetailTransaction.tvProductName.setText(detailTransaction.getProductName());
+        mBinding.lyMoreDetailTransaction.tvResep.setText(detailTransaction.getProductResep());
+        mBinding.lyMoreDetailTransaction.tvTotalProduct.setText(detailTransaction.getDetailJumlah()+" unit");
     }
 
     @Override
@@ -553,6 +585,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
 
                 filterDate = sdf.format(myCalendar.getTime());
                 mBinding.lyHeaderData.tvDate.setText(filterDate);
+
                 mBinding.lyBottomUpSliderFilter.tvFilterDate.setText(filterDate);
                 mBinding.lyBottomUpSliderFilter.relatifDateChoosen.setVisibility(View.VISIBLE);
                 mBinding.lyBottomUpSliderFilter.relatifDateNotChoosen.setVisibility(GONE);
@@ -574,7 +607,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
             transactionAdapter.setOnItemClickListener(new TransactionAdapter.ClickListener() {
                 @Override
                 public void onItemClick(int position, View v) {
-                    transactionPresenter.setOnClickTransaction(transactionModelGlobal, position);
+                    transactionPresenter.setOnClickTransaction(transactionModelGlobal, position, page);
                 }
             });
         } else {
@@ -598,7 +631,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
         }
     }
 
-    private void showError(String message){
+    private void showError(String message) {
 
         final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.ERROR_TYPE);
         pDialog.setTitleText(message);
@@ -618,13 +651,11 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
 
     private void setCustomeList(final int tipe) {
 
-        if(tipe==1) {
+        if (tipe == 1) {
             listCustomAdapter = new ListCustomAdapter(mContext, categoryForList, 1);
-        }
-        else if(tipe==2){
+        } else if (tipe == 2) {
             listCustomAdapter = new ListCustomAdapter(mContext, paymentForList, 4);
-        }
-        else {
+        } else {
             listCustomAdapter = new ListCustomAdapter(mContext, userForList, 2);
         }
         listCustomAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -637,8 +668,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                             (categoryForList.getCategorySatuanList().get(position).getCategoryName());
                     mBinding.lyBottomUpSliderFilter.relatifCategoryChoosen.setVisibility(View.VISIBLE);
                     mBinding.lyBottomUpSliderFilter.relatifCategoryNotChoosen.setVisibility(GONE);
-                }
-                else if(tipe==2) {
+                } else if (tipe == 2) {
 
                     filterMethod = paymentForList.getPaymentMethodeSatuanList().get(position).getPaymentMethodeID();
                     mBinding.lyBottomUpSliderFilter.tvFilterMethod.setText
@@ -646,8 +676,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                     mBinding.lyBottomUpSliderFilter.relatifMethodChoosen.setVisibility(View.VISIBLE);
                     mBinding.lyBottomUpSliderFilter.relatifMethodNotChoosen.setVisibility(GONE);
 
-                }
-                else {
+                } else {
                     filterUser = userForList.getUserInfoModelList().get(position).getUserEmail();
                     mBinding.lyBottomUpSliderFilter.tvFilterUser.setText
                             (userForList.getUserInfoModelList().get(position).getNameUser());

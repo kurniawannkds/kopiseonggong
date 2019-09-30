@@ -158,6 +158,17 @@
             android:layout_centerInParent="true">
 
             <include
+                android:id="@+id/ly_more_detail_transaction"
+                layout="@layout/dialog_detail_detail_transaction" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <include
                 android:id="@+id/ly_dialog_custome_list"
                 layout="@layout/dialog_custome_list" />
 

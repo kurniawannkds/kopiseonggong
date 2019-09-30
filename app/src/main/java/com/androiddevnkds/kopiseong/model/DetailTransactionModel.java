@@ -62,6 +62,15 @@ public class DetailTransactionModel {
         @SerializedName("detail_trans_ID")
         private String detailID;
 
+        @SerializedName("product_name")
+        private String productName;
+
+        @SerializedName("product_general_category")
+        private String productGeneralCat;
+
+        @SerializedName("product_resep_id")
+        private String productResep;
+
         @SerializedName("detail_trans_jumlah")
         private int detailJumlah;
 
@@ -71,14 +80,40 @@ public class DetailTransactionModel {
         @SerializedName("detail_trans_transaction_id")
         private String detailTransactionID;
 
-        public DetailTransaction(String detailID, int detailJumlah, String detailProductID, String detailTransactionID) {
+        public DetailTransaction(String detailID, String productName, String productGeneralCat, int detailJumlah, String detailProductID, String detailTransactionID) {
             this.detailID = detailID;
+            this.productName = productName;
+            this.productGeneralCat = productGeneralCat;
             this.detailJumlah = detailJumlah;
             this.detailProductID = detailProductID;
             this.detailTransactionID = detailTransactionID;
         }
 
         public DetailTransaction() {
+        }
+
+        public String getProductResep() {
+            return productResep;
+        }
+
+        public void setProductResep(String productResep) {
+            this.productResep = productResep;
+        }
+
+        public String getProductName() {
+            return productName;
+        }
+
+        public void setProductName(String productName) {
+            this.productName = productName;
+        }
+
+        public String getProductGeneralCat() {
+            return productGeneralCat;
+        }
+
+        public void setProductGeneralCat(String productGeneralCat) {
+            this.productGeneralCat = productGeneralCat;
         }
 
         public String getDetailID() {

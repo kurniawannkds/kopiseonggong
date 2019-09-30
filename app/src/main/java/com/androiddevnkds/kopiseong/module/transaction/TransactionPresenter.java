@@ -96,9 +96,16 @@ public class TransactionPresenter implements TransactionContract.transactionPres
     }
 
     @Override
-    public void setOnClickTransaction(TransactionModel transactionModelGlobal, int position) {
+    public void setOnClickTransaction(TransactionModel transactionModelGlobal, int position, int page) {
 
         transactionView.showProgressBar();
+        Log.e("trans pos",position+"");
+        if(page>0) {
+            position = position + (page * 20);
+        }
+        Log.e("trans size",transactionModelGlobal.getTransactionModelLists().size()+"");
+        Log.e("trans pos",position+"");
+        Log.e("trans",new Gson().toJson(transactionModelGlobal.getTransactionModelLists().get(position)));
         final TransactionSatuanModel transactionSatuanModel = new TransactionSatuanModel();
         if (transactionModelGlobal.getTransactionModelLists() != null) {
 
@@ -144,7 +151,10 @@ public class TransactionPresenter implements TransactionContract.transactionPres
             }
         }
 
+        Log.e("trans",transID);
         if (!transID.equalsIgnoreCase("") ) {
+
+            Log.e("trans",transID);
 
             AndroidNetworking.post(K.URL_GET_DETAIL_TRANSACTION)
                     .addBodyParameter("transaction_id",transID)
@@ -155,7 +165,7 @@ public class TransactionPresenter implements TransactionContract.transactionPres
                         @Override
                         public void onResponse(DetailTransactionModel detailTransactionModel) {
                             // do anything with response
-                            Log.e("BASE",new Gson().toJson(detailTransactionModel));
+                            Log.e("trans",new Gson().toJson(detailTransactionModel));
                             if(detailTransactionModel.getErrorMessage()!=null){
                                 onFailed(detailTransactionModel.getErrorMessage());
                             }
@@ -172,6 +182,14 @@ public class TransactionPresenter implements TransactionContract.transactionPres
                         }
                     });
         }
+    }
+
+    @Override
+    public void setOnClickDetailTransaction(DetailTransactionModel detailTransactionModel, int position) {
+
+        DetailTransactionModel.DetailTransaction detailTransaction = new DetailTransactionModel().new DetailTransaction();
+        detailTransaction = detailTransactionModel.getDetailTransactionList().get(position);
+        transactionView.showMoreDetailTransaction(detailTransaction);
     }
 
     @Override
