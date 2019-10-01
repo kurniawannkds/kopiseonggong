@@ -31,6 +31,7 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
     private PaymentMethodeModel paymentMethodeModel;
     private ListUserModel userInfoModelList;
     private StockModel stockModel;
+    private List<String> tipeExpense;
     private long hargaPerGram = 0;
 
     public int selectedPosition = -1;
@@ -63,6 +64,12 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
     public ListCustomAdapter(Context mContext, ListUserModel userInfoModelList, int tipe) {
         this.mContext = mContext;
         this.userInfoModelList = userInfoModelList;
+        this.tipe = tipe;
+    }
+
+    public ListCustomAdapter(Context mContext, List<String> tipeExpense, int tipe) {
+        this.mContext = mContext;
+        this.tipeExpense = tipeExpense;
         this.tipe = tipe;
     }
 
@@ -102,6 +109,9 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
         else if(tipe==6){
             itemShow = stockModel.getStockSatuanModelList().get(position).getStockName();
             hargaPerGram = stockModel.getStockSatuanModelList().get(position).getStockPricePerGram();
+        }
+        else if(tipe==7){
+            itemShow = tipeExpense.get(position);
 
         }
 
@@ -158,8 +168,11 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
         else if(tipe==4){
             return paymentMethodeModel.getPaymentMethodeSatuanList().size();
         }
-        else {
+        else if(tipe==5 || tipe == 6){
             return stockModel.getStockSatuanModelList().size();
+        }
+        else {
+            return tipeExpense.size();
         }
     }
 

@@ -69,15 +69,16 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
     private String mDateString="", mTimeString = "", mTransID = "", mCategory ="", mCategoryGeneral ="",mPaymentType = "", mResep ="",mResepTemp="", mProduct="",mProductTemp ="", mJumlahProduk ="",mJumlahProdukTemp ="";
     private long mPrice = 0;
     private int mJumlahInt = 0;
-    private boolean isDialogCustome = false, isPrice = false, isFirtTime = true;
+    private boolean isDialogCustome = false, isPrice = false, isTipeExpense = false;
     private ListCustomAdapter listCustomAdapter;
-    private DetailTransactionAdapter detailTransactionAdapter;
-    private List<DetailTransactionModel.DetailTransaction> detailTransactionList;
+    private DetailTransactionAdapter detailTransactionAdapter, detailTransactionAdapterExp;
+    private List<DetailTransactionModel.DetailTransaction> detailTransactionList, detailTransactionListExp;
 
     private CategoryModel categoryForList;
     private ProductModel productForList;
     private PaymentMethodeModel paymentForList;
-    private DetailTransactionModel detailTransactionModelGlobal;
+    private DetailTransactionModel detailTransactionModelGlobal,detailTransactionModelGlobalexp;
+    private List<String> tipeExpenseGlobal;
 
     private Calendar myCalendar;
     private SimpleDateFormat sdf;
@@ -121,13 +122,30 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
 //        mPresenter.getPaymentList(paymentForList,mPaymentType);
 
         detailTransactionList = new ArrayList<>();
+        detailTransactionListExp = new ArrayList<>();
 
         detailTransactionModelGlobal = new DetailTransactionModel();
+        detailTransactionModelGlobalexp = new DetailTransactionModel();
+
         detailTransactionAdapter = new DetailTransactionAdapter(mContext, detailTransactionModelGlobal);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
         mBinding.rvTransactionAdd.setLayoutManager(layoutManager);
         mBinding.rvTransactionAdd.setAdapter(detailTransactionAdapter);
 
+        detailTransactionAdapterExp = new DetailTransactionAdapter(mContext, detailTransactionModelGlobalexp);
+        RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(mContext);
+        mBinding.rvTransactionAddExpense.setLayoutManager(layoutManager2);
+        mBinding.rvTransactionAddExpense.setAdapter(detailTransactionAdapter);
+
+        tipeExpenseGlobal.add(K.TIPE_EXPENSE_BIAYA_MAINTENANCE);
+        tipeExpenseGlobal.add(K.TIPE_EXPENSE_BIAYA_STOCK_MINOR);
+        if(DataManager.can().getUserInfoFromStorage().getUserRole()!=null){
+
+            if(DataManager.can().getUserInfoFromStorage().getUserRole().equalsIgnoreCase(K.KEY_ROLE_MASTER)){
+                tipeExpenseGlobal.add(K.TIPE_EXPENSE_BIAYA_GAJI);
+            }
+        }
+        tipeExpenseGlobal.add(K.TIPE_EXPENSE_BIAYA_LAINNYA);
     }
 
     @Override
@@ -160,7 +178,12 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
             public void onClick(View view) {
 
                 mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
-                mPresenter.getProductList(productForList,mProduct);
+                if(mCategory.equalsIgnoreCase("EXPENSE")){
+                    mPresenter.getTipeExpenseLainnya(tipeExpenseGlobal,mProductTemp);
+                }
+                else {
+                    mPresenter.getProductList(productForList, mProductTemp);
+                }
             }
         });
 
@@ -221,7 +244,7 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
                 isDialogCustome = false;
                 isPrice = false;
                 mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
-                mBinding.lyDoneEditText.tvEditTextLabel.setText("Input Total Product With Number Only");
+                mBinding.lyDoneEditText.tvEditTextLabel.setText("Input Total Detail With Number Only");
                 if(mJumlahInt!=0) {
                     mBinding.lyDoneEditText.etNumber.setText(mJumlahInt+"");
                 }
@@ -254,6 +277,11 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
                     mBinding.tvPrice.setText(mataUangHelper.formatRupiah(mPrice));
 
                 }
+                else if(isTipeExpense){
+                    mProductTemp = mBinding.lyDoneEditText.etKarakter.getText().toString().trim();
+                    mBinding.tvProduct.setText(mProductTemp);
+
+                }
                 else {
 
                     mBinding.tvJumlah.setText(temp);
@@ -280,10 +308,18 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
 
                     mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
                     mBinding.lyBlack.lyBlack.setVisibility(GONE);
+                    isDialogCustome = false;
                 }
                 else {
                     mBinding.lyDoneEditText.lyDialogEditText.setVisibility(GONE);
-                    mBinding.lyBlack.lyBlack.setVisibility(GONE);
+                    if(isTipeExpense){
+                        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.VISIBLE);
+                        isTipeExpense = false;
+                    }
+                    else {
+
+                        mBinding.lyBlack.lyBlack.setVisibility(GONE);
+                    }
                 }
             }
         });
@@ -318,19 +354,26 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
                     detailTransaction.setDetailJumlah(mJumlahInt);
                     detailTransaction.setDetailTransactionID(mTransID);
 
-//                    if(isFirtTime){
-//                        detailTransactionAdapter = new DetailTransactionAdapter(mContext, detailTransactionModelGlobal);
-//                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
-//                        mBinding.rvTransactionAdd.setLayoutManager(layoutManager);
-//                        mBinding.rvTransactionAdd.setAdapter(detailTransactionAdapter);
-//                    }
-                    detailTransactionList.add(detailTransaction);
-                    detailTransactionModelGlobal.setDetailTransactionList(detailTransactionList);
-                    detailTransactionAdapter.setNewItemList(detailTransactionModelGlobal);
-                    detailTransactionAdapter.notifyDataSetChanged();
+                    if(mCategory.equalsIgnoreCase("INCOME")) {
+                        detailTransactionList.add(detailTransaction);
+                        detailTransactionModelGlobal.setDetailTransactionList(detailTransactionList);
+                        detailTransactionAdapter.setNewItemList(detailTransactionModelGlobal);
+                        detailTransactionAdapter.notifyDataSetChanged();
+                    }
+                    else {
+                        detailTransactionListExp.add(detailTransaction);
+                        detailTransactionModelGlobalexp.setDetailTransactionList(detailTransactionListExp);
+                        detailTransactionAdapterExp.setNewItemList(detailTransactionModelGlobalexp);
+                        detailTransactionAdapterExp.notifyDataSetChanged();
+                    }
                 }
                 else {
-                    showError("Product or total cannot be empty");
+                    if(mCategory.equalsIgnoreCase("EXPENSE")){
+                        showError("Expense Detail or total cannot be empty");
+                    }
+                    else {
+                        showError("Product or total cannot be empty");
+                    }
                 }
             }
         });
@@ -440,6 +483,26 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
     }
 
     @Override
+    public void showTipeExpenseList(List<String> tipeExpenseModel, int pos) {
+
+        isDialogCustome = true;
+
+        tipeExpenseGlobal = tipeExpenseModel;
+        setCustomeList(4);
+
+        if (pos != -1) {
+            listCustomAdapter.selectedPosition = pos;
+            listCustomAdapter.notifyDataSetChanged();
+
+            if (tipeExpenseModel.size() > 7) {
+                mBinding.lyDialogCustomeList.rvCustomList.scrollToPosition(pos);
+            }
+        }
+
+        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void showDateTimeToday(String dateString, String timeString, String transID) {
 
         mDateString = dateString;
@@ -507,6 +570,9 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
 
             listCustomAdapter = new ListCustomAdapter(mContext,paymentForList,4);
         }
+        else if(tipe==4){
+            listCustomAdapter = new ListCustomAdapter(mContext,tipeExpenseGlobal,7);
+        }
 
         listCustomAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -514,22 +580,92 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
 
                 //cat
                 if (tipe == 1) {
+                    if(!mCategory.equalsIgnoreCase(categoryForList.getCategorySatuanList().
+                            get(position).getCategoryID())){
+                        mProductTemp = "";
+                        mProduct = "";
+                        mResepTemp = "";
+                        mResep = "";
+                        mJumlahInt = 0;
+                        mJumlahProdukTemp = "";
+                        mJumlahProduk = "";
+
+                        mBinding.tvProduct.setText("");
+                        mBinding.tvJumlah.setText("");
+
+                        detailTransactionModelGlobal = new DetailTransactionModel();
+                        detailTransactionModelGlobalexp = new DetailTransactionModel();
+
+                        detailTransactionAdapter.setNewItemList(detailTransactionModelGlobal);
+                        detailTransactionAdapter.notifyDataSetChanged();
+                        detailTransactionAdapterExp.setNewItemList(detailTransactionModelGlobalexp);
+                        detailTransactionAdapterExp.notifyDataSetChanged();
+
+                        if(detailTransactionList!=null && detailTransactionList.size()>0) {
+                            detailTransactionList.clear();
+                        }
+
+                        if(detailTransactionListExp!=null && detailTransactionListExp.size()>0) {
+                            detailTransactionListExp.clear();
+                        }
+
+                    }
                     mCategory = categoryForList.getCategorySatuanList().get(position).getCategoryID();
+                    if(mCategory.equalsIgnoreCase("INCOME")){
+                        mBinding.tvDetailProdukTitle.setText("Detail Product");
+                        mBinding.rvTransactionAdd.setVisibility(View.VISIBLE);
+                        mBinding.rvTransactionAddExpense.setVisibility(GONE);
+                    }
+                    else {
+                        mBinding.tvDetailProdukTitle.setText("Detail Expense");
+                        mBinding.rvTransactionAdd.setVisibility(GONE);
+                        mBinding.rvTransactionAddExpense.setVisibility(View.VISIBLE);
+                    }
                     mCategoryGeneral = categoryForList.getCategorySatuanList().get(position).getCategoryGeneral();
                     mBinding.tvCategory.setText(categoryForList.getCategorySatuanList().get(position).getCategoryName());
                 }
                 //product
                 else if(tipe==2) {
 
+                    if(mCategory.equalsIgnoreCase("INCOME")) {
+                        mResepTemp = productForList.getProductSatuanList().get(position).getProductResepID();
+                    }
                     mProductTemp = productForList.getProductSatuanList().get(position).getProductID();
-                    mResepTemp = productForList.getProductSatuanList().get(position).getProductResepID();
 
                     mBinding.tvProduct.setText(productForList.getProductSatuanList().get(position).getProductName());
 
                 }
+                //payment
                 else if(tipe==3){
                     mPaymentType = paymentForList.getPaymentMethodeSatuanList().get(position).getPaymentMethodeID();
                     mBinding.tvPayment.setText(paymentForList.getPaymentMethodeSatuanList().get(position).getPaymentMethode());
+                }
+
+                //tipe expense
+                else if(tipe==4){
+
+                    String temp = tipeExpenseGlobal.get(position);
+                    if(temp.equalsIgnoreCase(K.TIPE_EXPENSE_BIAYA_LAINNYA)){
+
+                        isDialogCustome = false;
+                        isPrice = false;
+                        isTipeExpense = true;
+
+                        mBinding.lyDoneEditText.tvEditTextLabel.setText("Input Tipe Expense Transaction(Max 100 char)");
+                        if(mProductTemp.equalsIgnoreCase("")) {
+                            mBinding.lyDoneEditText.etKarakter.setText("");
+                        }
+                        else {
+                            mBinding.lyDoneEditText.etKarakter.setText(mProductTemp);
+                        }
+                        mBinding.lyDoneEditText.etKarakter.setVisibility(View.VISIBLE);
+                        mBinding.lyDoneEditText.etNumber.setVisibility(GONE);
+                        mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        mProductTemp = temp;
+                        mBinding.tvProduct.setText(mProductTemp);
+                    }
                 }
 
                 isDialogCustome = false;

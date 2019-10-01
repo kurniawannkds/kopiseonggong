@@ -18,6 +18,7 @@ import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.google.gson.Gson;
 
 import java.text.DateFormat;
+import java.util.List;
 
 public class AddTransactionPresenter implements AddTransactionContract.addTransactionPresenter{
 
@@ -31,6 +32,9 @@ public class AddTransactionPresenter implements AddTransactionContract.addTransa
 
     private PaymentMethodeModel paymentMethodeModelGlobal;
     private String paymentGlobal = "";
+
+    private List<String> tipeExpenseModelGlobal;
+    private String tipeExpenseGlobal;
 
     public AddTransactionPresenter(AddTransactionContract.addTransactionView addTransactionView){
         this.addTransactionView = addTransactionView;
@@ -274,6 +278,15 @@ public class AddTransactionPresenter implements AddTransactionContract.addTransa
         }
     }
 
+    @Override
+    public void getTipeExpenseLainnya(List<String> tipeExpenseModel, String tipeExpense) {
+
+        tipeExpenseModelGlobal = tipeExpenseModel;
+        tipeExpenseGlobal = tipeExpense;
+        setCustomeList(4);
+
+    }
+
     private void onFailed(String message){
 
         addTransactionView.hideProgressBar();
@@ -312,9 +325,22 @@ public class AddTransactionPresenter implements AddTransactionContract.addTransa
                 sizeArray = paymentMethodeModelGlobal.getPaymentMethodeSatuanList().size();
                 if (sizeArray > 0) {
 
-                    selectedPos = findPosition(2);
+                    selectedPos = findPosition(3);
                     addTransactionView.hideProgressBar();
                     addTransactionView.showPaymentList(paymentMethodeModelGlobal, selectedPos);
+                }
+            }
+        }
+
+        else if(tipe==4){
+
+            if (tipeExpenseModelGlobal != null) {
+                sizeArray = tipeExpenseModelGlobal.size();
+                if (sizeArray > 0) {
+
+                    selectedPos = findPosition(4);
+                    addTransactionView.hideProgressBar();
+                    addTransactionView.showTipeExpenseList(tipeExpenseModelGlobal, selectedPos);
                 }
             }
         }
@@ -357,6 +383,20 @@ public class AddTransactionPresenter implements AddTransactionContract.addTransa
 
                 for (int i = 0; i < paymentMethodeModelGlobal.getPaymentMethodeSatuanList().size(); i++) {
                     if (paymentMethodeModelGlobal.getPaymentMethodeSatuanList().get(i).getPaymentMethodeID().equalsIgnoreCase(paymentGlobal)) {
+                        tempPosition = i;
+                        break;
+                    }
+                }
+            }
+        }
+
+        else if(tipe==4){
+
+            if (!tipeExpenseGlobal.equalsIgnoreCase("")) {
+                //category
+
+                for (int i = 0; i < tipeExpenseModelGlobal.size(); i++) {
+                    if (tipeExpenseModelGlobal.get(i).equalsIgnoreCase(tipeExpenseGlobal)) {
                         tempPosition = i;
                         break;
                     }

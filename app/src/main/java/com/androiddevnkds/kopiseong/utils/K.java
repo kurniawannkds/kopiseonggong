@@ -48,5 +48,9 @@ public class K {
     public static String ID_CATEGORY_STOCK_SELL = "SELL STOCKWH";
 
 
+    public static String TIPE_EXPENSE_BIAYA_MAINTENANCE = "Biaya Maintenance";
+    public static String TIPE_EXPENSE_BIAYA_STOCK_MINOR = "Beli Stock lain (Es Batu, Air, dll)";
+    public static String TIPE_EXPENSE_BIAYA_GAJI = "Bayar Gaji";
+    public static String TIPE_EXPENSE_BIAYA_LAINNYA = "Lainnya";
 
 }

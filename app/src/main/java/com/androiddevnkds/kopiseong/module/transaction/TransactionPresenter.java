@@ -225,8 +225,8 @@ public class TransactionPresenter implements TransactionContract.transactionPres
                     userRole = DataManager.can().getUserInfoFromStorage().getUserRole();
                 }
             }
-            //dummy
-            userRole = "Master";
+//            //dummy
+//            userRole = "Master";
             AndroidNetworking.post(K.URL_GET_CATEGORY_TRANSACTION)
                     .addBodyParameter("user_role",userRole)
                     .setTag("test")

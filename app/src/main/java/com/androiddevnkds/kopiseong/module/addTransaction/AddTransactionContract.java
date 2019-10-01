@@ -6,6 +6,8 @@ import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.ProductModel;
 import com.androiddevnkds.kopiseong.model.TransactionSatuanModel;
 
+import java.util.List;
+
 public interface AddTransactionContract {
 
     interface addTransactionView{
@@ -21,6 +23,8 @@ public interface AddTransactionContract {
         void showProductList(ProductModel productModel, int pos);
 
         void showPaymentList(PaymentMethodeModel paymentMethodeModel, int pos);
+
+        void showTipeExpenseList(List<String> tipeExpenseModel , int pos);
 
         void showDateTimeToday(String dateString, String timeString, String transID);
 
@@ -38,6 +42,8 @@ public interface AddTransactionContract {
         void getPaymentList(PaymentMethodeModel paymentMethodeModel, String payment);
 
         void addTransaction(TransactionSatuanModel transactionSatuanModel,String generalCat, String detailProduct, String detailJumlah,String detailResep);
+
+        void getTipeExpenseLainnya(List<String> tipeExpenseModel, String tipeExpense);
 
     }
 }
