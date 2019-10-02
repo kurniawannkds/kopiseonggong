@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 
 import com.androiddevnkds.kopiseong.BaseActivity;
 import com.androiddevnkds.kopiseong.R;
+import com.androiddevnkds.kopiseong.data.DataManager;
 import com.androiddevnkds.kopiseong.databinding.ActivityStockBinding;
 import com.androiddevnkds.kopiseong.module.home.HomeActivity;
 import com.androiddevnkds.kopiseong.module.stock.stockStore.StockStoreFragment;
@@ -18,6 +19,7 @@ public class StockActivity extends BaseActivity {
 
     private FragmentManager fm = getSupportFragmentManager();
     private ActivityStockBinding mBinding;
+    private String userRole = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +35,11 @@ public class StockActivity extends BaseActivity {
     @Override
     public void initUI() {
 
+        if(DataManager.can().getUserInfoFromStorage().getUserRole()!=null){
+            userRole = DataManager.can().getUserInfoFromStorage().getUserRole();
+        }
 
-        if(getIntent().getStringExtra(K.KEY_STOCK).equalsIgnoreCase(K.VALUE_KEY_STOCK_WAREHOUSE)) {
+        if(getIntent().getStringExtra(K.KEY_STOCK).equalsIgnoreCase(K.VALUE_KEY_STOCK_WAREHOUSE) && userRole.equalsIgnoreCase(K.KEY_ROLE_MASTER)) {
             Bundle bundle = new Bundle();
             bundle.putString(K.KEY_MAIN_FIRST_TIME, "Stock");
             FragmentHelper.fragmentInitializer(R.id.fl_fragment_container, fm, new StockWareHouseFragment(), bundle);

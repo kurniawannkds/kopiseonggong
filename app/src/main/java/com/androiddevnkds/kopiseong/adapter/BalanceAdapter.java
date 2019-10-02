@@ -42,7 +42,7 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.Transact
         uang = mataUangHelper.formatRupiah(totalBalanceModel.getTotalBalanceSatuanList().get(i).getTotalBalancePengeluaran());
         holder.textViewTotal.setText("Total Expense : "+uang);
         String date = totalBalanceModel.getTotalBalanceSatuanList().get(i).getTotalBalanceID()+"";
-        date = date.substring(5,6)+"-"+date.substring(0,4);
+        date = date.substring(4,6)+"-"+date.substring(0,4);
 
         holder.textViewDate.setText(date);
     }

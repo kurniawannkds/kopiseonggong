@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.androiddevnkds.kopiseong.BaseFragment;
@@ -309,6 +310,16 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
                 isResepHpp = false;
                 isDialogKeypad = false;
 
+                try {
+                    InputMethodManager imm = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        imm = (InputMethodManager) Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE);
+                    }
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(mBinding.getRoot().getWindowToken(), 0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
                 mBinding.lyDoneEditText.etKarakter.setText("");
                 mBinding.lyDoneEditText.etNumber.setText("");

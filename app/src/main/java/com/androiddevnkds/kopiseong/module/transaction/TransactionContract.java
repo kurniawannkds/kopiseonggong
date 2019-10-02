@@ -25,7 +25,7 @@ public interface TransactionContract {
 
         void showOnClickTransaction(TransactionSatuanModel transactionSatuanModel, DetailTransactionModel detailTransactionModel);
 
-        void showMoreDetailTransaction(DetailTransactionModel.DetailTransaction detailTransaction);
+        void showMoreDetailTransaction(DetailTransactionModel.DetailTransaction detailTransaction,String category);
 
         void showAllCategory(CategoryModel categoryModel, int pos);
 

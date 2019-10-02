@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +13,20 @@ import android.widget.TextView;
 import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.model.DetailTransactionModel;
 import com.androiddevnkds.kopiseong.utils.MataUangHelper;
+import com.google.gson.Gson;
 
 public class DetailTransactionAdapter extends RecyclerView.Adapter<DetailTransactionAdapter.TransactionViewHolder> {
 
     private DetailTransactionModel transactionModel;
     private Context context;
+    private int tipe = 0;
     private static DetailTransactionAdapter.ClickListener clickListener;
 
-    public DetailTransactionAdapter(Context context, DetailTransactionModel transactionModel){
+    public DetailTransactionAdapter(Context context, DetailTransactionModel transactionModel, int tipe){
         this.context= context;
         this.transactionModel = transactionModel;
+
+        this.tipe = tipe;
     }
 
     @NonNull
@@ -38,9 +43,15 @@ public class DetailTransactionAdapter extends RecyclerView.Adapter<DetailTransac
     @Override
     public void onBindViewHolder(@NonNull DetailTransactionAdapter.TransactionViewHolder holder, int i) {
 
-        MataUangHelper mataUangHelper = new MataUangHelper();
 
-        holder.textViewProduct.setText(transactionModel.getDetailTransactionList().get(i).getProductName());
+        Log.e("Adapter", tipe+"");
+
+        if(tipe==0){
+            holder.textViewProduct.setText(transactionModel.getDetailTransactionList().get(i).getDetailProductID());
+        }
+        else {
+            holder.textViewProduct.setText(transactionModel.getDetailTransactionList().get(i).getProductName());
+        }
         holder.textViewQuantity.setText(transactionModel.getDetailTransactionList().get(i).getDetailJumlah()+" Unit");
     }
 
@@ -83,6 +94,7 @@ public class DetailTransactionAdapter extends RecyclerView.Adapter<DetailTransac
 
     public void setNewItemList(DetailTransactionModel detailTransactionModel){
         this.transactionModel = detailTransactionModel;
+        Log.e("Adapter",new Gson().toJson(this.transactionModel));
     }
 
 

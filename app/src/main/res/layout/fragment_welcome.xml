@@ -50,7 +50,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linear_transaction"
+                    android:id="@+id/linear_recipe"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="45dp"
@@ -70,29 +70,29 @@
 
                 </LinearLayout>
 
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/linear_pre_order"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginLeft="45dp"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <ImageView-->
+<!--                        android:layout_width="170dp"-->
+<!--                        android:layout_height="170dp"-->
+<!--                        android:src="@drawable/recurringtxnwk" />-->
+
+<!--                    <TextView-->
+<!--                        style="@style/TextViewStyle3"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center_horizontal"-->
+<!--                        android:text="Pre Order" />-->
+
+<!--                </LinearLayout>-->
+
                 <LinearLayout
-                    android:id="@+id/linear_pre_order"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="45dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="170dp"
-                        android:layout_height="170dp"
-                        android:src="@drawable/recurringtxnwk" />
-
-                    <TextView
-                        style="@style/TextViewStyle3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="Pre Order" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_stock"
+                    android:id="@+id/linear_product"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="45dp"
@@ -108,7 +108,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Stock" />
+                        android:text="Product" />
 
                 </LinearLayout>
 
@@ -124,7 +124,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:id="@+id/linear_recipe"
+                    android:id="@+id/linear_registration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -139,13 +139,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Recipe"
+                        android:text="Registration"
                         style="@style/TextViewStyle3"/>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linear_report"
+                    android:id="@+id/linear_jurnal"
                     android:layout_marginLeft="45dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -161,35 +161,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Report"
+                        android:text="Jurnal"
                         style="@style/TextViewStyle3"/>
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/linear_customer"
-                    android:layout_marginLeft="45dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="170dp"
-                        android:layout_height="170dp"
-                        android:src="@drawable/iconsipadbill"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="Customer"
-                        style="@style/TextViewStyle3"/>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/linear_regist"
+                    android:id="@+id/linear_setting"
                     android:layout_marginLeft="45dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -205,7 +183,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="Registration"
+                        android:text="Setting"
                         style="@style/TextViewStyle3"/>
 
                 </LinearLayout>

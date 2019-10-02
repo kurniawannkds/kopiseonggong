@@ -52,7 +52,7 @@
                             android:layout_height="wrap_content"
                             style="@style/TextViewStyleHeader1"
                             android:layout_centerHorizontal="true"
-                            android:text="Detail Product Transaction"/>
+                            android:text="Detail Balance"/>
 
                     </RelativeLayout>
 
@@ -77,7 +77,6 @@
                         //1
 
                         <LinearLayout
-                            android:id="@+id/layout_linear_info1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -89,16 +88,15 @@
                                 android:src="@drawable/oval_abu" />
 
                             <TextView
-                                android:id="@+id/tv_product_title"
                                 style="@style/TextViewStyle6"
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="10dp"
-                                android:text="" />
+                                android:text="Month " />
 
                             <TextView
-                                android:id="@+id/tv_product_name"
+                                android:id="@+id/tv_date"
                                 style="@style/TextViewStyle6"
                                 android:layout_width="70dp"
                                 android:layout_height="wrap_content"
@@ -121,16 +119,15 @@
                                 android:src="@drawable/oval_abu" />
 
                             <TextView
-                                android:id="@+id/tv_total_title"
                                 style="@style/TextViewStyle6"
                                 android:layout_width="80dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="10dp"
-                                android:text="" />
+                                android:text="Total Income Cash" />
 
                             <TextView
-                                android:id="@+id/tv_total_product"
+                                android:id="@+id/tv_income_cash"
                                 style="@style/TextViewStyle6"
                                 android:layout_width="70dp"
                                 android:layout_height="wrap_content"
@@ -141,7 +138,6 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/linear_resep"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
@@ -159,10 +155,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="10dp"
-                                android:text="Product Resep" />
+                                android:text="Total Income Account" />
 
                             <TextView
-                                android:id="@+id/tv_resep"
+                                android:id="@+id/tv_income_acc"
                                 style="@style/TextViewStyle6"
                                 android:layout_width="70dp"
                                 android:layout_gravity="center_vertical"
@@ -189,13 +185,75 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="10dp"
                                 android:layout_height="wrap_content"
-                                android:text="Product Category"
+                                android:text="Total Expense Cash"
                                 style="@style/TextViewStyle6"
                                 android:layout_width="80dp"/>
 
                             <TextView
                                 android:layout_gravity="center_vertical"
-                                android:id="@+id/tv_category"
+                                android:id="@+id/tv_expense_cash"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="70dp"
+                                android:gravity="end"
+                                android:layout_height="wrap_content"
+                                android:text="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="3dp">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu"/>
+
+                            <TextView
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:layout_height="wrap_content"
+                                android:text="Total Expense Account"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"/>
+
+                            <TextView
+                                android:layout_gravity="center_vertical"
+                                android:id="@+id/tv_expense_acc"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="70dp"
+                                android:gravity="end"
+                                android:layout_height="wrap_content"
+                                android:text="" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="3dp">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu"/>
+
+                            <TextView
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:layout_height="wrap_content"
+                                android:text="Total Hpp"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"/>
+
+                            <TextView
+                                android:layout_gravity="center_vertical"
+                                android:id="@+id/tv_hpp"
                                 style="@style/TextViewStyle6"
                                 android:layout_width="70dp"
                                 android:gravity="end"

@@ -40,9 +40,9 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.TransactionV
     public void onBindViewHolder(@NonNull StockAdapter.TransactionViewHolder holder, int i) {
 
         MataUangHelper mataUangHelper = new MataUangHelper();
-        String uang = mataUangHelper.formatRupiah(stockModel.getStockSatuanModelList().get(i).getStockPrice());
+        String uang = mataUangHelper.formatRupiah(stockModel.getStockSatuanModelList().get(i).getStockGram());
         holder.textViewProduct.setText(stockModel.getStockSatuanModelList().get(i).getStockName());
-        holder.textViewTotal.setText(uang);
+        holder.textViewTotal.setText(uang.replace("IDR. ","")+" gram");
         holder.textViewDate.setText(stockModel.getStockSatuanModelList().get(i).getStockDate());
     }
 

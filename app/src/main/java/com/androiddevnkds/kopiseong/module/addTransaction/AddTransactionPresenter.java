@@ -74,7 +74,7 @@ public class AddTransactionPresenter implements AddTransactionContract.addTransa
                 }
             }
             //dummy
-            userRole = "Master";
+//            userRole = "Master";
             AndroidNetworking.post(K.URL_GET_CATEGORY_TRANSACTION)
                     .addBodyParameter("user_role",userRole)
                     .setTag("test")
@@ -90,6 +90,12 @@ public class AddTransactionPresenter implements AddTransactionContract.addTransa
                             }
                             else {
 
+//                                for(int i=0;i<categoryModel.getCategorySatuanList().size();i++){
+//                                    if(!categoryModel.getCategorySatuanList().get(i).getCategoryID().equalsIgnoreCase(K.ID_CATEGORY_STOCK_BUY)&&
+//                                            !categoryModel.getCategorySatuanList().get(i).getCategoryID().equalsIgnoreCase(K.ID_CATEGORY_STOCK_SELL)){
+//
+//                                    }
+//                                }
                                 categoryModelGlobal = categoryModel;
                                 categoryGlobal = category;
                                 setCustomeList(1);
@@ -275,6 +281,52 @@ public class AddTransactionPresenter implements AddTransactionContract.addTransa
         }
         else {
             onFailed("Resep and Total not match or empty");
+        }
+    }
+
+    @Override
+    public void addTransactionExp(TransactionSatuanModel transactionSatuanModel, String generalCat, String detailProduct, String detailJumlah) {
+
+        addTransactionView.showProgressBar();
+        if(!isEmptyExp(transactionSatuanModel,generalCat,detailProduct,detailJumlah)) {
+            String balanceID = transactionSatuanModel.getTransactionID().substring(0, 6);
+            AndroidNetworking.post(K.URL_ADD_TRANSACTION)
+                    .addBodyParameter("expense", "income")
+                    .addBodyParameter("trans_id", transactionSatuanModel.getTransactionID())
+                    .addBodyParameter("trans_category", transactionSatuanModel.getTransactionCategory())
+                    .addBodyParameter("trans_date", transactionSatuanModel.getTransactionDate())
+                    .addBodyParameter("trans_time", transactionSatuanModel.getTransactionTime())
+                    .addBodyParameter("trans_price", transactionSatuanModel.getTransactionBalance() + "")
+                    .addBodyParameter("trans_user_email", transactionSatuanModel.getUserEmail())
+                    .addBodyParameter("category_general", generalCat)
+                    .addBodyParameter("trans_tipe_pembayaran", transactionSatuanModel.getTipePembayaran())
+                    .addBodyParameter("trans_detail_produk", detailProduct)
+                    .addBodyParameter("trans_detail_jumlah", detailJumlah)
+                    .addBodyParameter("total_balance_id", balanceID)
+                    .setTag("test")
+                    .setPriority(Priority.MEDIUM)
+                    .build()
+                    .getAsObject(UpdateResponseModel.class, new ParsedRequestListener<UpdateResponseModel>() {
+                        @Override
+                        public void onResponse(UpdateResponseModel updateResponseModel) {
+                            // do anything with response
+
+                            if (updateResponseModel.getErrorMessage() != null) {
+                                onFailed(updateResponseModel.getErrorMessage());
+                            } else {
+                                addTransactionView.hideProgressBar();
+                                addTransactionView.showSuccessAddTransaction(updateResponseModel.getSuccessMessage());
+                            }
+                        }
+
+                        @Override
+                        public void onError(ANError anError) {
+                            // handle error
+                            onFailed("ERROR");
+                            Log.e("ERROR", anError.getErrorDetail());
+
+                        }
+                    });
         }
     }
 
@@ -503,6 +555,58 @@ public class AddTransactionPresenter implements AddTransactionContract.addTransa
         }
         else if(hpp==0){
             onFailed("Hpp cannot be zero");
+            return true;
+        }
+        else {
+            return  false;
+        }
+    }
+
+
+    private boolean isEmptyExp(TransactionSatuanModel transactionSatuanModel,String generalCat, String detailProduct, String detailJumlah){
+
+        String transID = transactionSatuanModel.getTransactionID();
+        String tipeBayar = transactionSatuanModel.getTipePembayaran();
+        long price = transactionSatuanModel.getTransactionBalance();
+        String time = transactionSatuanModel.getTransactionTime();
+        String date = transactionSatuanModel.getTransactionDate();
+        String mCategory = transactionSatuanModel.getTransactionCategory();
+
+        if(transID.equalsIgnoreCase("")){
+
+            onFailed("ID cannot be empty");
+            return  true;
+        }
+        else if(tipeBayar.equalsIgnoreCase("")){
+            onFailed("Payment method cannot be empty");
+            return true;
+        }
+        else if(time.equalsIgnoreCase("")){
+            onFailed("Time cannot be empty");
+            return true;
+        }
+        else if(date.equalsIgnoreCase("")){
+            onFailed("Date cannot be empty");
+            return true;
+        }
+        else if(mCategory.equalsIgnoreCase("")){
+            onFailed("Category cannot be empty");
+            return true;
+        }
+        else if(generalCat.equalsIgnoreCase("")){
+            onFailed("Category cannot be empty");
+            return true;
+        }
+        else if(detailProduct.equalsIgnoreCase("")){
+            onFailed("Product cannot be empty");
+            return true;
+        }
+        else if(detailJumlah.equalsIgnoreCase("")){
+            onFailed("Jumlah cannot be empty");
+            return true;
+        }
+        else if(price==0){
+            onFailed("Price cannot be zero");
             return true;
         }
         else {

@@ -379,6 +379,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
 
                 mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
                 mBinding.lyDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(View.GONE);
+                isDetailTrans = false;
 
             }
         });
@@ -392,6 +393,16 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     Objects.requireNonNull(getActivity()).finish();
                 }
+            }
+        });
+
+        mBinding.lyMoreDetailTransaction.btnOke.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mBinding.lyMoreDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(GONE);
+                mBinding.lyDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(View.VISIBLE);
+                isMoreDetailTrans = false;
             }
         });
 
@@ -478,7 +489,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
         mBinding.lyDetailTransaction.tvTotalBalance.setText(mataUangHelper.formatRupiah(transactionSatuanModel.getTransactionBalance()));
 
 
-        detailTransactionAdapter = new DetailTransactionAdapter(mContext, detailTransactionModel);
+        detailTransactionAdapter = new DetailTransactionAdapter(mContext, detailTransactionModel,1);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
         mBinding.lyDetailTransaction.rvTransactionDetail.setLayoutManager(layoutManager);
         mBinding.lyDetailTransaction.rvTransactionDetail.setAdapter(detailTransactionAdapter);
@@ -499,15 +510,32 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
     }
 
     @Override
-    public void showMoreDetailTransaction(DetailTransactionModel.DetailTransaction detailTransaction) {
+    public void showMoreDetailTransaction(DetailTransactionModel.DetailTransaction detailTransaction, String cat) {
 
         mBinding.lyDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(GONE);
         mBinding.lyMoreDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(View.VISIBLE);
 
-        mBinding.lyMoreDetailTransaction.tvCategory.setText(detailTransaction.getProductGeneralCat());
-        mBinding.lyMoreDetailTransaction.tvProductName.setText(detailTransaction.getProductName());
-        mBinding.lyMoreDetailTransaction.tvResep.setText(detailTransaction.getProductResep());
-        mBinding.lyMoreDetailTransaction.tvTotalProduct.setText(detailTransaction.getDetailJumlah()+" unit");
+        if(cat.equalsIgnoreCase("INCOME")) {
+
+            mBinding.lyMoreDetailTransaction.tvProductTitle.setText("Produk Name");
+            mBinding.lyMoreDetailTransaction.tvTotalTitle.setText("Total Produk");
+            mBinding.lyMoreDetailTransaction.linearCat.setVisibility(View.VISIBLE);
+            mBinding.lyMoreDetailTransaction.linearResep.setVisibility(View.VISIBLE);
+            mBinding.lyMoreDetailTransaction.tvCategory.setText(detailTransaction.getProductGeneralCat());
+            mBinding.lyMoreDetailTransaction.tvProductName.setText(detailTransaction.getProductName());
+            mBinding.lyMoreDetailTransaction.tvResep.setText(detailTransaction.getProductResep());
+            mBinding.lyMoreDetailTransaction.tvTotalProduct.setText(detailTransaction.getDetailJumlah() + " unit");
+        }
+        else {
+            mBinding.lyMoreDetailTransaction.tvProductTitle.setText("Expense Detail");
+            mBinding.lyMoreDetailTransaction.tvTotalTitle.setText("Total Nominal");
+            mBinding.lyMoreDetailTransaction.linearCat.setVisibility(GONE);
+            mBinding.lyMoreDetailTransaction.linearResep.setVisibility(GONE);
+
+            mBinding.lyMoreDetailTransaction.tvProductName.setText(detailTransaction.getProductName());
+            MataUangHelper mataUangHelper = new MataUangHelper();
+            mBinding.lyMoreDetailTransaction.tvTotalProduct.setText(mataUangHelper.formatRupiah(detailTransaction.getDetailJumlah()));
+        }
     }
 
     @Override

@@ -43,6 +43,8 @@ import com.razerdp.widget.animatedpieview.data.SimplePieInfo;
 
 import java.util.Objects;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -50,11 +52,12 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
 
     private FragmentWalletBinding mBinding;
     private Context mContext;
-    private String colorExpense ="#f5211d",colorIncome="#37DC74",colorTax="#FFA340";
+    private String colorExpense ="#f5211d",colorExpenseAcc ="#f7382a",colorIncome="#37DC74",colorIncomeAcc="#11fa8a",colorTax="#FFA340";
     private TotalBalanceModel totalBalanceModelGlobal;
     private BalanceAdapter balanceAdapter;
     private MataUangHelper mataUangHelper;
     private WalletPresenter walletPresenter;
+    private long totalIncomeAll = 0, totalExpenseAll = 0, totalHPP = 0;
 
     public WalletFragment() {
         // Required empty public constructor
@@ -137,6 +140,15 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
             public void onClick(View view) {
 
                 mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
+                mBinding.lyDetailBalance.lyDialogLayoutDetailTransaction.setVisibility(View.GONE);
+            }
+        });
+
+        mBinding.lyDetailBalance.btnOke.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
+                mBinding.lyDetailBalance.lyDialogLayoutDetailTransaction.setVisibility(View.GONE);
             }
         });
 
@@ -168,20 +180,22 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
     @Override
     public void showDiagram(long totalIncome, long totalExpense, long totalIncomeRek, long totalExpenseRek, long hpp) {
 
+        totalIncomeAll = totalIncome+ totalIncomeRek;
+        totalExpenseAll = totalExpense+ totalExpenseRek;
+        totalHPP = hpp;
         AnimatedPieViewConfig config = new AnimatedPieViewConfig();
         config.startAngle(-90);
-        config.addData(new SimplePieInfo(totalIncome, Color.parseColor(colorIncome),mataUangHelper.formatRupiah(totalIncome)));
-        config.addData(new SimplePieInfo(totalIncomeRek, Color.parseColor(colorIncome),mataUangHelper.formatRupiah(totalIncomeRek)));
-        config.addData(new SimplePieInfo(hpp, Color.parseColor(colorTax),mataUangHelper.formatRupiah(hpp)));
-        config.addData(new SimplePieInfo(totalExpense, Color.parseColor(colorExpense),mataUangHelper.formatRupiah(totalExpense)));
-        config.addData(new SimplePieInfo(totalExpenseRek, Color.parseColor(colorExpense),mataUangHelper.formatRupiah(totalExpenseRek)));
+        config.addData(new SimplePieInfo(totalIncomeAll, Color.parseColor(colorIncome),"Income"));
+        config.addData(new SimplePieInfo(totalHPP, Color.parseColor(colorTax),"Hpp"));
+        config.addData(new SimplePieInfo(totalExpenseAll, Color.parseColor(colorExpense),"Expense"));
         config.drawText(true).focusAlphaType(AnimatedPieViewConfig.FOCUS_WITH_ALPHA_REV).strokeMode(false).textSize(13);
         config.selectListener(new OnPieSelectListener<IPieInfo>() {
             @Override
             public void onSelectPie(@NonNull IPieInfo pieInfo, boolean isFloatUp) {
 
-
-
+                       if(isFloatUp){
+                           showDetailPie(pieInfo.getDesc());
+                       }
             }
         });
         config.duration(1000);
@@ -194,7 +208,25 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
     @Override
     public void onFailed(String message) {
 
-        Toast.makeText(mContext,message,Toast.LENGTH_SHORT).show();
+        showError(message);
+    }
+
+    @Override
+    public void showDetailBalance(TotalBalanceModel.TotalBalanceSatuan totalBalanceSatuan, int pos) {
+
+        MataUangHelper mataUangHelper = new MataUangHelper();
+        String date = totalBalanceSatuan.getTotalBalanceID()+"";
+        date = date.substring(4,6)+"-"+date.substring(0,4);
+        mBinding.lyDetailBalance.tvDate.setText(date);
+        mBinding.lyDetailBalance.tvExpenseCash.setText(mataUangHelper.formatRupiah(totalBalanceSatuan.getTotalBalancePengeluaran()));
+        mBinding.lyDetailBalance.tvExpenseAcc.setText(mataUangHelper.formatRupiah(totalBalanceSatuan.getTotalBalancePengeluaranRek()));
+        mBinding.lyDetailBalance.tvIncomeCash.setText(mataUangHelper.formatRupiah(totalBalanceSatuan.getTotalBalancePemasukan()));
+        mBinding.lyDetailBalance.tvIncomeAcc.setText(mataUangHelper.formatRupiah(totalBalanceSatuan.getTotalBalancePemasukanRek()));
+        mBinding.lyDetailBalance.tvHpp.setText(mataUangHelper.formatRupiah(totalBalanceSatuan.getTotalBalanceHpp()));
+
+        mBinding.lyDetailBalance.lyDialogLayoutDetailTransaction.setVisibility(View.VISIBLE);
+        mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -213,7 +245,90 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
         mBinding.rvTransactionWallet.setLayoutManager(layoutManager);
         mBinding.rvTransactionWallet.setAdapter(balanceAdapter);
+
+        balanceAdapter.setOnItemClickListener(new BalanceAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+
+                walletPresenter.getDetailBalance(totalBalanceModelGlobal,position);
+            }
+        });
     }
 
+    private void showError(String message) {
+
+        final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.ERROR_TYPE);
+        pDialog.setTitleText(message);
+        pDialog.setConfirmText("Yes");
+        pDialog.showCancelButton(false);
+        pDialog.setCanceledOnTouchOutside(false);
+        pDialog.show();
+
+        pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sDialog) {
+
+                pDialog.dismiss();
+            }
+        });
+    }
+
+    private void showDetailPie(String desc){
+
+        MataUangHelper mataUangHelper = new MataUangHelper();
+
+        if(desc.equalsIgnoreCase("Income")){
+            final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.NORMAL_TYPE);
+            pDialog.setTitleText(desc);
+            pDialog.setContentText(mataUangHelper.formatRupiah(totalIncomeAll));
+            pDialog.setConfirmText("Yes");
+            pDialog.showCancelButton(false);
+            pDialog.setCanceledOnTouchOutside(false);
+            pDialog.show();
+
+            pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sDialog) {
+
+                    pDialog.dismiss();
+                }
+            });
+        }
+        else if(desc.equalsIgnoreCase("Expense")){
+            final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.NORMAL_TYPE);
+            pDialog.setTitleText(desc);
+            pDialog.setContentText(mataUangHelper.formatRupiah(totalExpenseAll));
+            pDialog.setConfirmText("Yes");
+            pDialog.showCancelButton(false);
+            pDialog.setCanceledOnTouchOutside(false);
+            pDialog.show();
+
+            pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sDialog) {
+
+                    pDialog.dismiss();
+                }
+            });
+        }
+        else {
+            final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.NORMAL_TYPE);
+            pDialog.setTitleText(desc);
+            pDialog.setContentText(mataUangHelper.formatRupiah(totalHPP));
+            pDialog.setConfirmText("Yes");
+            pDialog.showCancelButton(false);
+            pDialog.setCanceledOnTouchOutside(false);
+            pDialog.show();
+
+            pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sDialog) {
+
+                    pDialog.dismiss();
+                }
+            });
+        }
+
+    }
     //end
 }

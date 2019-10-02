@@ -85,4 +85,13 @@ public class WalletPresenter implements WalletContract.walletPresenter {
             walletView.showUserName("Error","Error");
         }
     }
+
+    @Override
+    public void getDetailBalance(TotalBalanceModel totalBalanceModel, int pos) {
+
+        TotalBalanceModel.TotalBalanceSatuan totalBalanceSatuan = totalBalanceModel.getTotalBalanceSatuanList().get(pos);
+        walletView.showDetailBalance(totalBalanceSatuan,pos);
+
+        walletView.showDetailBalance(totalBalanceSatuan,pos);
+    }
 }

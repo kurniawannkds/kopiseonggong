@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 
 import com.androiddevnkds.kopiseong.BaseFragment;
@@ -709,6 +710,17 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                 }
                 else {
                     mBinding.lyDialogSentStock.lyDialogLayoutSentStock.setVisibility(View.VISIBLE);
+                }
+
+                try {
+                    InputMethodManager imm = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        imm = (InputMethodManager) Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE);
+                    }
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(mBinding.getRoot().getWindowToken(), 0);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 mBinding.lyDoneEditText.etKarakter.setVisibility(GONE);
                 mBinding.lyDoneEditText.etNumber.setVisibility(GONE);

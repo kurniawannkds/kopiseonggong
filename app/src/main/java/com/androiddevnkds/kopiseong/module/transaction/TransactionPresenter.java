@@ -156,31 +156,63 @@ public class TransactionPresenter implements TransactionContract.transactionPres
 
             Log.e("trans",transID);
 
-            AndroidNetworking.post(K.URL_GET_DETAIL_TRANSACTION)
-                    .addBodyParameter("transaction_id",transID)
-                    .setTag("test")
-                    .setPriority(Priority.MEDIUM)
-                    .build()
-                    .getAsObject(DetailTransactionModel.class, new ParsedRequestListener<DetailTransactionModel>() {
-                        @Override
-                        public void onResponse(DetailTransactionModel detailTransactionModel) {
-                            // do anything with response
-                            Log.e("trans",new Gson().toJson(detailTransactionModel));
-                            if(detailTransactionModel.getErrorMessage()!=null){
-                                onFailed(detailTransactionModel.getErrorMessage());
-                            }
-                            else {
+            if(transCat.equalsIgnoreCase("INCOME")) {
 
-                                transactionView.hideProgressBar();
-                                transactionView.showOnClickTransaction(transactionSatuanModel,detailTransactionModel);
+                AndroidNetworking.post(K.URL_GET_DETAIL_TRANSACTION)
+                        .addBodyParameter("transaction_id", transID)
+                        .addBodyParameter("category_income","INCOME")
+                        .setTag("test")
+                        .setPriority(Priority.MEDIUM)
+                        .build()
+                        .getAsObject(DetailTransactionModel.class, new ParsedRequestListener<DetailTransactionModel>() {
+                            @Override
+                            public void onResponse(DetailTransactionModel detailTransactionModel) {
+                                // do anything with response
+                                Log.e("trans", new Gson().toJson(detailTransactionModel));
+                                if (detailTransactionModel.getErrorMessage() != null) {
+                                    onFailed(detailTransactionModel.getErrorMessage());
+                                } else {
+
+                                    transactionView.hideProgressBar();
+                                    transactionView.showOnClickTransaction(transactionSatuanModel, detailTransactionModel);
+                                }
                             }
-                        }
-                        @Override
-                        public void onError(ANError anError) {
-                            // handle error
-                            onFailed("ERROR");
-                        }
-                    });
+
+                            @Override
+                            public void onError(ANError anError) {
+                                // handle error
+                                onFailed("ERROR");
+                            }
+                        });
+            }
+            else {
+
+                AndroidNetworking.post(K.URL_GET_DETAIL_TRANSACTION)
+                        .addBodyParameter("transaction_id", transID)
+                        .setTag("test")
+                        .setPriority(Priority.MEDIUM)
+                        .build()
+                        .getAsObject(DetailTransactionModel.class, new ParsedRequestListener<DetailTransactionModel>() {
+                            @Override
+                            public void onResponse(DetailTransactionModel detailTransactionModel) {
+                                // do anything with response
+                                Log.e("trans", new Gson().toJson(detailTransactionModel));
+                                if (detailTransactionModel.getErrorMessage() != null) {
+                                    onFailed(detailTransactionModel.getErrorMessage());
+                                } else {
+
+                                    transactionView.hideProgressBar();
+                                    transactionView.showOnClickTransaction(transactionSatuanModel, detailTransactionModel);
+                                }
+                            }
+
+                            @Override
+                            public void onError(ANError anError) {
+                                // handle error
+                                onFailed("ERROR");
+                            }
+                        });
+            }
         }
     }
 
@@ -189,7 +221,7 @@ public class TransactionPresenter implements TransactionContract.transactionPres
 
         DetailTransactionModel.DetailTransaction detailTransaction = new DetailTransactionModel().new DetailTransaction();
         detailTransaction = detailTransactionModel.getDetailTransactionList().get(position);
-        transactionView.showMoreDetailTransaction(detailTransaction);
+        transactionView.showMoreDetailTransaction(detailTransaction,transCat);
     }
 
     @Override

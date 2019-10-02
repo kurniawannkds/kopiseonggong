@@ -9,13 +9,9 @@
         android:layout_height="match_parent"
         android:background="@color/colorAccent2">
 
-        <ProgressBar
-            android:id="@+id/pb_bar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone" />
+        <include
+            android:id="@+id/ly_header_data"
+            layout="@layout/header_content" />
 
 
         <RelativeLayout
@@ -53,94 +49,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="50dp">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/mainPieChart"
-                            android:layout_centerHorizontal="true"
-                            android:background="@null"
-                            android:orientation="horizontal">
-                            //need
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/mainPieChart"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginRight="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:background="@null"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:layout_alignParentTop="true"
-                                    android:background="#37DC74" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:gravity="center"
-                                    android:text=" Income"
-                                    android:textSize="17sp"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginRight="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:background="#FFA340" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:gravity="center"
-                                    android:text=" Tax"
-                                    android:textSize="17sp"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginRight="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:background="#f5211d" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_vertical"
-                                    android:gravity="center"
-                                    android:text=" Expense"
-                                    android:textSize="17sp"
-                                    android:textStyle="bold" />
-
-                            </LinearLayout>
-                        </LinearLayout>
 
                         <com.razerdp.widget.animatedpieview.AnimatedPieView
                             android:id="@+id/mainPieChart"
@@ -401,7 +309,7 @@
                                 <android.support.v7.widget.RecyclerView
                                     android:id="@+id/rv_transaction_wallet"
                                     android:layout_width="match_parent"
-                                    android:layout_height="90dp"
+                                    android:layout_height="200dp"
                                     android:layout_margin="15dp" />
 
                             </android.support.design.widget.CoordinatorLayout>
@@ -424,6 +332,21 @@
 
         </RelativeLayout>
 
+        <include
+            android:id="@+id/ly_black"
+            layout="@layout/layout_black" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <include
+                android:id="@+id/ly_detail_balance"
+                layout="@layout/dialog_detail_balance" />
+
+        </RelativeLayout>
+
         <View
             android:id="@+id/view_background"
             android:layout_width="match_parent"
@@ -432,13 +355,13 @@
             android:background="@color/colorBlack"
             android:visibility="gone" />
 
-        <include
-            android:id="@+id/ly_black"
-            layout="@layout/layout_black" />
-
-        <include
-            android:id="@+id/ly_header_data"
-            layout="@layout/header_content" />
+        <ProgressBar
+            android:id="@+id/pb_bar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

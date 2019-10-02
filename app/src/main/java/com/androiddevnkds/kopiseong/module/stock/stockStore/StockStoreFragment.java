@@ -28,6 +28,7 @@ import com.androiddevnkds.kopiseong.BaseFragment;
 import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.adapter.ListCustomAdapter;
 import com.androiddevnkds.kopiseong.adapter.StockAdapter;
+import com.androiddevnkds.kopiseong.data.DataManager;
 import com.androiddevnkds.kopiseong.databinding.FragmentStockStoreBinding;
 import com.androiddevnkds.kopiseong.databinding.FragmentStockWareHouseBinding;
 import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
@@ -63,10 +64,13 @@ public class StockStoreFragment extends BaseFragment implements StockStoreContra
     private StockStorePresenter stockStorePresenter;
     private StockAdapter stockAdapter;
     private StockModel stockModelGlobal;
-    private String stockID = "", stockName = "", stockDate = "", stockDateSort = "";
+    private String stockID = "", stockName = "", stockDate = "", stockDateSort = "", userRole = "";
     private long stockPrice = 0, stockJumlah = 0;
     private long stockPricePerGram = 0;
     private int positionDetail = 0;
+
+    private String titleFix = "You Not Allowed to Use This Feature";
+    private String messageFix = "Please choose transaction or stock store feature on bottom navigation";
 
     private Calendar myCalendar;
     private SimpleDateFormat sdf;
@@ -110,6 +114,11 @@ public class StockStoreFragment extends BaseFragment implements StockStoreContra
         HeaderHelper.setLinearStockSTVisible(true);
         stockStorePresenter.getAllStock();
         mBinding.lyBottomNav.navigation.setSelectedItemId(R.id.stock_menu);
+
+        if(DataManager.can().getUserInfoFromStorage().getUserRole()!=null){
+            userRole = DataManager.can().getUserInfoFromStorage().getUserRole();
+        }
+
     }
 
     @Override
@@ -155,11 +164,16 @@ public class StockStoreFragment extends BaseFragment implements StockStoreContra
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(mContext, StockActivity.class);
-                intent.putExtra(K.KEY_STOCK,K.VALUE_KEY_STOCK_WAREHOUSE);
-                startActivity(intent);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    Objects.requireNonNull(getActivity()).finish();
+                if(userRole.equalsIgnoreCase(K.KEY_ROLE_MASTER)) {
+                    Intent intent = new Intent(mContext, StockActivity.class);
+                    intent.putExtra(K.KEY_STOCK, K.VALUE_KEY_STOCK_WAREHOUSE);
+                    startActivity(intent);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        Objects.requireNonNull(getActivity()).finish();
+                    }
+                }
+                else {
+                    showErrorRole();
                 }
             }
         });
@@ -443,6 +457,25 @@ public class StockStoreFragment extends BaseFragment implements StockStoreContra
 
         final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.ERROR_TYPE);
         pDialog.setTitleText(message);
+        pDialog.setConfirmText("Yes");
+        pDialog.showCancelButton(false);
+        pDialog.setCanceledOnTouchOutside(false);
+        pDialog.show();
+
+        pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sDialog) {
+
+                pDialog.dismiss();
+            }
+        });
+    }
+
+    private void showErrorRole() {
+
+        final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.ERROR_TYPE);
+        pDialog.setTitleText(titleFix);
+        pDialog.setContentText(messageFix);
         pDialog.setConfirmText("Yes");
         pDialog.showCancelButton(false);
         pDialog.setCanceledOnTouchOutside(false);

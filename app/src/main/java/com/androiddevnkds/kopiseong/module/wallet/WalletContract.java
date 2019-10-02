@@ -16,6 +16,8 @@ public interface WalletContract {
 
         void onFailed(String message);
 
+        void showDetailBalance(TotalBalanceModel.TotalBalanceSatuan totalBalanceSatuan, int pos);
+
         void showBalance(long totalIncome, long totalExpense, long incomeRek, long expenseRek, long hpp, long avalaibleBalance,
                          TotalBalanceModel totalBalanceModel);
     }
@@ -29,5 +31,7 @@ public interface WalletContract {
         void onSuccess(TotalBalanceModel totalBalanceModel);
 
         void getUserName();
+
+        void getDetailBalance(TotalBalanceModel totalBalanceModel, int pos);
     }
 }

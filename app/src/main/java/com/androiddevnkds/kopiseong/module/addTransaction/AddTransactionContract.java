@@ -43,6 +43,8 @@ public interface AddTransactionContract {
 
         void addTransaction(TransactionSatuanModel transactionSatuanModel,String generalCat, String detailProduct, String detailJumlah,String detailResep);
 
+        void addTransactionExp(TransactionSatuanModel transactionSatuanModel,String generalCat, String detailProduct, String detailJumlah);
+
         void getTipeExpenseLainnya(List<String> tipeExpenseModel, String tipeExpense);
 
     }
