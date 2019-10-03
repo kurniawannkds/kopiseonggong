@@ -29,6 +29,7 @@ public class K {
     public static String USER_NAME_USER = "USER_NAME_USER";
     public static String KEY_OBJECT_USER = "OBJECT_USER";
     public static String KEY_STATUS_USER_LOGIN = "KEY_STATUS_USER_LOGIN";
+    public static String KEY_DATE = "KEY_DATE";
 
     public static String KEY_ROLE_CUSTOMER = "Customer";
     public static String KEY_ROLE_ADMIN = "Admin";

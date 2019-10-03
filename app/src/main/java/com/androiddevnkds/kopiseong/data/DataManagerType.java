@@ -12,4 +12,8 @@ public interface DataManagerType {
     boolean getUserStatusFromStorage();
     void setUserStatusToStorage(boolean val);
     void removeUserStatusFromStorage();
+
+    String getTanggal();
+    void setTanggal(String val);
+    void removeTanggal();
 }

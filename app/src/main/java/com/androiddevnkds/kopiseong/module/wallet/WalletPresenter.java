@@ -25,6 +25,7 @@ public class WalletPresenter implements WalletContract.walletPresenter {
     @Override
     public void getBalance(String balanceID) {
 
+        walletView.showProgressBar();
         AndroidNetworking.post(K.URL_GET_ALL_BALANCE)
                 .addBodyParameter("select","select")
                 .addBodyParameter("total_balance_id",balanceID)
@@ -40,6 +41,7 @@ public class WalletPresenter implements WalletContract.walletPresenter {
                             onFailed(totalBalanceModel.getErrorMessage());
                         }
                         else {
+                            walletView.hideProgressBar();
                             onSuccess(totalBalanceModel);
                         }
                     }

@@ -1,5 +1,6 @@
 package com.androiddevnkds.kopiseong.data;
 
+import com.androiddevnkds.kopiseong.data.dataApps.AppsStorage;
 import com.androiddevnkds.kopiseong.data.dataUser.UserStorage;
 import com.androiddevnkds.kopiseong.model.UserInfoModel;
 import com.androiddevnkds.kopiseong.module.register.model.RegisterInteractor;
@@ -17,6 +18,7 @@ public class DataManager implements DataManagerType {
     }
 
     private static UserStorage sUserStorage = new UserStorage();
+    private static AppsStorage sAppsStorage = new AppsStorage();
 
 
 
@@ -53,5 +55,21 @@ public class DataManager implements DataManagerType {
     @Override
     public void removeUserStatusFromStorage() {
         sUserStorage.removeUserStatusFromStorage();
+    }
+
+    @Override
+    public String getTanggal() {
+
+        return sAppsStorage.getTanggal();
+    }
+
+    @Override
+    public void setTanggal(String val) {
+        sAppsStorage.setTanggal(val);
+    }
+
+    @Override
+    public void removeTanggal() {
+        sAppsStorage.removeTanggal();
     }
 }

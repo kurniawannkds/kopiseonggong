@@ -27,6 +27,7 @@ import com.androiddevnkds.kopiseong.module.resep.ResepFragment;
 import com.androiddevnkds.kopiseong.module.stock.StockActivity;
 import com.androiddevnkds.kopiseong.module.transaction.TransactionActivity;
 import com.androiddevnkds.kopiseong.module.wallet.WalletActivity;
+import com.androiddevnkds.kopiseong.utils.DateAndTime;
 import com.androiddevnkds.kopiseong.utils.FragmentHelper;
 import com.androiddevnkds.kopiseong.utils.HeaderHelper;
 import com.androiddevnkds.kopiseong.utils.K;
@@ -47,6 +48,7 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
     private Context mContext;
     private HomePresenter homePresenter;
     private String userRole = "";
+    private String dateNow ="", dateBefore = "";
     private String titleFix = "You Not Allowed to Use This Feature";
     private String messageFix = "Please choose transaction or stock store feature on bottom navigation";
 
@@ -85,6 +87,21 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
         homePresenter.getUserName();
         mBinding.lyBottomNav.navigation.setSelectedItemId(R.id.home_menu);
         HeaderHelper.setLinearLogOut(true);
+        DateAndTime dateAndTime = new DateAndTime();
+        dateNow = dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_SORT).substring(0,6);
+
+        if(DataManager.can().getTanggal()!=null){
+
+            dateBefore = DataManager.can().getTanggal();
+            if(!dateNow.equalsIgnoreCase(dateBefore)){
+
+                homePresenter.initBalance(dateNow,dateBefore);
+            }
+        }
+        else {
+
+            homePresenter.initBalance(dateNow,dateBefore);
+        }
 
         if(DataManager.can().getUserInfoFromStorage().getUserRole()!=null){
             userRole = DataManager.can().getUserInfoFromStorage().getUserRole();
@@ -274,6 +291,59 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
         mBinding.lyHeaderData.tvStatus.setText(status);
         HeaderHelper.setLinearContentVisible(true);
         HeaderHelper.setRelativeContentVisible(false);
+    }
+
+    @Override
+    public void successInitBalance(String message) {
+
+        final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.SUCCESS_TYPE);
+        pDialog.setTitleText(message);
+        pDialog.setConfirmText("Yes");
+        pDialog.showCancelButton(false);
+        pDialog.setCanceledOnTouchOutside(false);
+        pDialog.show();
+
+        pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sDialog) {
+
+                DataManager.can().setTanggal(dateNow);
+                pDialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    public void onfailed(String message) {
+
+        final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.ERROR_TYPE);
+        pDialog.setTitleText(message);
+        pDialog.setConfirmText("Yes");
+        pDialog.showCancelButton(false);
+        pDialog.setCanceledOnTouchOutside(false);
+        pDialog.show();
+
+        pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sDialog) {
+
+                homePresenter.initBalance(dateNow,dateBefore);
+            }
+        });
+    }
+
+    @Override
+    public void showProgressBar() {
+
+        mBinding.viewBackground.setVisibility(View.VISIBLE);
+        mBinding.pbBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+
+        mBinding.viewBackground.setVisibility(View.GONE);
+        mBinding.pbBar.setVisibility(View.GONE);
     }
 
     private void showError() {
