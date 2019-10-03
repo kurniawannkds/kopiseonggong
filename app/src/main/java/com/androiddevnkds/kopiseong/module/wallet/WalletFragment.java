@@ -29,6 +29,7 @@ import com.androiddevnkds.kopiseong.module.home.HomeActivity;
 import com.androiddevnkds.kopiseong.module.stock.StockActivity;
 import com.androiddevnkds.kopiseong.module.transaction.TransactionActivity;
 import com.androiddevnkds.kopiseong.module.transaction.TransactionFragment;
+import com.androiddevnkds.kopiseong.utils.DateAndTime;
 import com.androiddevnkds.kopiseong.utils.FragmentHelper;
 import com.androiddevnkds.kopiseong.utils.HeaderHelper;
 import com.androiddevnkds.kopiseong.utils.K;
@@ -89,10 +90,12 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
     @Override
     public void initUI() {
 
+        DateAndTime dateAndTime = new DateAndTime();
+        String date = dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_SORT).substring(0,6);
         mataUangHelper = new MataUangHelper();
         HeaderHelper.initialize(mBinding.getRoot());
         walletPresenter.getUserName();
-        walletPresenter.getBalance();
+        walletPresenter.getBalance(date);
     }
 
     @Override
@@ -218,6 +221,8 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
         String date = totalBalanceSatuan.getTotalBalanceID()+"";
         date = date.substring(4,6)+"-"+date.substring(0,4);
         mBinding.lyDetailBalance.tvDate.setText(date);
+        mBinding.lyDetailBalance.tvCashBalance.setText(mataUangHelper.formatRupiah(totalBalanceSatuan.getTotalCashBalance()));
+        mBinding.lyDetailBalance.tvAccountBalance.setText(mataUangHelper.formatRupiah(totalBalanceSatuan.getTotalAccBalance()));
         mBinding.lyDetailBalance.tvExpenseCash.setText(mataUangHelper.formatRupiah(totalBalanceSatuan.getTotalBalancePengeluaran()));
         mBinding.lyDetailBalance.tvExpenseAcc.setText(mataUangHelper.formatRupiah(totalBalanceSatuan.getTotalBalancePengeluaranRek()));
         mBinding.lyDetailBalance.tvIncomeCash.setText(mataUangHelper.formatRupiah(totalBalanceSatuan.getTotalBalancePemasukan()));
@@ -230,16 +235,20 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
     }
 
     @Override
-    public void showBalance(long totalIncome, long totalExpense, long totalIncomeRek,long totalExpenseRek, long totalHpp, long avalaibleBalance, TotalBalanceModel totalBalanceModel) {
+    public void showBalance(long cash, long acc,long totalIncome, long totalExpense, long totalIncomeRek,long totalExpenseRek, long totalHpp, long laba, TotalBalanceModel totalBalanceModel) {
 
         totalBalanceModelGlobal = totalBalanceModel;
 
-        mBinding.tvTotalIncome.setText(mataUangHelper.formatRupiah(totalIncome));
-        mBinding.tvTotalExpense.setText(mataUangHelper.formatRupiah(totalExpense));
-        mBinding.tvTotalIncomeRek.setText(mataUangHelper.formatRupiah(totalIncomeRek));
-        mBinding.tvTotalExpenseRek.setText(mataUangHelper.formatRupiah(totalExpenseRek));
+        long totalIncomeAll = totalIncome +totalIncomeRek;
+        long totalExpenseAll = totalExpense + totalExpenseRek;
+        long totalAllBalance = cash+acc + totalIncomeAll - totalExpenseAll;
+        mBinding.tvTotalCash.setText(mataUangHelper.formatRupiah(cash));
+        mBinding.tvTotalAcc.setText(mataUangHelper.formatRupiah(acc));
+        mBinding.tvTotalIncome.setText(mataUangHelper.formatRupiah(totalIncomeAll));
+        mBinding.tvTotalExpense.setText(mataUangHelper.formatRupiah(totalExpenseAll));
         mBinding.tvTotalHpp.setText(mataUangHelper.formatRupiah(totalHpp));
-        mBinding.tvAvalaibleBalance.setText(mataUangHelper.formatRupiah(avalaibleBalance));
+        mBinding.tvLaba.setText(mataUangHelper.formatRupiah(laba));
+        mBinding.tvTotalBalanceAll.setText(mataUangHelper.formatRupiah(totalAllBalance));
 
         balanceAdapter = new BalanceAdapter(mContext, totalBalanceModelGlobal);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);

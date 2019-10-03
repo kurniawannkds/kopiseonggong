@@ -18,13 +18,13 @@ public interface WalletContract {
 
         void showDetailBalance(TotalBalanceModel.TotalBalanceSatuan totalBalanceSatuan, int pos);
 
-        void showBalance(long totalIncome, long totalExpense, long incomeRek, long expenseRek, long hpp, long avalaibleBalance,
+        void showBalance(long totalCash, long totalAcc,long totalIncome, long totalExpense, long incomeRek, long expenseRek, long hpp, long avalaibleBalance,
                          TotalBalanceModel totalBalanceModel);
     }
 
     interface walletPresenter{
 
-        void getBalance();
+        void getBalance(String balanceID);
 
         void onFailed(String message);
 

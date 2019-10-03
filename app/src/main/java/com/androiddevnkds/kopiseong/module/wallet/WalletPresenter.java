@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 public class WalletPresenter implements WalletContract.walletPresenter {
 
     private WalletContract.walletView walletView;
-    private long income=0, expense=0,incomeRek=0, expenseRek=0, hpp=0, avalaible=0;
+    private long income=0, expense=0,incomeRek=0, expenseRek=0, hpp=0, laba=0;
     private String userName, status;
 
     public WalletPresenter(WalletContract.walletView walletView){
@@ -23,9 +23,11 @@ public class WalletPresenter implements WalletContract.walletPresenter {
 
 
     @Override
-    public void getBalance() {
+    public void getBalance(String balanceID) {
 
         AndroidNetworking.post(K.URL_GET_ALL_BALANCE)
+                .addBodyParameter("select","select")
+                .addBodyParameter("total_balance_id",balanceID)
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -59,17 +61,19 @@ public class WalletPresenter implements WalletContract.walletPresenter {
     @Override
     public void onSuccess(TotalBalanceModel totalBalanceModel) {
 
+        long cash =totalBalanceModel.getTotalAllSum().getTotalAllCash();
+        long acc = totalBalanceModel.getTotalAllSum().getTotalAllAccount();
         expense = totalBalanceModel.getTotalAllSum().getTotalAllPengeluaran();
         income = totalBalanceModel.getTotalAllSum().getTotalAllPemasukan();
         incomeRek = totalBalanceModel.getTotalAllSum().getTotalAllPemasukanRek();
         expenseRek = totalBalanceModel.getTotalAllSum().getTotalAllPengeluaranRek();
         hpp = totalBalanceModel.getTotalAllSum().getTotalAllHpp();
 
-        avalaible = (income + incomeRek) - expense - hpp - expenseRek;
+        laba = (income + incomeRek) - expense - hpp - expenseRek;
 
         walletView.hideProgressBar();
         walletView.showDiagram(income,expense,incomeRek,expenseRek,hpp);
-        walletView.showBalance(income,expense,incomeRek,expenseRek,hpp,avalaible,totalBalanceModel);
+        walletView.showBalance(cash,acc,income,expense,incomeRek,expenseRek,hpp,laba,totalBalanceModel);
     }
 
     @Override

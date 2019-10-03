@@ -53,6 +53,12 @@ public class TotalBalanceModel {
         @SerializedName("total_balance_id")
         private int totalBalanceID;
 
+        @SerializedName("total_cash_balance")
+        private long totalCashBalance;
+
+        @SerializedName("total_account_balance")
+        private long totalAccBalance;
+
         @SerializedName("total_pemasukan")
         private long totalBalancePemasukan;
 
@@ -72,15 +78,31 @@ public class TotalBalanceModel {
         public TotalBalanceSatuan() {
         }
 
-        public TotalBalanceSatuan(int totalBalanceID, long totalBalancePemasukan, long totalBalancePengeluaran,
-                                  long totalBalancePemasukanRek, long totalBalancePengeluaranRek,
-                                  long totalBalanceHpp) {
+        public TotalBalanceSatuan(int totalBalanceID, long totalCashBalance, long totalAccBalance, long totalBalancePemasukan, long totalBalancePengeluaran, long totalBalancePemasukanRek, long totalBalancePengeluaranRek, long totalBalanceHpp) {
             this.totalBalanceID = totalBalanceID;
+            this.totalCashBalance = totalCashBalance;
+            this.totalAccBalance = totalAccBalance;
             this.totalBalancePemasukan = totalBalancePemasukan;
             this.totalBalancePengeluaran = totalBalancePengeluaran;
             this.totalBalancePemasukanRek = totalBalancePemasukanRek;
             this.totalBalancePengeluaranRek = totalBalancePengeluaranRek;
             this.totalBalanceHpp = totalBalanceHpp;
+        }
+
+        public long getTotalCashBalance() {
+            return totalCashBalance;
+        }
+
+        public void setTotalCashBalance(long totalCashBalance) {
+            this.totalCashBalance = totalCashBalance;
+        }
+
+        public long getTotalAccBalance() {
+            return totalAccBalance;
+        }
+
+        public void setTotalAccBalance(long totalAccBalance) {
+            this.totalAccBalance = totalAccBalance;
         }
 
         public int getTotalBalanceID() {
@@ -134,6 +156,12 @@ public class TotalBalanceModel {
 
     public class TotalAllSum{
 
+        @SerializedName("total_all_cash")
+        private long totalAllCash;
+
+        @SerializedName("total_all_account")
+        private long totalAllAccount;
+
         @SerializedName("total_all_pemasukan")
         private long totalAllPemasukan;
 
@@ -152,13 +180,30 @@ public class TotalBalanceModel {
         public TotalAllSum() {
         }
 
-        public TotalAllSum(long totalAllPemasukan, long totalAllPengeluaran, long totalAllPemasukanRek,
-                           long totalAllPengeluaranRek, long totalAllHpp) {
+        public TotalAllSum(long totalAllCash, long totalAllAccount, long totalAllPemasukan, long totalAllPengeluaran, long totalAllPemasukanRek, long totalAllPengeluaranRek, long totalAllHpp) {
+            this.totalAllCash = totalAllCash;
+            this.totalAllAccount = totalAllAccount;
             this.totalAllPemasukan = totalAllPemasukan;
             this.totalAllPengeluaran = totalAllPengeluaran;
             this.totalAllPemasukanRek = totalAllPemasukanRek;
             this.totalAllPengeluaranRek = totalAllPengeluaranRek;
             this.totalAllHpp = totalAllHpp;
+        }
+
+        public long getTotalAllCash() {
+            return totalAllCash;
+        }
+
+        public void setTotalAllCash(long totalAllCash) {
+            this.totalAllCash = totalAllCash;
+        }
+
+        public long getTotalAllAccount() {
+            return totalAllAccount;
+        }
+
+        public void setTotalAllAccount(long totalAllAccount) {
+            this.totalAllAccount = totalAllAccount;
         }
 
         public long getTotalAllPemasukanRek() {

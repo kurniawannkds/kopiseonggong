@@ -177,6 +177,7 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
                         @Override
                         public void onResponse(UpdateResponseModel updateResponseModel) {
                             // do anything with response
+                            Log.e("stcok",new Gson().toJson(updateResponseModel));
                             if(updateResponseModel.getErrorMessage()!=null){
                                 onFailed(4,updateResponseModel.getErrorMessage());
                             }

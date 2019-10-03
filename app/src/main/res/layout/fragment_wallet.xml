@@ -70,7 +70,6 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:id="@+id/layoutAtasAvalaible"
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
                         android:layout_margin="10dp"
@@ -82,12 +81,40 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:gravity="center"
-                            android:text="Available Balance"
+                            android:text="Total Balance"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
                         <me.grantland.widget.AutofitTextView
-                            android:id="@+id/tv_avalaible_balance"
+                            android:id="@+id/tv_total_balance_all"
+                            android:layout_width="500dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:singleLine="true"
+                            android:text=""
+                            android:textAlignment="center" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/button_round_edittext"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:gravity="center"
+                            android:text="Laba"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <me.grantland.widget.AutofitTextView
+                            android:id="@+id/tv_laba"
                             android:layout_width="500dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
@@ -145,13 +172,13 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:gravity="center"
-                                            android:text="Cash In"
+                                            android:text="Cash Balance"
                                             android:textSize="20sp" />
 
                                         //Total Expense
 
                                         <me.grantland.widget.AutofitTextView
-                                            android:id="@+id/tv_total_income"
+                                            android:id="@+id/tv_total_cash"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="7dp"
@@ -172,7 +199,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:gravity="center"
-                                            android:text="Cash Out"
+                                            android:text="Account Balance"
                                             android:textSize="20sp" />
 
                                         <View
@@ -181,7 +208,7 @@
                                             android:background="@drawable/icons8_initiate_money_transfer_48" />
 
                                         <me.grantland.widget.AutofitTextView
-                                            android:id="@+id/tv_total_expense"
+                                            android:id="@+id/tv_total_acc"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="7dp"
@@ -219,13 +246,13 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:gravity="center"
-                                            android:text="Rek In"
+                                            android:text="Total Income"
                                             android:textSize="20sp" />
 
                                         //Total Expense
 
                                         <me.grantland.widget.AutofitTextView
-                                            android:id="@+id/tv_total_income_rek"
+                                            android:id="@+id/tv_total_income"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="7dp"
@@ -246,7 +273,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:gravity="center"
-                                            android:text="Rek Out"
+                                            android:text="Total Expense"
                                             android:textSize="20sp" />
 
                                         <View
@@ -255,7 +282,7 @@
                                             android:background="@drawable/icons8_initiate_money_transfer_48" />
 
                                         <me.grantland.widget.AutofitTextView
-                                            android:id="@+id/tv_total_expense_rek"
+                                            android:id="@+id/tv_total_expense"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="7dp"

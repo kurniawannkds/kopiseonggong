@@ -37,10 +37,10 @@ public class BalanceAdapter extends RecyclerView.Adapter<BalanceAdapter.Transact
     public void onBindViewHolder(@NonNull BalanceAdapter.TransactionViewHolder holder, int i) {
 
         MataUangHelper mataUangHelper = new MataUangHelper();
-        String uang = mataUangHelper.formatRupiah(totalBalanceModel.getTotalBalanceSatuanList().get(i).getTotalBalancePemasukan());
-        holder.textViewProduct.setText("Total Income : "+uang);
-        uang = mataUangHelper.formatRupiah(totalBalanceModel.getTotalBalanceSatuanList().get(i).getTotalBalancePengeluaran());
-        holder.textViewTotal.setText("Total Expense : "+uang);
+        long cash = totalBalanceModel.getTotalBalanceSatuanList().get(i).getTotalCashBalance();
+        long acc = totalBalanceModel.getTotalBalanceSatuanList().get(i).getTotalAccBalance();
+        String uang = mataUangHelper.formatRupiah(cash+acc);
+        holder.textViewProduct.setText(uang);
         String date = totalBalanceModel.getTotalBalanceSatuanList().get(i).getTotalBalanceID()+"";
         date = date.substring(4,6)+"-"+date.substring(0,4);
 
