@@ -274,7 +274,11 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
             public void onClick(View view) {
                 //resepid
                 if (isResepID) {
-                    resepID = mBinding.lyDoneEditText.etKarakter.getText().toString().trim();
+                    String temp = mBinding.lyDoneEditText.etKarakter.getText().toString().trim();
+                    if(temp.length()>40){
+                        temp = temp.substring(0,40);
+                    }
+                    resepID = temp;
                     mBinding.lyDialogAddResep.tvResepId.setText(resepID);
                 }
 

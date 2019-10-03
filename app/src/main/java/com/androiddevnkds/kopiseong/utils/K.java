@@ -15,6 +15,7 @@ public class K {
     public static String URL_GET_DETAIL_TRANSACTION = "https://androiddevnkds.com/kopi.seonggong/api/detailTransaction.php";
     public static String URL_GET_CATEGORY_TRANSACTION = "https://androiddevnkds.com/kopi.seonggong/api/getCategoryTransaction.php";
     public static String URL_GET_PRODUCT = "https://androiddevnkds.com/kopi.seonggong/api/getAllProduct.php";
+    public static String URL_EDIT_PRODUCT = "https://androiddevnkds.com/kopi.seonggong/api/AddProduct.php";
     public static String URL_GET_PAYMENT_METHODE = "https://androiddevnkds.com/kopi.seonggong/api/getAllPaymentMethode.php";
     public static String URL_GET_ALL_BALANCE = "https://androiddevnkds.com/kopi.seonggong/api/getAllBalance.php";
     public static String URL_ADD_TRANSACTION = "https://androiddevnkds.com/kopi.seonggong/api/AddTransaction.php";
@@ -52,5 +53,8 @@ public class K {
     public static String TIPE_EXPENSE_BIAYA_STOCK_MINOR = "Beli Stock lain (Es Batu, Air, dll)";
     public static String TIPE_EXPENSE_BIAYA_GAJI = "Bayar Gaji";
     public static String TIPE_EXPENSE_BIAYA_LAINNYA = "Lainnya";
+
+    public static String GENERAL_CATEGORY_PROD_KOPI = "COFFEE";
+    public static String GENERAL_CATEGORY_PROD_NON_KOPI = "NON COFFEE";
 
 }

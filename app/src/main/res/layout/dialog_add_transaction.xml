@@ -255,6 +255,47 @@
 
                             </RelativeLayout>
 
+                            <RelativeLayout
+                                android:id="@+id/layout_relatif_ket"
+                                style="@style/LayoutDropDownAdd"
+                                android:background="@drawable/bg_dropdown"
+                                android:visibility="visible">
+
+                                <ImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="6dp"
+                                    android:layout_marginRight="6dp"
+                                    android:layout_marginBottom="3dp"
+                                    android:soundEffectsEnabled="false"
+                                    android:src="@drawable/ic_keyboard_arrow_down"
+                                    android:visibility="visible" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:orientation="vertical"
+                                    android:visibility="visible">
+
+                                    <TextView
+                                        style="@style/TextViewJudulDropDown"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Payment Type" />
+
+                                    <me.grantland.widget.AutofitTextView
+                                        android:id="@+id/tv_ket"
+                                        style="@style/TextViewIsiDropDownAdd"
+                                        android:singleLine="true"
+                                        android:text="" />
+
+                                </LinearLayout>
+
+                            </RelativeLayout>
+
                         </LinearLayout>
                     </RelativeLayout>
 

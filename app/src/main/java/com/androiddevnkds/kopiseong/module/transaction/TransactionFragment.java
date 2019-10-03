@@ -486,6 +486,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
         mBinding.lyDetailTransaction.tvTransTime.setText(transactionSatuanModel.getTransactionTime());
         mBinding.lyDetailTransaction.tvUserEmail.setText(transactionSatuanModel.getUserEmail());
         mBinding.lyDetailTransaction.tvPaymentType.setText(transactionSatuanModel.getTipePembayaran());
+        mBinding.lyDetailTransaction.tvKet.setText(transactionSatuanModel.getKeterangan());
         mBinding.lyDetailTransaction.tvTotalBalance.setText(mataUangHelper.formatRupiah(transactionSatuanModel.getTransactionBalance()));
 
 
@@ -612,7 +613,7 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
                 sdf = new SimpleDateFormat(K.FORMAT_TANGGAL_STRING);
 
                 filterDate = sdf.format(myCalendar.getTime());
-                mBinding.lyHeaderData.tvDate.setText(filterDate);
+//                mBinding.lyHeaderData.tvDate.setText(filterDate);
 
                 mBinding.lyBottomUpSliderFilter.tvFilterDate.setText(filterDate);
                 mBinding.lyBottomUpSliderFilter.relatifDateChoosen.setVisibility(View.VISIBLE);

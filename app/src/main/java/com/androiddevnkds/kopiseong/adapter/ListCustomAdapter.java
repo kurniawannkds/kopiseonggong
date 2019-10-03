@@ -13,6 +13,7 @@ import com.androiddevnkds.kopiseong.model.CategoryModel;
 import com.androiddevnkds.kopiseong.model.ListUserModel;
 import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.ProductModel;
+import com.androiddevnkds.kopiseong.model.ResepModel;
 import com.androiddevnkds.kopiseong.model.StockModel;
 import com.androiddevnkds.kopiseong.model.UserInfoModel;
 import com.androiddevnkds.kopiseong.utils.K;
@@ -31,7 +32,8 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
     private PaymentMethodeModel paymentMethodeModel;
     private ListUserModel userInfoModelList;
     private StockModel stockModel;
-    private List<String> tipeExpense;
+    private List<String> listString;
+    private ResepModel resepModel;
     private long hargaPerGram = 0;
 
     public int selectedPosition = -1;
@@ -67,9 +69,15 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
         this.tipe = tipe;
     }
 
-    public ListCustomAdapter(Context mContext, List<String> tipeExpense, int tipe) {
+    public ListCustomAdapter(Context mContext, List<String> listString, int tipe) {
         this.mContext = mContext;
-        this.tipeExpense = tipeExpense;
+        this.listString = listString;
+        this.tipe = tipe;
+    }
+
+    public ListCustomAdapter(Context mContext, ResepModel resepModel, int tipe) {
+        this.mContext = mContext;
+        this.resepModel = resepModel;
         this.tipe = tipe;
     }
 
@@ -111,7 +119,11 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
             hargaPerGram = stockModel.getStockSatuanModelList().get(position).getStockPricePerGram();
         }
         else if(tipe==7){
-            itemShow = tipeExpense.get(position);
+            itemShow = listString.get(position);
+
+        }
+        else if(tipe==8){
+            itemShow = resepModel.getResepModelSatuanList().get(position).getResepID();
 
         }
 
@@ -171,8 +183,11 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
         else if(tipe==5 || tipe == 6){
             return stockModel.getStockSatuanModelList().size();
         }
+        else if(tipe==7){
+            return listString.size();
+        }
         else {
-            return tipeExpense.size();
+            return resepModel.getResepModelSatuanList().size();
         }
     }
 

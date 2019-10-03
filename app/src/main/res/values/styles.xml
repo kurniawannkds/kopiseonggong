@@ -127,4 +127,12 @@
         <item name="android:layout_marginTop">10dp</item>
     </style>
 
+    <style name="LayoutDropDownDialog">
+        <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
+        <item name="android:layout_width">350dp</item>
+        <item name="android:layout_height">65dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
 </resources>

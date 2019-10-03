@@ -45,7 +45,7 @@ public class ProductModel {
         private String productName;
 
         @SerializedName("product_price")
-        private int productPrice;
+        private long productPrice;
 
         @SerializedName("product_resep_id")
         private String productResepID;
@@ -56,7 +56,7 @@ public class ProductModel {
         public ProductSatuan() {
         }
 
-        public ProductSatuan(String productID, String productName, int productPrice, String productResepID, String productGeneralCategory) {
+        public ProductSatuan(String productID, String productName, long productPrice, String productResepID, String productGeneralCategory) {
             this.productID = productID;
             this.productName = productName;
             this.productPrice = productPrice;
@@ -80,11 +80,11 @@ public class ProductModel {
             this.productName = productName;
         }
 
-        public int getProductPrice() {
+        public long getProductPrice() {
             return productPrice;
         }
 
-        public void setProductPrice(int productPrice) {
+        public void setProductPrice(long productPrice) {
             this.productPrice = productPrice;
         }
 

@@ -21,6 +21,7 @@ import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.data.DataManager;
 import com.androiddevnkds.kopiseong.databinding.FragmentWelcomeBinding;
 import com.androiddevnkds.kopiseong.module.main.MainActivity;
+import com.androiddevnkds.kopiseong.module.product.ProductActivity;
 import com.androiddevnkds.kopiseong.module.resep.ResepActivity;
 import com.androiddevnkds.kopiseong.module.resep.ResepFragment;
 import com.androiddevnkds.kopiseong.module.stock.StockActivity;
@@ -83,6 +84,7 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
         HeaderHelper.initialize(mBinding.getRoot());
         homePresenter.getUserName();
         mBinding.lyBottomNav.navigation.setSelectedItemId(R.id.home_menu);
+        HeaderHelper.setLinearLogOut(true);
 
         if(DataManager.can().getUserInfoFromStorage().getUserRole()!=null){
             userRole = DataManager.can().getUserInfoFromStorage().getUserRole();
@@ -106,6 +108,9 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
             public void onClick(View view) {
 
                 DataManager.can().setUserStatusToStorage(false);
+                if(DataManager.can().getUserInfoFromStorage()!=null){
+                    DataManager.can().removeUserInfoFromStorage();
+                }
                 Intent intent = new Intent(mContext, MainActivity.class);
                 startActivity(intent);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -205,6 +210,8 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
 
                 if(userRole.equalsIgnoreCase(K.KEY_ROLE_MASTER)) {
 
+                    Intent intent = new Intent(mContext, ProductActivity.class);
+                    startActivity(intent);
                 }
                 else {
                     showError();
@@ -222,6 +229,7 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
                 }
                 else {
 
+                    showError();
                 }
             }
         });
@@ -236,6 +244,7 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
                 }
                 else {
 
+                    showError();
                 }
             }
         });
@@ -250,6 +259,7 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
                 }
                 else {
 
+                    showError();
                 }
             }
         });

@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/ly_dialog_detail_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone">
+
+        <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/recycle_view_detail_trans"-->
+        <!--android:layout_width="1000dp"-->
+        <!--android:layout_height="600dp"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--app:cardBackgroundColor="@color/colorCardView"-->
+        <!--app:cardCornerRadius="10dp">-->
+
+        <android.support.v7.widget.CardView
+            android:layout_margin="50dp"
+            android:id="@+id/recycle_view_detail_trans"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            app:cardBackgroundColor="@color/colorCardView"
+            app:cardCornerRadius="10dp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/iv_delete"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/password"
+                        android:layout_marginLeft="500dp"/>
+
+                    <RelativeLayout
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/layout1"
+                        android:layout_centerHorizontal="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tv_title"
+                                style="@style/TextViewStyleHeader1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Product Detail" />
+
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/layout1">
+
+                        <RelativeLayout
+                            android:layout_centerHorizontal="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/title_info"
+                            android:layout_marginTop="5dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="15dp"
+                                android:orientation="vertical">
+
+                                <RelativeLayout
+                                    android:id="@+id/layout_relatif_prodID"
+                                    style="@style/LayoutDropDownDialog"
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginBottom="3dp"
+                                        android:soundEffectsEnabled="false"
+                                        android:src="@drawable/green_edit_icon"
+                                        android:visibility="visible" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            style="@style/TextViewJudulDropDown"
+                                            android:text="Product ID" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_prod_id"
+                                            style="@style/TextViewIsiDropDownAdd"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/layout_relatif_prod_name"
+                                    style="@style/LayoutDropDownDialog"
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginBottom="3dp"
+                                        android:soundEffectsEnabled="false"
+                                        android:src="@drawable/green_edit_icon"
+                                        android:visibility="visible" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            style="@style/TextViewJudulDropDown"
+                                            android:text="Product Name" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_prod_name"
+                                            style="@style/TextViewIsiDropDownAdd"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/layout_relatif_prod_resep"
+                                    style="@style/LayoutDropDownDialog"
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginBottom="3dp"
+                                        android:soundEffectsEnabled="false"
+                                        android:src="@drawable/green_edit_icon"
+                                        android:visibility="visible" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            style="@style/TextViewJudulDropDown"
+                                            android:text="Product Resep" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_prod_resep"
+                                            style="@style/TextViewIsiDropDownAdd"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/layout_relatif_prod_hpp"
+                                    style="@style/LayoutDropDownDialog"
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            style="@style/TextViewJudulDropDown"
+                                            android:text="Product HPP Base On Recipe" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_prod_hpp"
+                                            style="@style/TextViewIsiDropDownAdd"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/layout_relatif_prod_price"
+                                    style="@style/LayoutDropDownDialog"
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginBottom="3dp"
+                                        android:soundEffectsEnabled="false"
+                                        android:src="@drawable/green_edit_icon"
+                                        android:visibility="visible" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            style="@style/TextViewJudulDropDown"
+                                            android:text="Product Price" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_prod_price"
+                                            style="@style/TextViewIsiDropDownAdd"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/layout_relatif_prod_cat"
+                                    style="@style/LayoutDropDownDialog"
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginBottom="3dp"
+                                        android:soundEffectsEnabled="false"
+                                        android:src="@drawable/green_edit_icon"
+                                        android:visibility="visible" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            style="@style/TextViewJudulDropDown"
+                                            android:text="Product Category" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_prod_category"
+                                            style="@style/TextViewIsiDropDownAdd"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/layout2"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="10dp">
+
+                        <Button
+                            android:id="@+id/btn_ok"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Oke" />
+
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+
+            </ScrollView>
+
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+</layout>

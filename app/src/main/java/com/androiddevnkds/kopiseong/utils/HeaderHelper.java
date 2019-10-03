@@ -14,7 +14,7 @@ public class HeaderHelper {
     private static View parentView;
 
     public static TextView tvHeaderLabel, tvHeaderLabelContent;
-    public static LinearLayout linearLayoutAtas, linearReport, linearStockWH, linearStockStore;
+    public static LinearLayout linearLayoutAtas, linearReport, linearStockWH, linearStockStore, linearLayoutLogOut;
     public static RelativeLayout relativeLayoutAwal;
 
     public static void initialize(View parentView) {
@@ -42,6 +42,7 @@ public class HeaderHelper {
         relativeLayoutAwal = (RelativeLayout) parentView.findViewById(R.id.relative_awal);
         linearStockWH = (LinearLayout) parentView.findViewById(R.id.linear_stock_header_wh);
         linearStockStore = (LinearLayout) parentView.findViewById(R.id.linear_stock_header_store);
+        linearLayoutLogOut = (LinearLayout) parentView.findViewById(R.id.linear_header_logOut);
 //        linearWH = (LinearLayout) parentView.findViewById(R.id.linear_stock_wh);
 //        linearStore = (LinearLayout) parentView.findViewById(R.id.linear_stock_store);
 
@@ -95,5 +96,11 @@ public class HeaderHelper {
     public static void setLinearStockSTVisible(boolean visible) {
         if (linearStockStore != null)
             linearStockStore.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    //linear log out
+    public static void setLinearLogOut(boolean visible) {
+        if (linearLayoutLogOut != null)
+            linearLayoutLogOut.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 }

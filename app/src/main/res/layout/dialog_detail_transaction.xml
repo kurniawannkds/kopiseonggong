@@ -253,6 +253,37 @@
 
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="3dp">
+
+                            <ImageView
+                                android:layout_width="5dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/oval_abu"/>
+
+                            <TextView
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="10dp"
+                                android:layout_height="wrap_content"
+                                android:text="Keterangan"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="80dp"/>
+
+                            <TextView
+                                android:id="@+id/tv_ket"
+                                android:layout_gravity="center_vertical"
+                                style="@style/TextViewStyle6"
+                                android:layout_width="70dp"
+                                android:gravity="end"
+                                android:layout_height="wrap_content"
+                                android:text="" />
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
                 </RelativeLayout>

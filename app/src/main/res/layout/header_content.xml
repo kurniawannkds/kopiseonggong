@@ -11,6 +11,7 @@
         tools:ignore="MissingPrefix">
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/linear_header_logOut"
             android:layout_centerVertical="true"
             android:layout_marginRight="30dp"

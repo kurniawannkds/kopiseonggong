@@ -656,7 +656,11 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                 }
                 else if(isAddStockID){
 
-                    addStockID = mBinding.lyDoneEditText.etKarakter.getText().toString().trim();
+                    String temp = mBinding.lyDoneEditText.etKarakter.getText().toString().trim();
+                    if(temp.length()>40){
+                        temp = temp.substring(0,40);
+                    }
+                    addStockID = temp;
                     mBinding.lyDialogAddStock.tvStockId.setText(addStockID);
                 }
 
