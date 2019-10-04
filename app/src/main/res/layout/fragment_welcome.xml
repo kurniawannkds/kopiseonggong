@@ -199,6 +199,27 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+            <include
+                android:id="@+id/ly_dialog_add_balance"
+                layout="@layout/dialog_add_balance"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <include
+                android:id="@+id/ly_done_edit_text"
+                layout="@layout/dialog_edit_text" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@color/colorNavigation"
             android:layout_alignParentBottom="true">
 

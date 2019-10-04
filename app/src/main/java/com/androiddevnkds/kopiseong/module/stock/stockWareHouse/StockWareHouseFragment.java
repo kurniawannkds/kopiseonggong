@@ -252,6 +252,17 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                     mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
                     mBinding.lyDialogDetailStock.lyDialogLayoutDetailStock.setVisibility(View.GONE);
                 }
+
+                try {
+                    InputMethodManager imm = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        imm = (InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE));
+                    }
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(mBinding.getRoot().getWindowToken(), 0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -262,7 +273,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
             public void onClick(View view) {
 
                 String stockDate = mBinding.lyDialogEditStock.tvStockDate.getText().toString().trim();
-                String tempjumlah = mBinding.lyDialogEditStock.etStockJumlah.getText().toString().trim();
+                String tempjumlah = mBinding.lyDialogEditStock.etStockJumlah.getText().toString().trim().replace(",","");
                 String tempPrice = mBinding.lyDialogEditStock.etStockPrice.getText().toString().trim().replace(",","");
 
                 long stockJumlah = 0, stockPrice = 0;

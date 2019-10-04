@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.androiddevnkds.kopiseong.R;
@@ -46,6 +47,8 @@ import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static android.view.View.GONE;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -58,7 +61,10 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
     private BalanceAdapter balanceAdapter;
     private MataUangHelper mataUangHelper;
     private WalletPresenter walletPresenter;
-    private long totalIncomeAll = 0, totalExpenseAll = 0, totalHPP = 0;
+    private String dateID = "";
+    private long totalIncomeAll = 0, totalExpenseAll = 0, totalHPP = 0, totalCash =0, totalAccount = 0;
+    private boolean isAddBalance = false, isEditText = false, isCash = false;
+    private String dateString = "";
 
     public WalletFragment() {
         // Required empty public constructor
@@ -91,11 +97,12 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
     public void initUI() {
 
         DateAndTime dateAndTime = new DateAndTime();
-        String date = dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_SORT).substring(0,6);
+        dateID = dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_SORT).substring(0,6);
+        dateString = dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_STRING);
         mataUangHelper = new MataUangHelper();
         HeaderHelper.initialize(mBinding.getRoot());
         walletPresenter.getUserName();
-        walletPresenter.getBalance(date);
+        walletPresenter.getBalance(dateID);
     }
 
     @Override
@@ -142,8 +149,32 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
             @Override
             public void onClick(View view) {
 
-                mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
-                mBinding.lyDetailBalance.lyDialogLayoutDetailTransaction.setVisibility(View.GONE);
+                if(isAddBalance){
+                    if(isEditText){
+                        mBinding.lyDialogAddBalance.lyDialogAddBalance.setVisibility(View.VISIBLE);
+                        mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.GONE);
+                        isEditText = false;
+                    }
+                    else {
+                        mBinding.lyDialogAddBalance.lyDialogAddBalance.setVisibility(View.GONE);
+                        mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
+                    }
+                }
+                else {
+                    mBinding.lyDetailBalance.lyDialogLayoutDetailTransaction.setVisibility(View.GONE);
+                    mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
+                }
+
+                try {
+                    InputMethodManager imm = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        imm = (InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE));
+                    }
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(mBinding.getRoot().getWindowToken(), 0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -152,6 +183,118 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
             public void onClick(View view) {
                 mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
                 mBinding.lyDetailBalance.lyDialogLayoutDetailTransaction.setVisibility(View.GONE);
+            }
+        });
+
+        mBinding.linearCash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                MataUangHelper mataUangHelper = new MataUangHelper();
+                isAddBalance = true;
+                mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
+                mBinding.lyDialogAddBalance.tvBalanceId.setText(dateID);
+                mBinding.lyDialogAddBalance.tvCashBalance.setText(mataUangHelper.formatRupiah(totalCash));
+                mBinding.lyDialogAddBalance.tvAccountBalance.setText(mataUangHelper.formatRupiah(totalAccount));
+                mBinding.lyDialogAddBalance.lyDialogAddBalance.setVisibility(View.VISIBLE);
+            }
+        });
+
+        //add balance
+        mBinding.lyDialogAddBalance.layoutRelatifCash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                isEditText = true;
+                isCash = true;
+
+                mBinding.lyDoneEditText.tvEditTextLabel.setText("Input Cash balance with number only");
+                if (totalCash != 0) {
+                    mBinding.lyDoneEditText.etNumber.setText(totalCash + "");
+                } else {
+                    mBinding.lyDoneEditText.etNumber.setText("");
+                }
+
+                mBinding.lyDoneEditText.etKarakter.setVisibility(GONE);
+                mBinding.lyDoneEditText.etNumber.setVisibility(View.VISIBLE);
+                mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.VISIBLE);
+                mBinding.lyDialogAddBalance.lyDialogAddBalance.setVisibility(GONE);
+            }
+        });
+
+        mBinding.lyDialogAddBalance.layoutRelatifCash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                isEditText = true;
+                isCash = false;
+
+                mBinding.lyDoneEditText.tvEditTextLabel.setText("Input Account balance with number only");
+                if (totalAccount != 0) {
+                    mBinding.lyDoneEditText.etNumber.setText(totalAccount + "");
+                } else {
+                    mBinding.lyDoneEditText.etNumber.setText("");
+                }
+
+                mBinding.lyDoneEditText.etKarakter.setVisibility(GONE);
+                mBinding.lyDoneEditText.etNumber.setVisibility(View.VISIBLE);
+                mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.VISIBLE);
+                mBinding.lyDialogAddBalance.lyDialogAddBalance.setVisibility(GONE);
+            }
+        });
+
+        mBinding.lyDoneEditText.btnDoneEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String tempNumber = mBinding.lyDoneEditText.etNumber.getText().toString().trim().replace(",", "");
+
+                if (isCash) {
+
+                    MataUangHelper mataUangHelper = new MataUangHelper();
+                    try {
+                        totalCash = Integer.parseInt(tempNumber);
+                        mBinding.lyDialogAddBalance.tvCashBalance.setText(mataUangHelper.formatRupiah(totalCash));
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                else {
+                    MataUangHelper mataUangHelper = new MataUangHelper();
+                    try {
+                        totalAccount = Integer.parseInt(tempNumber);
+                        mBinding.lyDialogAddBalance.tvCashBalance.setText(mataUangHelper.formatRupiah(totalAccount));
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                try {
+                    InputMethodManager imm = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        imm = (InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE));
+                    }
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(mBinding.getRoot().getWindowToken(), 0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                mBinding.lyDoneEditText.lyDialogEditText.setVisibility(GONE);
+                mBinding.lyDialogAddBalance.lyDialogAddBalance.setVisibility(View.VISIBLE);
+                isEditText = false;
+                isCash = false;
+            }
+        });
+
+        mBinding.lyDialogAddBalance.btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mBinding.lyBlack.lyBlack.setVisibility(GONE);
+                mBinding.lyDialogAddBalance.lyDialogAddBalance.setVisibility(GONE);
+                walletPresenter.insertBalance(dateID,dateString,totalCash,totalAccount);
             }
         });
 
@@ -239,6 +382,8 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
 
         totalBalanceModelGlobal = totalBalanceModel;
 
+        totalCash = cash;
+        totalAccount = acc;
         long totalIncomeAll = totalIncome +totalIncomeRek;
         long totalExpenseAll = totalExpense + totalExpenseRek;
         long totalAllBalance = cash+acc + totalIncomeAll - totalExpenseAll;
@@ -260,6 +405,24 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
             public void onItemClick(int position, View v) {
 
                 walletPresenter.getDetailBalance(totalBalanceModelGlobal,position);
+            }
+        });
+    }
+
+    @Override
+    public void showSuccessInit(String message) {
+        final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.SUCCESS_TYPE);
+        pDialog.setTitleText(message);
+        pDialog.setConfirmText("Yes");
+        pDialog.showCancelButton(false);
+        pDialog.setCanceledOnTouchOutside(false);
+        pDialog.show();
+
+        pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sDialog) {
+
+                pDialog.dismiss();
             }
         });
     }

@@ -202,7 +202,7 @@ public class StockStoreFragment extends BaseFragment implements StockStoreContra
             public void onClick(View view) {
 
                 String stockDate = mBinding.lyDialogEditStock.tvStockDate.getText().toString().trim();
-                String tempjumlah = mBinding.lyDialogEditStock.etStockJumlah.getText().toString().trim();
+                String tempjumlah = mBinding.lyDialogEditStock.etStockJumlah.getText().toString().trim().replace(",","");
                 String tempPrice = mBinding.lyDialogEditStock.etStockPrice.getText().toString().trim().replace(",","");
 
                 long stockJumlah = 0, stockPrice = 0;

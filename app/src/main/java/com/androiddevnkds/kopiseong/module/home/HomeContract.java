@@ -19,6 +19,6 @@ public interface HomeContract {
 
         void initBalance(String balanceID, String balanceIDBefore);
 
-        void insertBalance(String balanceID, long cash, long rekening);
+        void insertBalance(String balanceID, String date, long cash, long rekening);
     }
 }

@@ -8,26 +8,23 @@
 
         <include
             android:id="@+id/ly_header_data"
-            layout="@layout/header"/>
+            layout="@layout/header_content"/>
 
         <android.support.design.widget.CoordinatorLayout
+            android:layout_below="@+id/ly_header_data"
             android:id="@+id/contraint_rv"
-            android:layout_margin="30dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true">
+            style="@style/LayoutCr">
 
             <android.support.v7.widget.RecyclerView
-                android:layout_margin="15dp"
                 android:id="@+id/rv_resep"
-                android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                style="@style/LayoutRv" />
 
         </android.support.design.widget.CoordinatorLayout>
 
         <LinearLayout
             android:layout_marginTop="5dp"
-            android:layout_below="@+id/contraint_rv"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="68dp"
             android:layout_centerHorizontal="true"
             android:id="@+id/btn_add"
             android:layout_width="100dp"

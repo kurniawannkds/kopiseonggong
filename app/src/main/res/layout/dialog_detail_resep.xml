@@ -14,8 +14,7 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/recycle_view_detail_trans"
-            android:layout_width="450dp"
-            android:layout_height="500dp"
+            style="@style/LayoutDialog"
             android:layout_centerInParent="true"
             app:cardBackgroundColor="@color/colorCardView"
             app:cardCornerRadius="10dp">
@@ -33,15 +32,16 @@
 
                     <ImageView
                         android:id="@+id/iv_delete"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
                         android:src="@drawable/password"
-                        android:layout_marginLeft="210dp"/>
+                        android:layout_toRightOf="@+id/title_info"
+                        android:layout_marginLeft="5dp"/>
 
                     <TextView
                         android:layout_centerHorizontal="true"
                         android:id="@+id/title_info"
-                        style="@style/TextViewStyleHeader4"
+                        style="@style/TextViewStyleHeader1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
@@ -70,22 +70,14 @@
                                 android:layout_gravity="center_vertical"
                                 android:src="@drawable/oval_abu" />
 
-                            <TextView
-                                android:id="@+id/info1"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="10dp"
+                            <me.grantland.widget.AutofitTextView
+                                android:singleLine="true"
+                                style="@style/TextViewDetailDialogKiri"
                                 android:text="Resep ID" />
 
                             <me.grantland.widget.AutofitTextView
-                                android:layout_marginLeft="10dp"
                                 android:id="@+id/tv_resep_id"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="200dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
+                                style="@style/TextViewDetailDialogKanan"
                                 android:text="" />
 
                         </LinearLayout>
@@ -102,22 +94,15 @@
                                 android:layout_gravity="center_vertical"
                                 android:src="@drawable/oval_abu" />
 
-                            <TextView
-                                style="@style/TextViewStyle6"
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="10dp"
+                            <me.grantland.widget.AutofitTextView
+                                android:singleLine="true"
+                                style="@style/TextViewDetailDialogKiri"
                                 android:text="Resep Item" />
 
                             <me.grantland.widget.AutofitTextView
-                                android:layout_marginLeft="10dp"
                                 android:singleLine="true"
                                 android:id="@+id/tv_resep_item"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="200dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
+                                style="@style/TextViewDetailDialogKanan"
                                 android:text="" />
 
                         </LinearLayout>
@@ -134,22 +119,15 @@
                                 android:layout_gravity="center_vertical"
                                 android:src="@drawable/oval_abu" />
 
-                            <TextView
-                                style="@style/TextViewStyle6"
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="10dp"
+                            <me.grantland.widget.AutofitTextView
+                                android:singleLine="true"
+                                style="@style/TextViewDetailDialogKiri"
                                 android:text="Resep Jumlah(gr)" />
 
                             <me.grantland.widget.AutofitTextView
-                                android:layout_marginLeft="10dp"
                                 android:singleLine="true"
                                 android:id="@+id/tv_resep_item_jumlah"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="200dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
+                                style="@style/TextViewDetailDialogKanan"
                                 android:text="" />
 
                         </LinearLayout>
@@ -166,22 +144,15 @@
                                 android:layout_gravity="center_vertical"
                                 android:src="@drawable/oval_abu" />
 
-                            <TextView
-                                style="@style/TextViewStyle6"
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="10dp"
+                            <me.grantland.widget.AutofitTextView
+                                android:singleLine="true"
+                                style="@style/TextViewDetailDialogKiri"
                                 android:text="Resep Hpp" />
 
                             <TextView
-                                android:layout_marginLeft="10dp"
                                 android:singleLine="true"
                                 android:id="@+id/tv_resep_hpp"
-                                style="@style/TextViewStyle6"
-                                android:layout_width="200dp"
-                                android:layout_gravity="center_vertical"
-                                android:layout_height="wrap_content"
+                                style="@style/TextViewDetailDialogKanan"
                                 android:text="" />
 
                         </LinearLayout>

@@ -174,6 +174,17 @@ public class ProductActivity extends BaseActivity implements ProductContract.pro
                     }
                     mBinding.lyBlack.lyBlack.setVisibility(GONE);
                 }
+
+                try {
+                    InputMethodManager imm = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        imm = (InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getSystemService(Context.INPUT_METHOD_SERVICE)));
+                    }
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(mBinding.getRoot().getWindowToken(), 0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 

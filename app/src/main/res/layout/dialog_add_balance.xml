@@ -4,7 +4,7 @@
     xmlns:card_view="http://schemas.android.com/tools">
 
     <RelativeLayout
-        android:id="@+id/ly_dialog_layout_add_resep"
+        android:id="@+id/ly_dialog_add_balance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -35,6 +35,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+<!--                    <ImageView-->
+<!--                        android:id="@+id/iv_delete"-->
+<!--                        android:layout_width="30dp"-->
+<!--                        android:layout_height="30dp"-->
+<!--                        android:src="@drawable/password"-->
+<!--                        android:layout_toRightOf="@+id/layout1"-->
+<!--                        android:layout_marginLeft="5dp"/>-->
+
                     <RelativeLayout
                         android:layout_marginTop="10dp"
                         android:id="@+id/layout1"
@@ -42,12 +50,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                            <TextView
-                                android:id="@+id/tv_title"
-                                style="@style/TextViewStyleHeader1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Add New Resep" />
+                        <TextView
+                            android:id="@+id/tv_title"
+                            style="@style/TextViewStyleHeader1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Add Balance" />
 
 
                     </RelativeLayout>
@@ -72,7 +80,6 @@
                                 android:orientation="vertical">
 
                                 <RelativeLayout
-                                    android:id="@+id/layout_relatif_resepID"
                                     style="@style/LayoutDropDownDialog"
                                     android:layout_gravity="center_horizontal"
                                     android:background="@drawable/bg_dropdown"
@@ -89,10 +96,10 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             style="@style/TextViewJudulDropDown"
-                                            android:text="ResepID" />
+                                            android:text="Balance ID" />
 
                                         <me.grantland.widget.AutofitTextView
-                                            android:id="@+id/tv_resep_id"
+                                            android:id="@+id/tv_balance_id"
                                             style="@style/TextViewIsiDropDownAdd"
                                             android:singleLine="true"
                                             android:text="" />
@@ -102,10 +109,23 @@
                                 </RelativeLayout>
 
                                 <RelativeLayout
-                                    android:id="@+id/layout_relatif_item"
+                                    android:id="@+id/layout_relatif_cash"
                                     style="@style/LayoutDropDownDialog"
+                                    android:layout_gravity="center_horizontal"
                                     android:background="@drawable/bg_dropdown"
                                     android:visibility="visible">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginBottom="3dp"
+                                        android:soundEffectsEnabled="false"
+                                        android:src="@drawable/green_edit_icon"
+                                        android:visibility="visible" />
 
                                     <LinearLayout
                                         android:layout_width="wrap_content"
@@ -118,10 +138,10 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             style="@style/TextViewJudulDropDown"
-                                            android:text="Resep Item (fill with comma ex: OVL,KOPI)" />
+                                            android:text="Cash Balance" />
 
                                         <me.grantland.widget.AutofitTextView
-                                            android:id="@+id/tv_resep_item"
+                                            android:id="@+id/tv_cash_balance"
                                             style="@style/TextViewIsiDropDownAdd"
                                             android:singleLine="true"
                                             android:text="" />
@@ -130,36 +150,24 @@
 
                                 </RelativeLayout>
 
-                                <LinearLayout
-                                    android:id="@+id/linear_clear_item"
-                                    android:visibility="gone"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <Button
-                                        android:id="@+id/btn_clear_all_item"
-                                        android:layout_width="60dp"
-                                        android:layout_height="30dp"
-                                        android:text="clear all"
-                                        android:textSize="7sp"
-                                        />
-
-                                    <Button
-                                        android:id="@+id/btn_clear_item"
-                                        android:layout_width="60dp"
-                                        android:layout_height="30dp"
-                                        android:text="clear"
-                                        android:textSize="7sp"
-                                        />
-
-                                </LinearLayout>
-
                                 <RelativeLayout
-                                    android:id="@+id/layout_relatif_time"
+                                    android:id="@+id/layout_relatif_acc"
                                     style="@style/LayoutDropDownDialog"
+                                    android:layout_gravity="center_horizontal"
                                     android:background="@drawable/bg_dropdown"
                                     android:visibility="visible">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginBottom="3dp"
+                                        android:soundEffectsEnabled="false"
+                                        android:src="@drawable/green_edit_icon"
+                                        android:visibility="visible" />
 
                                     <LinearLayout
                                         android:layout_width="wrap_content"
@@ -172,64 +180,10 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             style="@style/TextViewJudulDropDown"
-                                            android:text="Resep Jumlah (fill with comma ex: 20,23)" />
+                                            android:text="Account Balance" />
 
                                         <me.grantland.widget.AutofitTextView
-                                            android:id="@+id/tv_jumlah_item"
-                                            style="@style/TextViewIsiDropDownAdd"
-                                            android:singleLine="true"
-                                            android:text="" />
-
-                                    </LinearLayout>
-
-                                </RelativeLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/linear_clear_jumlah"
-                                    android:visibility="gone"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <Button
-                                        android:id="@+id/btn_clear_all_jumlah"
-                                        android:layout_width="60dp"
-                                        android:layout_height="30dp"
-                                        android:text="clear all"
-                                        android:textSize="7sp"
-                                        />
-
-                                    <Button
-                                        android:id="@+id/btn_clear_jumlah"
-                                        android:layout_width="60dp"
-                                        android:layout_height="30dp"
-                                        android:text="clear"
-                                        android:textSize="7sp"
-                                        />
-
-                                </LinearLayout>
-
-                                <RelativeLayout
-                                    android:id="@+id/layout_relatif_hpp"
-                                    style="@style/LayoutDropDownDialog"
-                                    android:background="@drawable/bg_dropdown"
-                                    android:visibility="visible">
-
-                                    <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerVertical="true"
-                                        android:orientation="vertical"
-                                        android:visibility="visible">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            style="@style/TextViewJudulDropDown"
-                                            android:text="HPP" />
-
-                                        <me.grantland.widget.AutofitTextView
-                                            android:id="@+id/tv_resep_hpp"
+                                            android:id="@+id/tv_account_balance"
                                             style="@style/TextViewIsiDropDownAdd"
                                             android:singleLine="true"
                                             android:text="" />
@@ -253,10 +207,10 @@
                         android:layout_marginBottom="10dp">
 
                         <Button
-                            android:id="@+id/btn_submit_add"
+                            android:id="@+id/btn_ok"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Submit Resep" />
+                            android:text="Oke" />
 
                     </RelativeLayout>
 

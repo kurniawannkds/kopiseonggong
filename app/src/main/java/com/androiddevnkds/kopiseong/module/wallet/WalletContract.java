@@ -20,6 +20,8 @@ public interface WalletContract {
 
         void showBalance(long totalCash, long totalAcc,long totalIncome, long totalExpense, long incomeRek, long expenseRek, long hpp, long avalaibleBalance,
                          TotalBalanceModel totalBalanceModel);
+
+        void showSuccessInit(String message);
     }
 
     interface walletPresenter{
@@ -33,5 +35,7 @@ public interface WalletContract {
         void getUserName();
 
         void getDetailBalance(TotalBalanceModel totalBalanceModel, int pos);
+
+        void insertBalance(String balanceID, String date, long cash, long rekening);
     }
 }

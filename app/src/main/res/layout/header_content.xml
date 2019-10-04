@@ -84,6 +84,7 @@
 
         <RelativeLayout
             android:visibility="gone"
+            android:layout_centerHorizontal="true"
             android:id="@+id/relative_awal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,7 +98,6 @@
                 android:textAllCaps="true"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                android:layout_centerHorizontal="true"
                 android:visibility="gone"/>
 
             <LinearLayout

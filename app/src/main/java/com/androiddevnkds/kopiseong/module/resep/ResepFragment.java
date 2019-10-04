@@ -109,8 +109,9 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
     public void initUI() {
 
         HeaderHelper.initialize(mBinding.getRoot());
-        HeaderHelper.setLabelText("Resep");
-        HeaderHelper.setLabelVisible(true);
+        HeaderHelper.setLabelContentText("Resep");
+        HeaderHelper.setRelativeContentVisible(true);
+        HeaderHelper.setLabelContentVisible(true);
 
         resepPresenter.getAllResep();
     }
@@ -182,6 +183,17 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
                 } else {
                     mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
                     mBinding.lyDialogDetailResep.lyDialogLayoutDetailResep.setVisibility(View.GONE);
+                }
+
+                try {
+                    InputMethodManager imm = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        imm = (InputMethodManager) Objects.requireNonNull(Objects.requireNonNull(getActivity()).getSystemService(Context.INPUT_METHOD_SERVICE));
+                    }
+                    assert imm != null;
+                    imm.hideSoftInputFromWindow(mBinding.getRoot().getWindowToken(), 0);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
