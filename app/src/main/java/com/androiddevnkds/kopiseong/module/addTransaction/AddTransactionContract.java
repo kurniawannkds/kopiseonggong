@@ -30,6 +30,8 @@ public interface AddTransactionContract {
 
         void showSuccessAddTransaction(String message);
 
+        void showMoreDetailTransaction(DetailTransactionModel.DetailTransaction detailTransaction,String category);
+
     }
     interface addTransactionPresenter{
 
@@ -46,6 +48,8 @@ public interface AddTransactionContract {
         void addTransactionExp(TransactionSatuanModel transactionSatuanModel,String generalCat, String detailProduct, String detailJumlah);
 
         void getTipeExpenseLainnya(List<String> tipeExpenseModel, String tipeExpense);
+
+        void setOnClickDetailTransaction(DetailTransactionModel detailTransactionModel, int position);
 
     }
 }

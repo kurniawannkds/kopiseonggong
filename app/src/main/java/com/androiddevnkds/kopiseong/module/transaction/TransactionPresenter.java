@@ -498,6 +498,4 @@ public class TransactionPresenter implements TransactionContract.transactionPres
 
         return tempPosition;
     }
-
-
 }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.androiddevnkds.kopiseong.data.DataManager;
 import com.androiddevnkds.kopiseong.model.CategoryModel;
+import com.androiddevnkds.kopiseong.model.DetailTransactionModel;
 import com.androiddevnkds.kopiseong.model.HPPModel;
 import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.ProductModel;
@@ -74,7 +75,7 @@ public class AddTransactionPresenter implements AddTransactionContract.addTransa
                 }
             }
             //dummy
-//            userRole = "Master";
+            userRole = "Admin";
             AndroidNetworking.post(K.URL_GET_CATEGORY_TRANSACTION)
                     .addBodyParameter("user_role",userRole)
                     .setTag("test")
@@ -338,6 +339,14 @@ public class AddTransactionPresenter implements AddTransactionContract.addTransa
         tipeExpenseGlobal = tipeExpense;
         setCustomeList(4);
 
+    }
+
+    @Override
+    public void setOnClickDetailTransaction(DetailTransactionModel detailTransactionModel, int position) {
+
+        DetailTransactionModel.DetailTransaction detailTransaction = new DetailTransactionModel().new DetailTransaction();
+        detailTransaction = detailTransactionModel.getDetailTransactionList().get(position);
+        addTransactionView.showMoreDetailTransaction(detailTransaction,categoryGlobal);
     }
 
     private void onFailed(String message){
@@ -614,5 +623,12 @@ public class AddTransactionPresenter implements AddTransactionContract.addTransa
         else {
             return  false;
         }
+    }
+
+    public int getPositionProduct(String prodID){
+        int pos = 0;
+
+        pos = findPosition(2);
+        return pos;
     }
 }

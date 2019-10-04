@@ -69,8 +69,8 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
     private Context mContext;
     private String mDateString = "", mTimeString = "", mTransID = "", mCategory = "INCOME", mCategoryGeneral = "Laba", mPaymentType = "", mResep = "", mResepTemp = "", mProduct = "", mProductTemp = "", mJumlahProduk = "", mJumlahProdukTemp = "",mKet ="";
     private long mPrice = 0,productPriceTemp = 0;
-    private int mJumlahInt = 0;
-    private boolean isDialogCustome = false, isPrice = false, isTipeExpense = false, isKet = false;
+    private int mJumlahInt = 0, posisiDetail = 0;
+    private boolean isDialogCustome = false, isPrice = false, isTipeExpense = false, isKet = false, isMoreDetail = false;
     private ListCustomAdapter listCustomAdapter;
     private DetailTransactionAdapter detailTransactionAdapter, detailTransactionAdapterExp;
     private List<DetailTransactionModel.DetailTransaction> detailTransactionList, detailTransactionListExp;
@@ -137,8 +137,9 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
         detailTransactionAdapter.setOnItemClickListener(new DetailTransactionAdapter.ClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                Toast.makeText(mContext, mProductTemp + " " + mJumlahProdukTemp, Toast.LENGTH_SHORT).show();
 
+                posisiDetail = position;
+                mPresenter.setOnClickDetailTransaction(detailTransactionModelGlobal,position);
             }
         });
 
@@ -149,7 +150,9 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
         detailTransactionAdapterExp.setOnItemClickListener(new DetailTransactionAdapter.ClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                Toast.makeText(mContext, mProductTemp + " " + mJumlahProdukTemp, Toast.LENGTH_SHORT).show();
+
+                posisiDetail = position;
+                mPresenter.setOnClickDetailTransaction(detailTransactionModelGlobalexp,position);
             }
         });
 
@@ -385,7 +388,12 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
         mBinding.lyBlack.lyBlack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isDialogCustome) {
+                if(isMoreDetail){
+                    mBinding.lyMoreDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(GONE);
+                    mBinding.lyBlack.lyBlack.setVisibility(GONE);
+                    isMoreDetail =false;
+                }
+                else if (isDialogCustome) {
 
                     mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
                     mBinding.lyBlack.lyBlack.setVisibility(GONE);
@@ -498,6 +506,16 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
                 } else {
                     mPresenter.addTransactionExp(transactionSatuanModel, mCategoryGeneral, mProduct, mJumlahProduk);
                 }
+            }
+        });
+
+        mBinding.lyMoreDetailTransaction.btnOke.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                isMoreDetail = false;
+                mBinding.lyBlack.lyBlack.setVisibility(GONE);
+                mBinding.lyMoreDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(GONE);
             }
         });
     }
@@ -635,6 +653,94 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
                     Objects.requireNonNull(getActivity()).finish();
                 }
 
+            }
+        });
+    }
+
+    @Override
+    public void showMoreDetailTransaction(final DetailTransactionModel.DetailTransaction detailTransaction, final String category) {
+
+        isMoreDetail = true;
+        mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
+        mBinding.lyMoreDetailTransaction.ivDelete.setVisibility(View.VISIBLE);
+        mBinding.lyMoreDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(View.VISIBLE);
+
+        if(category.equalsIgnoreCase("INCOME")) {
+
+            mBinding.lyMoreDetailTransaction.tvProductTitle.setText("Produk Name");
+            mBinding.lyMoreDetailTransaction.tvTotalTitle.setText("Total Produk");
+            mBinding.lyMoreDetailTransaction.linearCat.setVisibility(View.VISIBLE);
+            mBinding.lyMoreDetailTransaction.linearResep.setVisibility(View.VISIBLE);
+            mBinding.lyMoreDetailTransaction.tvCategory.setText(detailTransaction.getProductGeneralCat());
+            mBinding.lyMoreDetailTransaction.tvProductName.setText(detailTransaction.getProductName());
+            mBinding.lyMoreDetailTransaction.tvResep.setText(detailTransaction.getProductResep());
+            mBinding.lyMoreDetailTransaction.tvTotalProduct.setText(detailTransaction.getDetailJumlah() + " unit");
+        }
+        else {
+            mBinding.lyMoreDetailTransaction.tvProductTitle.setText("Expense Detail");
+            mBinding.lyMoreDetailTransaction.tvTotalTitle.setText("Total Nominal");
+            mBinding.lyMoreDetailTransaction.linearCat.setVisibility(GONE);
+            mBinding.lyMoreDetailTransaction.linearResep.setVisibility(GONE);
+
+            mBinding.lyMoreDetailTransaction.tvProductName.setText(detailTransaction.getProductName());
+            MataUangHelper mataUangHelper = new MataUangHelper();
+            mBinding.lyMoreDetailTransaction.tvTotalProduct.setText(mataUangHelper.formatRupiah(detailTransaction.getDetailJumlah()));
+        }
+
+        mBinding.lyMoreDetailTransaction.ivDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.WARNING_TYPE);
+                pDialog.setTitleText("Are you sure want to DELETE this detail ?");
+                pDialog.setCancelText("No");
+                pDialog.setConfirmText("Yes");
+                pDialog.showCancelButton(true);
+                pDialog.show();
+                pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+
+                        pDialog.dismiss();
+                    }
+                });
+                pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+
+                        if(category.equalsIgnoreCase("INCOME")){
+
+                            int posProd = mPresenter.getPositionProduct(detailTransaction.getDetailProductID());
+                            long priceTemp = productForList.getProductSatuanList().get(posProd).getProductPrice();
+                            mPrice = mPrice - priceTemp;
+
+                            detailTransactionModelGlobal.getDetailTransactionList().remove(posisiDetail);
+                            detailTransactionAdapter.setNewItemList(detailTransactionModelGlobal);
+                            detailTransactionAdapter.notifyDataSetChanged();
+                        }
+                        else {
+
+                            mPrice = mPrice - detailTransaction.getDetailJumlah();
+                            detailTransactionModelGlobalexp.getDetailTransactionList().remove(posisiDetail);
+                            detailTransactionAdapterExp.setNewItemList(detailTransactionModelGlobalexp);
+                            detailTransactionAdapterExp.notifyDataSetChanged();
+                        }
+
+                        MataUangHelper mataUangHelper = new MataUangHelper();
+                        if(mPrice>0){
+                            mBinding.tvPrice.setText(mataUangHelper.formatRupiah(mPrice));
+                        }
+                        else {
+                            mBinding.tvPrice.setText("");
+                        }
+                        pDialog.dismiss();
+                        isMoreDetail = false;
+
+                        mBinding.lyBlack.lyBlack.setVisibility(GONE);
+                        mBinding.lyMoreDetailTransaction.lyDialogLayoutDetailTransaction.setVisibility(GONE);
+
+                    }
+                });
             }
         });
     }

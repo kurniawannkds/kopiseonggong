@@ -34,8 +34,8 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:src="@drawable/password"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
+                        android:layout_toRightOf="@+id/layout_title"
+                        android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"/>
 
                     <RelativeLayout
