@@ -326,7 +326,7 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
             }
         });
 
-        mBinding.lyDialogAddBalance.layoutRelatifCash.setOnClickListener(new View.OnClickListener() {
+        mBinding.lyDialogAddBalance.layoutRelatifAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -368,7 +368,7 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
                     MataUangHelper mataUangHelper = new MataUangHelper();
                     try {
                         account = Integer.parseInt(tempNumber);
-                        mBinding.lyDialogAddBalance.tvCashBalance.setText(mataUangHelper.formatRupiah(account));
+                        mBinding.lyDialogAddBalance.tvAccountBalance.setText(mataUangHelper.formatRupiah(account));
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
@@ -447,7 +447,10 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
             @Override
             public void onClick(SweetAlertDialog sDialog) {
 
-                homePresenter.initBalance(dateNow, dateBefore);
+                pDialog.dismiss();
+                mBinding.lyDialogAddBalance.tvBalanceId.setText(dateNow);
+                mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
+                mBinding.lyDialogAddBalance.lyDialogAddBalance.setVisibility(View.VISIBLE);
             }
         });
     }

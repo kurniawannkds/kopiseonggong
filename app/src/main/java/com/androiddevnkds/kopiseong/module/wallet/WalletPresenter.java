@@ -74,9 +74,14 @@ public class WalletPresenter implements WalletContract.walletPresenter {
         hpp = totalBalanceModel.getTotalAllSum().getTotalAllHpp();
 
         laba = (income + incomeRek) - expense - hpp - expenseRek;
+        long totalIncome = totalBalanceModel.getTotalBalanceSatuanList().get(0).getTotalBalancePemasukan() +
+                totalBalanceModel.getTotalBalanceSatuanList().get(0).getTotalBalancePemasukanRek();
+        long totalExpense = totalBalanceModel.getTotalBalanceSatuanList().get(0).getTotalBalancePengeluaran() +
+                totalBalanceModel.getTotalBalanceSatuanList().get(0).getTotalBalancePengeluaranRek();
+        long hppThisMonth = totalBalanceModel.getTotalBalanceSatuanList().get(0).getTotalBalanceHpp();
 
         walletView.hideProgressBar();
-        walletView.showDiagram(income,expense,incomeRek,expenseRek,hpp);
+        walletView.showDiagram(totalIncome,totalExpense,hppThisMonth);
         walletView.showBalance(cash,acc,income,expense,incomeRek,expenseRek,hpp,laba,totalBalanceModel);
     }
 

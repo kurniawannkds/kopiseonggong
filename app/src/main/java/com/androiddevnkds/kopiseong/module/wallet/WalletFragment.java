@@ -194,6 +194,7 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
                 isAddBalance = true;
                 mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
                 mBinding.lyDialogAddBalance.tvBalanceId.setText(dateID);
+                mBinding.lyDialogAddBalance.tvTitle.setText("Edit Balance");
                 mBinding.lyDialogAddBalance.tvCashBalance.setText(mataUangHelper.formatRupiah(totalCash));
                 mBinding.lyDialogAddBalance.tvAccountBalance.setText(mataUangHelper.formatRupiah(totalAccount));
                 mBinding.lyDialogAddBalance.lyDialogAddBalance.setVisibility(View.VISIBLE);
@@ -222,7 +223,7 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
             }
         });
 
-        mBinding.lyDialogAddBalance.layoutRelatifCash.setOnClickListener(new View.OnClickListener() {
+        mBinding.lyDialogAddBalance.layoutRelatifAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -264,7 +265,7 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
                     MataUangHelper mataUangHelper = new MataUangHelper();
                     try {
                         totalAccount = Integer.parseInt(tempNumber);
-                        mBinding.lyDialogAddBalance.tvCashBalance.setText(mataUangHelper.formatRupiah(totalAccount));
+                        mBinding.lyDialogAddBalance.tvAccountBalance.setText(mataUangHelper.formatRupiah(totalAccount));
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
@@ -324,10 +325,10 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
     }
 
     @Override
-    public void showDiagram(long totalIncome, long totalExpense, long totalIncomeRek, long totalExpenseRek, long hpp) {
+    public void showDiagram(long totalIncome, long totalExpense,long hpp) {
 
-        totalIncomeAll = totalIncome+ totalIncomeRek;
-        totalExpenseAll = totalExpense+ totalExpenseRek;
+        totalIncomeAll = totalIncome;
+        totalExpenseAll = totalExpense;
         totalHPP = hpp;
         AnimatedPieViewConfig config = new AnimatedPieViewConfig();
         config.startAngle(-90);
@@ -451,7 +452,7 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
 
         if(desc.equalsIgnoreCase("Income")){
             final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.NORMAL_TYPE);
-            pDialog.setTitleText(desc);
+            pDialog.setTitleText(desc + " this month");
             pDialog.setContentText(mataUangHelper.formatRupiah(totalIncomeAll));
             pDialog.setConfirmText("Yes");
             pDialog.showCancelButton(false);
@@ -468,7 +469,7 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
         }
         else if(desc.equalsIgnoreCase("Expense")){
             final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.NORMAL_TYPE);
-            pDialog.setTitleText(desc);
+            pDialog.setTitleText(desc + " this month");
             pDialog.setContentText(mataUangHelper.formatRupiah(totalExpenseAll));
             pDialog.setConfirmText("Yes");
             pDialog.showCancelButton(false);
@@ -485,7 +486,7 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
         }
         else {
             final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.NORMAL_TYPE);
-            pDialog.setTitleText(desc);
+            pDialog.setTitleText(desc+ " this month");
             pDialog.setContentText(mataUangHelper.formatRupiah(totalHPP));
             pDialog.setConfirmText("Yes");
             pDialog.showCancelButton(false);
