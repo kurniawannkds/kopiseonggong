@@ -74,7 +74,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="7dp"
             android:id="@+id/linear_stock_header_store"
             android:layout_below="@+id/tv_header_label"
             android:layout_width="match_parent"

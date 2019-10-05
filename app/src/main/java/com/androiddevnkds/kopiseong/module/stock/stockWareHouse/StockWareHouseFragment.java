@@ -86,6 +86,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
     private String sentStockID = "", sentStockName = "", sentStockDateSort = "", sentStockDate ="";
     private long sentStockPrice = 0, sentStockJumlah = 0, sentPerGram = 0, sentStockJumlahCurrent = 0;
     private int positionSent = 0;
+    private boolean isDoneAddOnce = false;
 
     public StockWareHouseFragment() {
         // Required empty public constructor
@@ -676,8 +677,9 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                     addStockID = temp;
                     stockSatuanModelAdd.setStockID(temp);
                     if(stockSatuanModelAdd.getStockName()!=null &&
-                            !stockSatuanModelAdd.getStockName().equalsIgnoreCase("")) {
-                        stockForListAdd.getStockSatuanModelList().add(stockSatuanModelAdd);
+                            !stockSatuanModelAdd.getStockName().equalsIgnoreCase("") && !isDoneAddOnce) {
+                        stockForListAdd.getStockSatuanModelList().add(stockForListAdd.getStockSatuanModelList().size()-1,stockSatuanModelAdd);
+                        isDoneAddOnce = true;
                     }
                     mBinding.lyDialogAddStock.tvStockId.setText(addStockID);
                 }
@@ -687,8 +689,9 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                     mBinding.lyDialogAddStock.tvStockName.setText(addStockName);
                     stockSatuanModelAdd.setStockName(addStockName);
                     if(stockSatuanModelAdd.getStockID()!=null &&
-                            !stockSatuanModelAdd.getStockID().equalsIgnoreCase("")) {
-                        stockForListAdd.getStockSatuanModelList().add(stockSatuanModelAdd);
+                            !stockSatuanModelAdd.getStockID().equalsIgnoreCase("") && !isDoneAddOnce) {
+                        stockForListAdd.getStockSatuanModelList().add(stockForListAdd.getStockSatuanModelList().size()-1,stockSatuanModelAdd);
+                        isDoneAddOnce = true;
                     }
                 }
                 //sellll
@@ -1291,6 +1294,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                     if (stockForListAdd.getStockSatuanModelList().get(position).getStockID().equalsIgnoreCase(K.ADD_NEW_STOCK)) {
 
                         isAddNewStock = true;
+                        isDoneAddOnce = false;
                         mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
                         mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(GONE);
 
