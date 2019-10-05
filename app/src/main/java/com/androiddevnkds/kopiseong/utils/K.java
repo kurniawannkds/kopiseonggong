@@ -25,6 +25,7 @@ public class K {
     public static String URL_GET_STOCK_STORE = "https://androiddevnkds.com/kopi.seonggong/api/getAndUpdateStock.php";
     public static String URL_GET_STOCK_WAREHOUSE = "https://androiddevnkds.com/kopi.seonggong/api/getAndUpdateStockWareHouse.php";
     public static String URL_GET_ALL_USER = "https://androiddevnkds.com/kopi.seonggong/api/getAllUser.php";
+    public static String URL_GET_ALL_ASSET = "https://androiddevnkds.com/kopi.seonggong/api/getAllAsset.php";
 
     public static String USER_NAME_USER = "USER_NAME_USER";
     public static String KEY_OBJECT_USER = "OBJECT_USER";

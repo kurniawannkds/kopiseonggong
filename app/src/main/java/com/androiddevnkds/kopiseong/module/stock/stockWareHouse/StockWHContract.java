@@ -24,6 +24,8 @@ public interface StockWHContract {
 
         void showStockCustomeList(StockModel stockModel, int pos);
 
+        void showStockCustomeListAdd(StockModel stockModel, int pos);
+
         void showSuccessAddStock(String message, StockModel.StockSatuanModel stockSatuanModel);
 
         void showSuccessSellStock(String message, int position);
@@ -45,6 +47,8 @@ public interface StockWHContract {
         void editStock(StockModel.StockSatuanModel stockSatuanModel, int position);
 
         void setStockList(StockModel stockList,String stock);
+
+        void setStockListForAdd(StockModel stockList,String stock);
 
         void addNewStock(StockModel.StockSatuanModel stockSatuanModel, String payment, String category, String time);
 

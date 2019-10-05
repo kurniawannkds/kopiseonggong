@@ -143,6 +143,7 @@ public class ProductPresenter implements ProductContract.productPresenter {
     @Override
     public void getResepList(ResepModel resepModelT, final String resepID) {
 
+        productView.showProgressBar();
         boolean flag = false;
         if(resepModelT!=null) {
             if(resepModelT.getResepModelSatuanList()!=null){

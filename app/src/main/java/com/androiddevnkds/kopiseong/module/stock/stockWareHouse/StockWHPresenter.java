@@ -145,6 +145,60 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
     }
 
     @Override
+    public void setStockListForAdd(final StockModel stockListT, final String stockT) {
+        boolean flag = false;
+        if(stockListT!=null) {
+            if(stockListT.getStockSatuanModelList()!=null){
+                if(stockListT.getStockSatuanModelList().size()>0){
+
+                    stockModel = stockListT;
+                    this.stock = stockT;
+                    setCustomeList(3);
+                }
+                else {
+                    flag = true;
+                }
+            }
+            else {
+                flag = true;
+            }
+        }
+        else {
+            flag = true;
+        }
+
+        //hit api
+        if(flag){
+            AndroidNetworking.post(K.URL_GET_STOCK_WAREHOUSE)
+                    .addBodyParameter("select_custome_list","select")
+                    .setTag("test")
+                    .setPriority(Priority.MEDIUM)
+                    .build()
+                    .getAsObject(StockModel.class, new ParsedRequestListener<StockModel>() {
+                        @Override
+                        public void onResponse(StockModel stockModelS) {
+                            // do anything with response
+                            if(stockModelS.getErrorMessage()!=null){
+                                onFailed(1,stockModelS.getErrorMessage());
+                            }
+                            else {
+
+                                stockModel = stockModelS;
+                                stock = stockT;
+                                setCustomeList(3);
+                            }
+                        }
+                        @Override
+                        public void onError(ANError anError) {
+                            // handle error
+                            onFailed(1,"ERROR");
+                            Log.e("base",anError.getErrorDetail());
+                        }
+                    });
+        }
+    }
+
+    @Override
     public void addNewStock(final StockModel.StockSatuanModel stockSatuanModel, String payment, String category, String time) {
 
         stockView.showProgressBar();
@@ -537,7 +591,7 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
                 }
             }
         }
-        else {
+        else if(tipe==2){
             if (paymentMethodeModelGlobal.getPaymentMethodeSatuanList() != null) {
                 sizeArray = paymentMethodeModelGlobal.getPaymentMethodeSatuanList().size();
                 if (sizeArray > 0) {
@@ -548,6 +602,18 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
                 }
             }
         }
+        else if(tipe==3) {
+            if (stockModel.getStockSatuanModelList() != null) {
+                sizeArray = stockModel.getStockSatuanModelList().size();
+                if (sizeArray > 0) {
+
+                    selectedPos = findPosition(1);
+                    stockView.hideProgressBar();
+                    stockView.showStockCustomeListAdd(stockModel, selectedPos);
+                }
+            }
+        }
+
     }
 
     private int findPosition(int tipe) {

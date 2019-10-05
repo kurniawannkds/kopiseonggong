@@ -21,6 +21,8 @@ import com.androiddevnkds.kopiseong.adapter.ListCustomAdapter;
 import com.androiddevnkds.kopiseong.adapter.ProductAdapter;
 import com.androiddevnkds.kopiseong.databinding.ActivityAssetBinding;
 import com.androiddevnkds.kopiseong.databinding.ActivityProductBinding;
+import com.androiddevnkds.kopiseong.model.AssetModel;
+import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
 import com.androiddevnkds.kopiseong.model.ProductModel;
 import com.androiddevnkds.kopiseong.model.ResepModel;
 import com.androiddevnkds.kopiseong.module.home.HomeActivity;
@@ -170,6 +172,46 @@ public class AssetActivity extends BaseActivity implements AssetContract.assetVi
     public void onFailed(String message) {
 
         showError(message);
+    }
+
+    @Override
+    public void showAllAsset(AssetModel assetModel) {
+
+    }
+
+    @Override
+    public void showAssetList(AssetModel assetModel, int pos) {
+
+    }
+
+    @Override
+    public void showPaymentList(PaymentMethodeModel paymentMethodeModel, int pos) {
+
+    }
+
+    @Override
+    public void showAssetDetail(AssetModel.AssetModelSatuan assetModelSatuan, int pos, long curPrice) {
+
+    }
+
+    @Override
+    public void showSuccessAdd(String message) {
+
+    }
+
+    @Override
+    public void showSuccessSell(String message, int pos) {
+
+    }
+
+    @Override
+    public void showSuccessEdit(String message, int pos) {
+
+    }
+
+    @Override
+    public void showSuccessDelete(String message, int pos) {
+
     }
 
     private void showError(String message) {

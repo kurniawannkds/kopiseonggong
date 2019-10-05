@@ -57,12 +57,13 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
     private Context mContext;
     private StockWHPresenter stockWHPresenter;
     private StockAdapter stockAdapter;
-    private StockModel stockModelGlobal, stockForList;
+    private StockModel stockModelGlobal, stockForList, stockForListAdd;
     private PaymentMethodeModel paymentForList;
     private String stockID = "", stockName = "", stockDate = "", stockDateSort = "";
     private long stockPrice = 0, stockJumlah = 0;
     private long stockPricePerGram = 0;
     private int positionDetail = 0;
+    private StockModel.StockSatuanModel stockSatuanModelAdd;
 
     private Calendar myCalendar;
     private SimpleDateFormat sdf;
@@ -123,6 +124,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
         HeaderHelper.setLinearStockWHVisible(true);
         stockWHPresenter.getAllStock();
         mBinding.lyBottomNav.navigation.setSelectedItemId(R.id.stock_menu);
+        stockSatuanModelAdd = new StockModel().new StockSatuanModel();
     }
 
     @Override
@@ -222,7 +224,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                     else {
                         Log.e("keklik ga",isAddStock+"");
                         mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
-                        mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(GONE);
+                        mBinding.lyDialogSellStock.lyDialogLayoutSellStock.setVisibility(GONE);
                         isSellStock = false;
                     }
                 }
@@ -337,7 +339,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
             public void onClick(View view) {
 
                 isAddStockID = true;
-                stockWHPresenter.setStockList(stockModelGlobal, addStockID);
+                stockWHPresenter.setStockListForAdd(stockForListAdd, addStockID);
             }
         });
 
@@ -672,12 +674,22 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                         temp = temp.substring(0,40);
                     }
                     addStockID = temp;
+                    stockSatuanModelAdd.setStockID(temp);
+                    if(stockSatuanModelAdd.getStockName()!=null &&
+                            !stockSatuanModelAdd.getStockName().equalsIgnoreCase("")) {
+                        stockForListAdd.getStockSatuanModelList().add(stockSatuanModelAdd);
+                    }
                     mBinding.lyDialogAddStock.tvStockId.setText(addStockID);
                 }
 
                 else if(isAddStockName){
                     addStockName = mBinding.lyDoneEditText.etKarakter.getText().toString().trim();
                     mBinding.lyDialogAddStock.tvStockName.setText(addStockName);
+                    stockSatuanModelAdd.setStockName(addStockName);
+                    if(stockSatuanModelAdd.getStockID()!=null &&
+                            !stockSatuanModelAdd.getStockID().equalsIgnoreCase("")) {
+                        stockForListAdd.getStockSatuanModelList().add(stockSatuanModelAdd);
+                    }
                 }
                 //sellll
                 else if(isSellStockGram){
@@ -971,6 +983,31 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
     }
 
     @Override
+    public void showStockCustomeListAdd(StockModel stockModel, int pos) {
+
+        isDialogCustomeAdd = true;
+        if(isAddStock) {
+            mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(GONE);
+        }
+        else {
+            mBinding.lyDialogSellStock.lyDialogLayoutSellStock.setVisibility(GONE);
+        }
+        stockForListAdd = stockModel;
+        setCustomeList(3);
+
+        if (pos != -1) {
+            listCustomAdapter.selectedPosition = pos;
+            listCustomAdapter.notifyDataSetChanged();
+
+            if (stockModel.getStockSatuanModelList().size() > 7) {
+                mBinding.lyDialogCustomeList.rvCustomList.scrollToPosition(pos);
+            }
+        }
+
+        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void showSuccessAddStock(final String message, final StockModel.StockSatuanModel stockSatuanModel) {
 
         final String[] splited = message.trim().split("---");
@@ -1193,52 +1230,29 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
     private void setCustomeList(final int tipe) {
 
         if(tipe==1) {
-            if(isAddStock) {
-                if (!isInitList) {
-                    StockModel.StockSatuanModel stockSatuanModel = new StockModel().new StockSatuanModel();
-                    stockSatuanModel.setStockID(K.ADD_NEW_STOCK);
-                    stockSatuanModel.setStockName(K.ADD_NEW_STOCK);
-                    stockForList.getStockSatuanModelList().add(stockSatuanModel);
-                    isInitList = true;
-                }
-                listCustomAdapter = new ListCustomAdapter(mContext, stockForList, 5);
-            }
-            else {
-
-                listCustomAdapter = new ListCustomAdapter(mContext, stockForList, 6);
-            }
-
+            listCustomAdapter = new ListCustomAdapter(mContext, stockForList, 6);
         }
         else if(tipe==2){
             listCustomAdapter = new ListCustomAdapter(mContext,paymentForList,4);
         }
+        else if(tipe==3){
+            if (!isInitList) {
+                StockModel.StockSatuanModel stockSatuanModel = new StockModel().new StockSatuanModel();
+                stockSatuanModel.setStockID(K.ADD_NEW_STOCK);
+                stockSatuanModel.setStockName(K.ADD_NEW_STOCK);
+                stockForListAdd.getStockSatuanModelList().add(stockSatuanModel);
+                isInitList = true;
+            }
+            listCustomAdapter = new ListCustomAdapter(mContext, stockForListAdd, 5);
+        }
+
         listCustomAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
 
                 if (tipe == 1) {
-                    if(isAddStock) {
-                        if (stockForList.getStockSatuanModelList().get(position).getStockID().equalsIgnoreCase(K.ADD_NEW_STOCK)) {
 
-                            isAddNewStock = true;
-                            mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
-                            mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(GONE);
-
-                            mBinding.lyDoneEditText.tvEditTextLabel.setText("Please fill StockID without space");
-                            mBinding.lyDoneEditText.etKarakter.setText(addStockID);
-                            mBinding.lyDoneEditText.etNumber.setVisibility(GONE);
-                            mBinding.lyDoneEditText.etKarakter.setVisibility(View.VISIBLE);
-                            mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.VISIBLE);
-                        } else {
-                            isAddNewStock = false;
-                            addStockID = stockForList.getStockSatuanModelList().get(position).getStockID();
-                            addStockName = stockForList.getStockSatuanModelList().get(position).getStockName();
-
-                            mBinding.lyDialogAddStock.tvStockId.setText(addStockID);
-                            mBinding.lyDialogAddStock.tvStockName.setText(addStockName);
-                        }
-                    }
-                    else if(isSellStock) {
+                    if(isSellStock) {
                         sellStockID = stockForList.getStockSatuanModelList().get(position).getStockID();
                         sellStockName = stockForList.getStockSatuanModelList().get(position).getStockName();
                         sellStockDateSortUpdate = stockForList.getStockSatuanModelList().get(position).getStockDateSort();
@@ -1271,6 +1285,27 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                     else {
                         sellPaymentMethode = paymentForList.getPaymentMethodeSatuanList().get(position).getPaymentMethodeID();
                         mBinding.lyDialogSellStock.tvTipeBayar.setText(paymentForList.getPaymentMethodeSatuanList().get(position).getPaymentMethode());
+                    }
+                }
+                else if(tipe==3){
+                    if (stockForListAdd.getStockSatuanModelList().get(position).getStockID().equalsIgnoreCase(K.ADD_NEW_STOCK)) {
+
+                        isAddNewStock = true;
+                        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
+                        mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(GONE);
+
+                        mBinding.lyDoneEditText.tvEditTextLabel.setText("Please fill StockID without space");
+                        mBinding.lyDoneEditText.etKarakter.setText(addStockID);
+                        mBinding.lyDoneEditText.etNumber.setVisibility(GONE);
+                        mBinding.lyDoneEditText.etKarakter.setVisibility(View.VISIBLE);
+                        mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.VISIBLE);
+                    } else {
+                        isAddNewStock = false;
+                        addStockID = stockForListAdd.getStockSatuanModelList().get(position).getStockID();
+                        addStockName = stockForListAdd.getStockSatuanModelList().get(position).getStockName();
+
+                        mBinding.lyDialogAddStock.tvStockId.setText(addStockID);
+                        mBinding.lyDialogAddStock.tvStockName.setText(addStockName);
                     }
                 }
 
