@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.databinding.ItemListCustomBinding;
+import com.androiddevnkds.kopiseong.model.AssetModel;
 import com.androiddevnkds.kopiseong.model.CategoryModel;
 import com.androiddevnkds.kopiseong.model.ListUserModel;
 import com.androiddevnkds.kopiseong.model.PaymentMethodeModel;
@@ -34,6 +35,7 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
     private StockModel stockModel;
     private List<String> listString;
     private ResepModel resepModel;
+    private AssetModel assetModel;
     private long hargaPerGram = 0;
 
     public int selectedPosition = -1;
@@ -81,6 +83,12 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
         this.tipe = tipe;
     }
 
+    public ListCustomAdapter(Context mContext, AssetModel assetModel, int tipe) {
+        this.mContext = mContext;
+        this.assetModel = assetModel;
+        this.tipe = tipe;
+    }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -124,6 +132,10 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
         }
         else if(tipe==8){
             itemShow = resepModel.getResepModelSatuanList().get(position).getResepID();
+
+        }
+        else if(tipe==9){
+            itemShow = assetModel.getAssetModelSatuanList().get(position).getAssetName();
 
         }
 
@@ -186,8 +198,11 @@ public class ListCustomAdapter extends RecyclerView.Adapter<ListCustomAdapter.Vi
         else if(tipe==7){
             return listString.size();
         }
-        else {
+        else if(tipe==8) {
             return resepModel.getResepModelSatuanList().size();
+        }
+        else {
+            return assetModel.getAssetModelSatuanList().size();
         }
     }
 

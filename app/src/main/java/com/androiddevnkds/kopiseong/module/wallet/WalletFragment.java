@@ -58,6 +58,7 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
     private Context mContext;
     private String colorExpense ="#f5211d",colorExpenseAcc ="#f7382a",colorIncome="#37DC74",colorIncomeAcc="#11fa8a",colorTax="#FFA340";
     private TotalBalanceModel totalBalanceModelGlobal;
+    private long cashTotalTemp =0, tempAcctTotal = 0;
     private BalanceAdapter balanceAdapter;
     private MataUangHelper mataUangHelper;
     private WalletPresenter walletPresenter;
@@ -190,6 +191,8 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
             @Override
             public void onClick(View view) {
 
+                tempAcctTotal = totalAccount;
+                cashTotalTemp = totalCash;
                 MataUangHelper mataUangHelper = new MataUangHelper();
                 isAddBalance = true;
                 mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
@@ -295,7 +298,13 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
 
                 mBinding.lyBlack.lyBlack.setVisibility(GONE);
                 mBinding.lyDialogAddBalance.lyDialogAddBalance.setVisibility(GONE);
-                walletPresenter.insertBalance(dateID,dateString,totalCash,totalAccount);
+                if(totalCash == cashTotalTemp &&
+                        totalAccount == tempAcctTotal){
+
+                }
+                else {
+                    walletPresenter.insertBalance(dateID, dateString, totalCash, totalAccount);
+                }
             }
         });
 

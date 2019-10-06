@@ -1299,7 +1299,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                         mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(GONE);
 
                         mBinding.lyDoneEditText.tvEditTextLabel.setText("Please fill StockID without space");
-                        mBinding.lyDoneEditText.etKarakter.setText(addStockID);
+                        mBinding.lyDoneEditText.etKarakter.setText("");
                         mBinding.lyDoneEditText.etNumber.setVisibility(GONE);
                         mBinding.lyDoneEditText.etKarakter.setVisibility(View.VISIBLE);
                         mBinding.lyDoneEditText.lyDialogEditText.setVisibility(View.VISIBLE);

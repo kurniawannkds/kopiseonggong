@@ -216,7 +216,7 @@ public class AssetPresenter implements AssetContract.assetPresenter {
     }
 
     @Override
-    public void addAsset(AssetModel.AssetModelSatuan assetModelSatuan, String tipeBayar) {
+    public void addAsset(final AssetModel.AssetModelSatuan assetModelSatuan, String tipeBayar) {
 
         assetView.showProgressBar();
         if(!isEmptyAdd(assetModelSatuan,tipeBayar)) {
@@ -254,7 +254,7 @@ public class AssetPresenter implements AssetContract.assetPresenter {
                             } else {
 
                                 assetView.hideProgressBar();
-                                assetView.showSuccessAdd(updateResponseModel.getSuccessMessage());
+                                assetView.showSuccessAdd(updateResponseModel.getSuccessMessage(),assetModelSatuan);
                             }
                         }
 
@@ -324,7 +324,7 @@ public class AssetPresenter implements AssetContract.assetPresenter {
     }
 
     @Override
-    public void editAsset(AssetModel.AssetModelSatuan assetModelSatuan, final int pos) {
+    public void editAsset(final AssetModel.AssetModelSatuan assetModelSatuan, final int pos) {
 
         assetView.showProgressBar();
         if(!isEmptyEdit(assetModelSatuan)) {
@@ -347,7 +347,7 @@ public class AssetPresenter implements AssetContract.assetPresenter {
                             } else {
 
                                 assetView.hideProgressBar();
-                                assetView.showSuccessEdit(updateResponseModel.getSuccessMessage(), pos);
+                                assetView.showSuccessEdit(updateResponseModel.getSuccessMessage(),assetModelSatuan, pos);
                             }
                         }
 
@@ -434,7 +434,7 @@ public class AssetPresenter implements AssetContract.assetPresenter {
                 //category
 
                 for (int i = 0; i < assetModelGlobal.getAssetModelSatuanList().size(); i++) {
-                    if (assetModelGlobal.getAssetModelSatuanList().get(i).getAssetID().equalsIgnoreCase(assetGlobal)) {
+                    if (assetModelGlobal.getAssetModelSatuanList().get(i).getAssetName().equalsIgnoreCase(assetGlobal)) {
                         tempPosition = i;
                         break;
                     }

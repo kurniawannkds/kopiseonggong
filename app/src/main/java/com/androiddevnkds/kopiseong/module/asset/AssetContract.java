@@ -20,11 +20,11 @@ public interface AssetContract {
 
         void showAssetDetail(AssetModel.AssetModelSatuan assetModelSatuan, int pos, long currentPrice);
 
-        void showSuccessAdd(String message);
+        void showSuccessAdd(String message, AssetModel.AssetModelSatuan assetModelSatuan);
 
         void showSuccessSell(String message, int pos);
 
-        void showSuccessEdit(String message, int pos);
+        void showSuccessEdit(String message, AssetModel.AssetModelSatuan assetModelSatuan, int pos);
 
         void showSuccessDelete(String message, int pos);
     }

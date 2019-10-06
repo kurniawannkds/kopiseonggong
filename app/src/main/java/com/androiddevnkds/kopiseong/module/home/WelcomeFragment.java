@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.data.DataManager;
 import com.androiddevnkds.kopiseong.databinding.FragmentWelcomeBinding;
+import com.androiddevnkds.kopiseong.module.asset.AssetActivity;
 import com.androiddevnkds.kopiseong.module.main.MainActivity;
 import com.androiddevnkds.kopiseong.module.product.ProductActivity;
 import com.androiddevnkds.kopiseong.module.resep.ResepActivity;
@@ -291,11 +292,14 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
         });
 
         //setting
-        mBinding.linearSetting.setOnClickListener(new View.OnClickListener() {
+        mBinding.linearAsset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (userRole.equalsIgnoreCase(K.KEY_ROLE_MASTER)) {
+
+                    Intent intent = new Intent(mContext, AssetActivity.class);
+                    startActivity(intent);
 
                 } else {
 

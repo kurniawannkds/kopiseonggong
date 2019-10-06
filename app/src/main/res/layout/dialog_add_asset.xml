@@ -35,13 +35,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-<!--                    <ImageView-->
-<!--                        android:id="@+id/iv_delete"-->
-<!--                        android:layout_width="30dp"-->
-<!--                        android:layout_height="30dp"-->
-<!--                        android:src="@drawable/password"-->
-<!--                        android:layout_toRightOf="@+id/layout1"-->
-<!--                        android:layout_marginLeft="5dp"/>-->
+                    <ImageView
+                        android:id="@+id/iv_delete"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/layout1"
+                        android:src="@drawable/password" />
+
+                    <ImageView
+                        android:id="@+id/iv_sell"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/iv_delete"
+                        android:src="@drawable/cart" />
 
                     <RelativeLayout
                         android:layout_marginTop="10dp"
@@ -164,6 +172,48 @@
                                 </RelativeLayout>
 
                                 <RelativeLayout
+                                    android:id="@+id/layout_relatif_methode"
+                                    style="@style/LayoutDropDownDialog"
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginBottom="3dp"
+                                        android:soundEffectsEnabled="false"
+                                        android:src="@drawable/green_edit_icon"
+                                        android:visibility="visible" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            style="@style/TextViewJudulDropDown"
+                                            android:text="Payment Methode" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_asset_methode"
+                                            style="@style/TextViewIsiDropDownAdd"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
                                     android:id="@+id/layout_relatif_date"
                                     style="@style/LayoutDropDownDialog"
                                     android:layout_gravity="center_horizontal"
@@ -235,10 +285,52 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             style="@style/TextViewJudulDropDown"
-                                            android:text="Asset Depreciation" />
+                                            android:text="Asset Depreciation Percent" />
 
                                         <me.grantland.widget.AutofitTextView
                                             android:id="@+id/tv_asset_percent"
+                                            style="@style/TextViewIsiDropDownAdd"
+                                            android:singleLine="true"
+                                            android:text="" />
+
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/layout_relatif_current"
+                                    style="@style/LayoutDropDownDialog"
+                                    android:layout_gravity="center_horizontal"
+                                    android:background="@drawable/bg_dropdown"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_centerVertical="true"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_marginBottom="3dp"
+                                        android:soundEffectsEnabled="false"
+                                        android:src="@drawable/green_edit_icon"
+                                        android:visibility="visible" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:orientation="vertical"
+                                        android:visibility="visible">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            style="@style/TextViewJudulDropDown"
+                                            android:text="Asset Current Price" />
+
+                                        <me.grantland.widget.AutofitTextView
+                                            android:id="@+id/tv_asset_current"
                                             style="@style/TextViewIsiDropDownAdd"
                                             android:singleLine="true"
                                             android:text="" />
