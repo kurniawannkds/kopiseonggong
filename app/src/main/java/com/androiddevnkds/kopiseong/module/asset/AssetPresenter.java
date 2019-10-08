@@ -128,7 +128,7 @@ public class AssetPresenter implements AssetContract.assetPresenter {
 
                     paymentMethodeModelGlobal = paymentMethodeModelT;
                     paymentGlobal = payment;
-                    setCustomeList(3);
+                    setCustomeList(2);
                 }
                 else {
                     flag = true;
@@ -177,6 +177,7 @@ public class AssetPresenter implements AssetContract.assetPresenter {
     @Override
     public void setOnCLickAsset(AssetModel asset, int pos) {
 
+        assetView.showProgressBar();
         AssetModel.AssetModelSatuan assetModelSatuan = new AssetModel().new AssetModelSatuan();
         assetModelSatuan = asset.getAssetModelSatuanList().get(pos);
 
@@ -212,6 +213,7 @@ public class AssetPresenter implements AssetContract.assetPresenter {
             curPrice = price;
         }
 
+        assetView.hideProgressBar();
         assetView.showAssetDetail(assetModelSatuan,pos,curPrice);
     }
 
@@ -219,16 +221,21 @@ public class AssetPresenter implements AssetContract.assetPresenter {
     public void addAsset(final AssetModel.AssetModelSatuan assetModelSatuan, String tipeBayar) {
 
         assetView.showProgressBar();
+        Log.e("add",new Gson().toJson(assetModelSatuan));
         if(!isEmptyAdd(assetModelSatuan,tipeBayar)) {
             DateAndTime dateAndTime = new DateAndTime();
             String time = dateAndTime.getCurrentTime(K.FORMAT_TIME_STRING);
-            String balanceID = dateAndTime.getCurrentTime(K.FORMAT_TIME_SORT).substring(0,6);
+            Log.e("add",time);
+            String balanceID = assetModelSatuan.getAssetID().substring(0,6);
+            Log.e("add",balanceID);
             String userEmail = "";
             if(DataManager.can().getUserInfoFromStorage()!=null){
                 if(DataManager.can().getUserInfoFromStorage().getUserEmail()!=null){
                     userEmail = DataManager.can().getUserInfoFromStorage().getUserEmail();
                 }
             }
+            Log.e("add",userEmail);
+            Log.e("add",tipeBayar);
 
             AndroidNetworking.post(K.URL_GET_ALL_ASSET)
                     .addBodyParameter("add", "select")
@@ -275,7 +282,7 @@ public class AssetPresenter implements AssetContract.assetPresenter {
             DateAndTime dateAndTime = new DateAndTime();
             String time = dateAndTime.getCurrentTime(K.FORMAT_TIME_STRING);
             String date = dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_STRING);
-            String balanceID = dateAndTime.getCurrentTime(K.FORMAT_TIME_SORT).substring(0,6);
+            String balanceID = assetID.substring(0,6);
 
             String timeSort = dateAndTime.getCurrentTime(K.FORMAT_TIME_SORT);
             String dateSort = dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_SORT);
@@ -286,6 +293,7 @@ public class AssetPresenter implements AssetContract.assetPresenter {
                     userEmail = DataManager.can().getUserInfoFromStorage().getUserEmail();
                 }
             }
+            Log.e("sell",time);
 
             AndroidNetworking.post(K.URL_GET_ALL_ASSET)
                     .addBodyParameter("sell", "select")

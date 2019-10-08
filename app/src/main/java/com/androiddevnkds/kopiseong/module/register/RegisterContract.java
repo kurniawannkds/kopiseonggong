@@ -1,5 +1,8 @@
 package com.androiddevnkds.kopiseong.module.register;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface RegisterContract {
 
     interface registerView{
@@ -11,6 +14,8 @@ public interface RegisterContract {
         void onSuccess();
 
         void onFailed(int tipe,String message);
+
+        void showUserRole(List userRole);
     }
 
     interface registerPresenter{
@@ -18,5 +23,7 @@ public interface RegisterContract {
         void onSuccess();
 
         void onFailed(int tipe,String message);
+
+        void getAllUserRole();
     }
 }

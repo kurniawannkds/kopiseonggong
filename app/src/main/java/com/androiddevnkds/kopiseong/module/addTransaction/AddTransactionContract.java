@@ -49,7 +49,7 @@ public interface AddTransactionContract {
 
         void getTipeExpenseLainnya(List<String> tipeExpenseModel, String tipeExpense);
 
-        void setOnClickDetailTransaction(DetailTransactionModel detailTransactionModel, int position);
+        void setOnClickDetailTransaction(DetailTransactionModel detailTransactionModel, int position, String category);
 
     }
 }

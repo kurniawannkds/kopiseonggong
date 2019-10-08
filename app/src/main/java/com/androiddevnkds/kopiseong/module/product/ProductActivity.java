@@ -454,7 +454,7 @@ public class ProductActivity extends BaseActivity implements ProductContract.pro
                     MataUangHelper mataUangHelper = new MataUangHelper();
                     if(isEditProd){
                         try {
-                            mEProdPrice = Integer.parseInt(tempNumber);
+                            mEProdPrice = Long.parseLong(tempNumber);
                             mBinding.lyDetailProduct.tvProdPrice.setText(mataUangHelper.formatRupiah(mEProdPrice));
                         } catch (NumberFormatException e) {
                             e.printStackTrace();
@@ -462,7 +462,7 @@ public class ProductActivity extends BaseActivity implements ProductContract.pro
                     }
                     else {
                         try {
-                            mAProdPrice = Integer.parseInt(tempNumber);
+                            mAProdPrice = Long.parseLong(tempNumber);
                             mBinding.lyDetailProduct.tvProdPrice.setText(mataUangHelper.formatRupiah(mAProdPrice));
                         } catch (NumberFormatException e) {
                             e.printStackTrace();

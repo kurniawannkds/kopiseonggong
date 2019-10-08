@@ -10,6 +10,7 @@ public class K {
 
     //url
     public static String URL_REGISTER_USER = "https://androiddevnkds.com/kopi.seonggong/api/register.php";
+    public static String URL_USER_ROLE = "https://androiddevnkds.com/kopi.seonggong/api/getAllUserRole.php";
     public static String URL_LOGIN = "https://androiddevnkds.com/kopi.seonggong/api/login.php";
     public static String URL_GET_ALL_TRANSACTION = "https://androiddevnkds.com/kopi.seonggong/api/getTransaction.php";
     public static String URL_GET_DETAIL_TRANSACTION = "https://androiddevnkds.com/kopi.seonggong/api/detailTransaction.php";
@@ -43,7 +44,7 @@ public class K {
     public static String VALUE_KEY_STOCK_STORE = "VALUE_KEY_STOCK_STORE";
 
     public static String FORMAT_TANGGAL_STRING = "dd-MM-yyyy",FORMAT_TANGGAL_SORT = "yyyyMMdd";
-    public static String FORMAT_TIME_STRING = "hh:mm:ss", FORMAT_TIME_SORT = "hhmmss";
+    public static String FORMAT_TIME_STRING = "HH:mm:ss", FORMAT_TIME_SORT = "HHmmss";
 
     public static String ADD_NEW_STOCK = "ADD NEW STOCK";
     public static String ADD_NEW_ASSET = "ADD NEW ASSET";

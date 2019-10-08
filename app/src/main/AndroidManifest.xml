@@ -29,6 +29,8 @@
         <activity android:name=".module.addTransaction.AddTransactionActivity"/>
         <activity android:name=".module.product.ProductActivity"/>
         <activity android:name=".module.asset.AssetActivity"/>
+        <activity android:name=".module.register.RegisterActivity"/>
+        <activity android:name=".module.jurnal.JurnalActivity"/>
     </application>
 
 </manifest>

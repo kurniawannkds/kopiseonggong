@@ -65,7 +65,7 @@ public class AssetActivity extends BaseActivity implements AssetContract.assetVi
     private int positionDetail = 0;
     private boolean isDetailAdd = false,isSell=false, isDialogCustome = false, isEditText = false, isInitList = false, isPrice = false, isPercent = false;
     private boolean isAssetName = false;
-    private String assetID = "", assetName = "", assetDate = "", mTipeBayar;
+    private String assetID = "", assetName = "", assetDate = "", mTipeBayar ="";
     private long assetPrice = 0, assetcCurrentPrice = 0;
     private int assetPercent = 0;
 
@@ -191,8 +191,8 @@ public class AssetActivity extends BaseActivity implements AssetContract.assetVi
                 mBinding.lyDetailAsset.tvAssetPercent.setText("");
                 mBinding.lyDetailAsset.tvAssetCurrent.setText("");
 
-                mBinding.lyDetailAsset.layoutRelatifMethode.setVisibility(GONE);
-                mBinding.lyDetailAsset.layoutRelatifCurrent.setVisibility(View.VISIBLE);
+                mBinding.lyDetailAsset.layoutRelatifMethode.setVisibility(View.VISIBLE);
+                mBinding.lyDetailAsset.layoutRelatifCurrent.setVisibility(GONE);
                 mBinding.lyDetailAsset.lyDialogAddAsset.setVisibility(View.VISIBLE);
             }
         });
@@ -356,7 +356,7 @@ public class AssetActivity extends BaseActivity implements AssetContract.assetVi
                 if (isPrice) {
 
                     try {
-                        assetPrice = Integer.parseInt(tempNumber);
+                        assetPrice = Long.parseLong(tempNumber);
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }
@@ -381,6 +381,10 @@ public class AssetActivity extends BaseActivity implements AssetContract.assetVi
                 else if (isAssetName) {
 
                     assetName = temp;
+                    AssetModel.AssetModelSatuan assetModelSatuan = new AssetModel().new AssetModelSatuan();
+                    assetModelSatuan.setAssetName(assetName);
+                    assetModelSatuan.setAssetID(assetName);
+                    assetForList.getAssetModelSatuanList().add(assetForList.getAssetModelSatuanList().size()-1,assetModelSatuan);
                     mBinding.lyDetailAsset.tvAssetName.setText(assetName);
                     isAssetName = false;
                 }
@@ -702,6 +706,7 @@ public class AssetActivity extends BaseActivity implements AssetContract.assetVi
 
                         isAssetName = true;
                         isEditText = true;
+
                         mBinding.lyDoneEditText.tvEditTextLabel.setText("Please Fill AssetName");
                         mBinding.lyDoneEditText.etKarakter.setText("");
                         mBinding.lyDoneEditText.etNumber.setVisibility(GONE);

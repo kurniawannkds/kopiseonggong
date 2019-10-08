@@ -72,7 +72,7 @@ public class DetailTransactionModel {
         private String productResep;
 
         @SerializedName("detail_trans_jumlah")
-        private int detailJumlah;
+        private long detailJumlah;
 
         @SerializedName("detail_trans_product_id")
         private String detailProductID;
@@ -124,11 +124,11 @@ public class DetailTransactionModel {
             this.detailID = detailID;
         }
 
-        public int getDetailJumlah() {
+        public long getDetailJumlah() {
             return detailJumlah;
         }
 
-        public void setDetailJumlah(int detailJumlah) {
+        public void setDetailJumlah(long detailJumlah) {
             this.detailJumlah = detailJumlah;
         }
 

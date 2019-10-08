@@ -93,15 +93,15 @@ public class LoginFragment extends BaseFragment implements LoginContract.loginVi
             }
         });
 
-            mBinding.tvRegister.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    FragmentHelper.fragmentChanger(R.id.fl_fragment_container,
-                            ((AppCompatActivity) mContext).getSupportFragmentManager(),
-                            new RegisterFragment(), null, false);
-                }
-            });
+//            mBinding.tvRegister.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//
+//                    FragmentHelper.fragmentChanger(R.id.fl_fragment_container,
+//                            ((AppCompatActivity) mContext).getSupportFragmentManager(),
+//                            new RegisterFragment(), null, false);
+//                }
+//            });
 
     }
 

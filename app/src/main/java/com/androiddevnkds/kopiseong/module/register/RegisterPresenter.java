@@ -4,13 +4,18 @@ import android.text.TextUtils;
 import android.util.Patterns;
 
 import com.androiddevnkds.kopiseong.data.DataManager;
+import com.androiddevnkds.kopiseong.model.ListUserRoleModel;
 import com.androiddevnkds.kopiseong.model.UserInfoModel;
+import com.androiddevnkds.kopiseong.model.UserRoleModel;
 import com.androiddevnkds.kopiseong.module.register.model.RegisterInteractor;
 import com.androiddevnkds.kopiseong.utils.K;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.ParsedRequestListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RegisterPresenter implements RegisterContract.registerPresenter {
 
@@ -32,6 +37,45 @@ public class RegisterPresenter implements RegisterContract.registerPresenter {
 
         registerView.hideProgressBar();
         registerView.onFailed(tipe,message);
+    }
+
+    @Override
+    public void getAllUserRole() {
+
+        registerView.showProgressBar();
+        AndroidNetworking.post(K.URL_USER_ROLE)
+
+                .addBodyParameter("select","select")
+                .setTag("test")
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsObject(UserRoleModel.class, new ParsedRequestListener<UserRoleModel>() {
+                    @Override
+                    public void onResponse(UserRoleModel user) {
+                        // do anything with response
+                        if(user.getErrorMessage()!=null){
+                            onFailed(7,user.getErrorMessage());
+                        }
+                        else {
+
+                            ListUserRoleModel listUserRoleModel = new ListUserRoleModel();
+                            List userRole = new ArrayList<>();
+                            for(int i=0;i<user.getUserRoleSatuanList().size();i++){
+                                listUserRoleModel.setUserRole(user.getUserRoleSatuanList().get(i).getUserRole());
+                                userRole.add(listUserRoleModel);
+                                listUserRoleModel = new ListUserRoleModel();
+                            }
+                            registerView.hideProgressBar();
+                            registerView.showUserRole(userRole);
+
+                        }
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        // handle error
+                        onFailed(7,"ERROR");
+                    }
+                });
     }
 
     public void registerUser(final RegisterInteractor registerInteractor){

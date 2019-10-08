@@ -261,6 +261,8 @@ public class AddTransactionPresenter implements AddTransactionContract.addTransa
                             if (hppModel.getErrorMessage() != null) {
                                 onFailed(hppModel.getErrorMessage());
                                 Log.e("adapter", "FAILED");
+                                Log.e("adapter", detailResep);
+                                Log.e("adapter", detailJumlah);
                             } else {
 
                                 if(!isEmpty(transactionSatuanModel, generalCategory,  detailProduct,  detailJumlah,  detailResep,hppModel.getHpp())){
@@ -342,11 +344,11 @@ public class AddTransactionPresenter implements AddTransactionContract.addTransa
     }
 
     @Override
-    public void setOnClickDetailTransaction(DetailTransactionModel detailTransactionModel, int position) {
+    public void setOnClickDetailTransaction(DetailTransactionModel detailTransactionModel, int position, String category) {
 
         DetailTransactionModel.DetailTransaction detailTransaction = new DetailTransactionModel().new DetailTransaction();
         detailTransaction = detailTransactionModel.getDetailTransactionList().get(position);
-        addTransactionView.showMoreDetailTransaction(detailTransaction,categoryGlobal);
+        addTransactionView.showMoreDetailTransaction(detailTransaction,category);
     }
 
     private void onFailed(String message){
@@ -625,10 +627,10 @@ public class AddTransactionPresenter implements AddTransactionContract.addTransa
         }
     }
 
-    public int getPositionProduct(String prodID){
-        int pos = 0;
-
-        pos = findPosition(2);
-        return pos;
-    }
+//    public int getPositionProduct(String prodID){
+//        int pos = 0;
+//
+//        pos = findPosition(2);
+//        return pos;
+//    }
 }

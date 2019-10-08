@@ -281,7 +281,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
 
                 long stockJumlah = 0, stockPrice = 0;
                 try {
-                    stockPrice = Integer.parseInt(tempPrice);
+                    stockPrice = Long.parseLong(tempPrice);
                     stockJumlah = Integer.parseInt(tempjumlah);
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
@@ -662,7 +662,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                     MataUangHelper mataUangHelper = new MataUangHelper();
 
                     try {
-                        addStockPrice = Integer.parseInt(temp);
+                        addStockPrice = Long.parseLong(temp);
                         mBinding.lyDialogAddStock.tvPrice.setText(mataUangHelper.formatRupiah(addStockPrice));
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
@@ -712,7 +712,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                     MataUangHelper mataUangHelper = new MataUangHelper();
 
                     try {
-                        sellStockPrice = Integer.parseInt(temp);
+                        sellStockPrice = Long.parseLong(temp);
                         mBinding.lyDialogSellStock.tvPrice.setText(mataUangHelper.formatRupiah(sellStockPrice));
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
@@ -938,7 +938,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                 Log.e("STOCK",split[1]);
                 long temp = 0;
                 try {
-                    temp = Integer.parseInt(split[1]);
+                    temp = Long.parseLong(split[1]);
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
@@ -1042,7 +1042,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
 
                 long perGram = 0;
                 try {
-                    perGram = Integer.parseInt(splited[1]);
+                    perGram = Long.parseLong(splited[1]);
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
@@ -1086,7 +1086,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                 mBinding.lyDialogSellStock.tvJumlahStock.setText("");
                 mBinding.lyDialogSellStock.tvTipeBayar.setText("");
 
-                long newGram = 0;
+                int newGram = 0;
                 try {
                     newGram = Integer.parseInt(splited[1]);
                 } catch (NumberFormatException e) {
@@ -1134,7 +1134,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                 mBinding.lyDialogSentStock.tvStockId.setText("");
                 mBinding.lyDialogSentStock.tvJumlahStock.setText("");
 
-                long newGram = 0;
+                int newGram = 0;
                 try {
                     newGram = Integer.parseInt(splited[1]);
                 } catch (NumberFormatException e) {

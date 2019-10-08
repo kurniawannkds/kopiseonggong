@@ -490,7 +490,11 @@ public class TransactionFragment extends BaseFragment implements TransactionCont
         mBinding.lyDetailTransaction.tvTotalBalance.setText(mataUangHelper.formatRupiah(transactionSatuanModel.getTransactionBalance()));
 
 
-        detailTransactionAdapter = new DetailTransactionAdapter(mContext, detailTransactionModel,1);
+        String dari = "INCOME";
+        if(transactionSatuanModel.getTransactionCategory().equalsIgnoreCase("EXPENSE")){
+            dari = "EXPENSE";
+        }
+        detailTransactionAdapter = new DetailTransactionAdapter(mContext, detailTransactionModel,1,dari);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
         mBinding.lyDetailTransaction.rvTransactionDetail.setLayoutManager(layoutManager);
         mBinding.lyDetailTransaction.rvTransactionDetail.setAdapter(detailTransactionAdapter);

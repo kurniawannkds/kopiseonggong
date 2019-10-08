@@ -310,7 +310,7 @@ public class ResepFragment extends BaseFragment implements ResepContract.resepVi
                 else {
                     String resepTemp = mBinding.lyDoneEditText.etNumber.getText().toString().trim().replace(",", "");
                     try {
-                        resepHpp = Integer.parseInt(resepTemp);
+                        resepHpp = Long.parseLong(resepTemp);
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
                     }

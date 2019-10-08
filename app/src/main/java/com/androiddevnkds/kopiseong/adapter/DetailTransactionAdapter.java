@@ -20,13 +20,15 @@ public class DetailTransactionAdapter extends RecyclerView.Adapter<DetailTransac
     private DetailTransactionModel transactionModel;
     private Context context;
     private int tipe = 0;
+    private String dari = "INCOME";
     private static DetailTransactionAdapter.ClickListener clickListener;
 
-    public DetailTransactionAdapter(Context context, DetailTransactionModel transactionModel, int tipe){
+    public DetailTransactionAdapter(Context context, DetailTransactionModel transactionModel, int tipe, String dari){
         this.context= context;
         this.transactionModel = transactionModel;
 
         this.tipe = tipe;
+        this.dari = dari;
     }
 
     @NonNull
@@ -52,7 +54,16 @@ public class DetailTransactionAdapter extends RecyclerView.Adapter<DetailTransac
         else {
             holder.textViewProduct.setText(transactionModel.getDetailTransactionList().get(i).getProductName());
         }
-        holder.textViewQuantity.setText(transactionModel.getDetailTransactionList().get(i).getDetailJumlah()+" Unit");
+
+        if(dari.equalsIgnoreCase("INCOME")) {
+            holder.textViewQuantity.setText(transactionModel.getDetailTransactionList().get(i).getDetailJumlah() + " Unit");
+        }
+        else {
+            MataUangHelper mataUangHelper = new MataUangHelper();
+            String uang = mataUangHelper.formatRupiah(transactionModel.getDetailTransactionList().get(i).getDetailJumlah());
+            holder.textViewQuantity.setText( uang);
+
+        }
     }
 
     @Override

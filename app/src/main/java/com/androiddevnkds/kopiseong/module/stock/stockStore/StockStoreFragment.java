@@ -207,7 +207,7 @@ public class StockStoreFragment extends BaseFragment implements StockStoreContra
 
                 long stockJumlah = 0, stockPrice = 0;
                 try {
-                    stockPrice = Integer.parseInt(tempPrice);
+                    stockPrice = Long.parseLong(tempPrice);
                     stockJumlah = Integer.parseInt(tempjumlah);
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
@@ -409,7 +409,7 @@ public class StockStoreFragment extends BaseFragment implements StockStoreContra
                 Log.e("STOCK",split[1]);
                 long temp = 0;
                 try {
-                    temp = Integer.parseInt(split[1]);
+                    temp = Long.parseLong(split[1]);
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }

@@ -45,15 +45,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-
-
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_profile"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/ic_launcher_background"
+                android:src="@drawable/logo"
                 android:visibility="visible" />
 
             <LinearLayout

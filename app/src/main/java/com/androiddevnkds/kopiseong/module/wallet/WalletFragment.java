@@ -257,7 +257,7 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
 
                     MataUangHelper mataUangHelper = new MataUangHelper();
                     try {
-                        totalCash = Integer.parseInt(tempNumber);
+                        totalCash = Long.parseLong(tempNumber);
                         mBinding.lyDialogAddBalance.tvCashBalance.setText(mataUangHelper.formatRupiah(totalCash));
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
@@ -267,7 +267,7 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
                 else {
                     MataUangHelper mataUangHelper = new MataUangHelper();
                     try {
-                        totalAccount = Integer.parseInt(tempNumber);
+                        totalAccount = Long.parseLong(tempNumber);
                         mBinding.lyDialogAddBalance.tvAccountBalance.setText(mataUangHelper.formatRupiah(totalAccount));
                     } catch (NumberFormatException e) {
                         e.printStackTrace();

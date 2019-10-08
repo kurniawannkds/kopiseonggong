@@ -10,13 +10,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.data.DataManager;
@@ -24,18 +22,15 @@ import com.androiddevnkds.kopiseong.databinding.FragmentWelcomeBinding;
 import com.androiddevnkds.kopiseong.module.asset.AssetActivity;
 import com.androiddevnkds.kopiseong.module.main.MainActivity;
 import com.androiddevnkds.kopiseong.module.product.ProductActivity;
+import com.androiddevnkds.kopiseong.module.register.RegisterActivity;
 import com.androiddevnkds.kopiseong.module.resep.ResepActivity;
-import com.androiddevnkds.kopiseong.module.resep.ResepFragment;
 import com.androiddevnkds.kopiseong.module.stock.StockActivity;
 import com.androiddevnkds.kopiseong.module.transaction.TransactionActivity;
 import com.androiddevnkds.kopiseong.module.wallet.WalletActivity;
 import com.androiddevnkds.kopiseong.utils.DateAndTime;
-import com.androiddevnkds.kopiseong.utils.FragmentHelper;
 import com.androiddevnkds.kopiseong.utils.HeaderHelper;
 import com.androiddevnkds.kopiseong.utils.K;
 import com.androiddevnkds.kopiseong.BaseFragment;
-import com.androiddevnkds.kopiseong.module.transaction.TransactionFragment;
-import com.androiddevnkds.kopiseong.module.wallet.WalletFragment;
 import com.androiddevnkds.kopiseong.utils.MataUangHelper;
 
 import java.util.Objects;
@@ -270,6 +265,9 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
 
                 if (userRole.equalsIgnoreCase(K.KEY_ROLE_MASTER)) {
 
+                    Intent intent = new Intent(mContext, RegisterActivity.class);
+                    startActivity(intent);
+
                 } else {
 
                     showError();
@@ -361,7 +359,7 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
 
                     MataUangHelper mataUangHelper = new MataUangHelper();
                     try {
-                        cash = Integer.parseInt(tempNumber);
+                        cash = Long.parseLong(tempNumber);
                         mBinding.lyDialogAddBalance.tvCashBalance.setText(mataUangHelper.formatRupiah(cash));
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
@@ -371,7 +369,7 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
                 else {
                     MataUangHelper mataUangHelper = new MataUangHelper();
                     try {
-                        account = Integer.parseInt(tempNumber);
+                        account = Long.parseLong(tempNumber);
                         mBinding.lyDialogAddBalance.tvAccountBalance.setText(mataUangHelper.formatRupiah(account));
                     } catch (NumberFormatException e) {
                         e.printStackTrace();
