@@ -761,8 +761,7 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
 
                             long priceTemp = 0;
                             for(int i = 0;i<productForList.getProductSatuanList().size();i++){
-                                if(detailTransactionModelGlobal.getDetailTransactionList().get(posisiDetail)
-                                        .getDetailProductID().equalsIgnoreCase(productForList.getProductSatuanList().
+                                if(detailTransaction.getDetailProductID().equalsIgnoreCase(productForList.getProductSatuanList().
                                                 get(i).getProductID())){
 
                                     priceTemp = productForList.getProductSatuanList().
@@ -770,8 +769,7 @@ public class AddTransactionFragment extends BaseFragment implements AddTransacti
                                 }
                             }
 
-                            mPrice = mPrice - (priceTemp*detailTransactionModelGlobal.getDetailTransactionList()
-                                    .get(posisiDetail).getDetailJumlah());
+                            mPrice = mPrice - (priceTemp*detailTransaction.getDetailJumlah());
 
                             detailTransactionModelGlobal.getDetailTransactionList().remove(posisiDetail);
                             detailTransactionAdapter.setNewItemList(detailTransactionModelGlobal);
