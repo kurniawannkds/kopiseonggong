@@ -5,10 +5,13 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
@@ -24,12 +27,16 @@ import com.androiddevnkds.kopiseong.databinding.ActivityMainBinding;
 import com.androiddevnkds.kopiseong.model.JurnalModel;
 import com.androiddevnkds.kopiseong.module.home.HomeActivity;
 import com.androiddevnkds.kopiseong.module.login.LoginFragment;
+import com.androiddevnkds.kopiseong.module.stock.StockActivity;
+import com.androiddevnkds.kopiseong.module.transaction.TransactionActivity;
 import com.androiddevnkds.kopiseong.utils.DateAndTime;
 import com.androiddevnkds.kopiseong.utils.FragmentHelper;
 import com.androiddevnkds.kopiseong.utils.HeaderHelper;
 import com.androiddevnkds.kopiseong.utils.K;
 import com.androiddevnkds.kopiseong.utils.MataUangHelper;
 import com.google.gson.Gson;
+
+import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -76,6 +83,22 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
     @Override
     public void initEvent() {
 
+
+        mBinding.lyBottomNav.navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                switch (menuItem.getItemId()) {
+                    case R.id.home_menu:
+                        Intent intent = new Intent(JurnalActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                        return true;
+                }
+
+                return false;
+            }
+        });
     }
 
     @Override
