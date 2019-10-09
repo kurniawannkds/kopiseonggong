@@ -20,6 +20,7 @@ import com.androiddevnkds.kopiseong.R;
 import com.androiddevnkds.kopiseong.data.DataManager;
 import com.androiddevnkds.kopiseong.databinding.FragmentWelcomeBinding;
 import com.androiddevnkds.kopiseong.module.asset.AssetActivity;
+import com.androiddevnkds.kopiseong.module.jurnal.JurnalActivity;
 import com.androiddevnkds.kopiseong.module.main.MainActivity;
 import com.androiddevnkds.kopiseong.module.product.ProductActivity;
 import com.androiddevnkds.kopiseong.module.register.RegisterActivity;
@@ -282,6 +283,8 @@ public class WelcomeFragment extends BaseFragment implements HomeContract.homeVi
 
                 if (userRole.equalsIgnoreCase(K.KEY_ROLE_MASTER)) {
 
+                    Intent intent = new Intent(mContext, JurnalActivity.class);
+                    startActivity(intent);
                 } else {
 
                     showError();

@@ -6,42 +6,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/ly_header_data"
-            layout="@layout/header_content" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorNavigation"
-            android:layout_alignParentBottom="true">
-
-            <include
-                android:id="@+id/ly_bottom_nav"
-                layout="@layout/bottom" />
-
-        </RelativeLayout>
-
-        <TableLayout
-            android:id="@+id/tableLayout_tb"
-            android:layout_below="@+id/ly_header_data"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:stretchColumns="*"
-            android:layout_marginRight="50dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginBottom="100dp">
-
-        </TableLayout>
-
-        <View
-            android:id="@+id/view_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:alpha="0.8"
-            android:background="@color/colorBlack"
-            android:visibility="gone"/>
-
         <ProgressBar
             android:id="@+id/pb_bar"
             style="?android:attr/progressBarStyleLarge"
@@ -49,6 +13,137 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:visibility="gone" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorNavigation">
+
+            <include
+                android:id="@+id/ly_bottom_nav"
+                layout="@layout/bottom" />
+
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_below="@+id/ly_header_data"
+            android:id="@+id/activity_scrollView1"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="horizontal|vertical"
+            android:scrollbarStyle="outsideInset"
+            android:layout_marginBottom="100dp"
+            android:fillViewport="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <HorizontalScrollView
+                    android:id="@+id/activity_horizontalView1"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="20dp"
+                    android:scrollbars="horizontal|vertical">
+
+                    <TableLayout
+                        android:id="@+id/tableLayout_tb"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:stretchColumns="*">
+
+                    </TableLayout>
+                </HorizontalScrollView>
+
+                <LinearLayout
+                    android:layout_below="@+id/activity_horizontalView1"
+                    android:visibility="gone"
+                    android:id="@+id/linear_sum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <me.grantland.widget.AutofitTextView
+                            android:layout_gravity="center_vertical"
+                            android:singleLine="true"
+                            style="@style/TextViewDetailDialogKiriJurnal"
+                            android:text="Laba" />
+
+                        <me.grantland.widget.AutofitTextView
+                            android:layout_gravity="center_vertical"
+                            android:singleLine="true"
+                            android:id="@+id/tv_laba"
+                            style="@style/TextViewDetailDialogKananJurnal"
+                            android:text="Laba" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <me.grantland.widget.AutofitTextView
+                            android:layout_gravity="center_vertical"
+                            android:singleLine="true"
+                            style="@style/TextViewDetailDialogKiriJurnal"
+                            android:text="Cash Balance" />
+
+                        <me.grantland.widget.AutofitTextView
+                            android:layout_gravity="center_vertical"
+                            android:singleLine="true"
+                            android:id="@+id/tv_cash"
+                            style="@style/TextViewDetailDialogKananJurnal"
+                            android:text="Laba" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <me.grantland.widget.AutofitTextView
+                            android:layout_gravity="center_vertical"
+                            android:singleLine="true"
+                            style="@style/TextViewDetailDialogKiriJurnal"
+                            android:text="Account Balance" />
+
+                        <me.grantland.widget.AutofitTextView
+                            android:layout_gravity="center_vertical"
+                            android:singleLine="true"
+                            android:id="@+id/tv_account"
+                            style="@style/TextViewDetailDialogKananJurnal"
+                            android:text="Laba" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <View
+            android:id="@+id/view_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.8"
+            android:background="@color/colorBlack"
+            android:visibility="gone" />
+
+        <include
+            android:id="@+id/ly_header_data"
+            layout="@layout/header_content" />
 
     </RelativeLayout>
 </layout>

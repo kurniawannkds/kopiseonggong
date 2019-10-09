@@ -70,6 +70,9 @@ public class JurnalModel {
             @SerializedName("total_trans_price")
             private long transPrice;
 
+            @SerializedName("total_trans_hpp")
+            private long transHpp;
+
             public JurnalDate() {
             }
 
@@ -78,6 +81,14 @@ public class JurnalModel {
                 this.transCat = transCat;
                 this.transTipeBayar = transTipeBayar;
                 this.transPrice = transPrice;
+            }
+
+            public long getTransHpp() {
+                return transHpp;
+            }
+
+            public void setTransHpp(long transHpp) {
+                this.transHpp = transHpp;
             }
 
             public String getTransDate() {

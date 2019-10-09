@@ -196,4 +196,24 @@
 
     </style>
 
+    <style name="TextViewDetailDialogKiriJurnal">
+        <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_width">180dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:textColor">#839696</item>
+    </style>
+
+    <style name="TextViewDetailDialogKananJurnal">
+        <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_width">280dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:textColor">#0d0d0d</item>
+    </style>
+
 </resources>
