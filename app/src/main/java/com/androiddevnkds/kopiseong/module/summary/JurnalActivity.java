@@ -1212,7 +1212,7 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
         hpp = 0;
         totalCashBalance = 0;
         totalAccBal = 0;
-        mBinding.linearSum.setVisibility(View.VISIBLE);
+        mBinding.linearSum.setVisibility(GONE);
     }
     //end
 }
