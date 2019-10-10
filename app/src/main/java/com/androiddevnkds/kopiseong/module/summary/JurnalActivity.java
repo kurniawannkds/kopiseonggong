@@ -1,4 +1,4 @@
-package com.androiddevnkds.kopiseong.module.jurnal;
+package com.androiddevnkds.kopiseong.module.summary;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -17,46 +19,46 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androiddevnkds.kopiseong.BaseActivity;
 import com.androiddevnkds.kopiseong.R;
-import com.androiddevnkds.kopiseong.data.DataManager;
+import com.androiddevnkds.kopiseong.adapter.ListCustomAdapter;
 import com.androiddevnkds.kopiseong.databinding.ActivityJurnalBinding;
-import com.androiddevnkds.kopiseong.databinding.ActivityMainBinding;
+import com.androiddevnkds.kopiseong.model.DetailTransactionModel;
 import com.androiddevnkds.kopiseong.model.JurnalModel;
 import com.androiddevnkds.kopiseong.module.home.HomeActivity;
-import com.androiddevnkds.kopiseong.module.login.LoginFragment;
-import com.androiddevnkds.kopiseong.module.stock.StockActivity;
-import com.androiddevnkds.kopiseong.module.transaction.TransactionActivity;
+import com.androiddevnkds.kopiseong.module.jurnal.JurnalRealActivity;
 import com.androiddevnkds.kopiseong.utils.DateAndTime;
-import com.androiddevnkds.kopiseong.utils.FragmentHelper;
 import com.androiddevnkds.kopiseong.utils.HeaderHelper;
 import com.androiddevnkds.kopiseong.utils.K;
 import com.androiddevnkds.kopiseong.utils.MataUangHelper;
+import com.androiddevnkds.kopiseong.utils.listener.OnItemClickListener;
 import com.google.gson.Gson;
 
-import java.util.Objects;
+import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static android.view.View.GONE;
 
 public class JurnalActivity extends BaseActivity implements JurnalContract.jurnalView {
 
     private FragmentManager fm = getSupportFragmentManager();
     private ActivityJurnalBinding mBinding;
     private JurnalPresenter jurnalPresenter;
-    private String mDateMonth = "";
-    private DateAndTime dateAndTime;
+    private String mDateMonth = "", dateStringHeader = "";
+    private List<String> dateList;
+    private boolean isDialogCustomeList;
+    private ListCustomAdapter listCustomAdapter;
     private MataUangHelper mataUangHelper;
-    private long cashIn = 0, cashOut= 0, accIn = 0, accOut = 0, laba = 0, totalLaba =0, totalIncome =0, totalExpense = 0, totalHpp = 0, hpp = 0, totalCashBalance = 0 , totalAccBal = 0;
+    private long cashIn = 0, cashOut = 0, accIn = 0, accOut = 0, laba = 0, totalLaba = 0, totalIncome = 0, totalExpense = 0, totalHpp = 0, hpp = 0, totalCashBalance = 0, totalAccBal = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_jurnal);
         jurnalPresenter = new JurnalPresenter(this);
-        dateAndTime = new DateAndTime();
-        mataUangHelper  = new MataUangHelper();
+        mataUangHelper = new MataUangHelper();
         initUI();
         initEvent();
     }
@@ -65,18 +67,16 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
     @Override
     public void initUI() {
 
-        mDateMonth = dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_STRING).substring(3, 10);
-        Log.e("date", mDateMonth);
+
+        mBinding.lyBottomNav.navigation.setSelectedItemId(R.id.summary_menu);
+
         HeaderHelper.initialize(mBinding.getRoot());
         HeaderHelper.setLabelContentText("SUMMARY DATA");
         HeaderHelper.setRelativeContentVisible(true);
         HeaderHelper.setLabelContentVisible(true);
         HeaderHelper.setLinearReportVisible(true);
         HeaderHelper.setLinearContentVisible(false);
-        mBinding.tableLayoutTb.setStretchAllColumns(true);
-        jurnalPresenter.getAllJurnalPerMonth(mDateMonth);
-
-
+        jurnalPresenter.getMonth();
 
     }
 
@@ -94,9 +94,42 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
                         startActivity(intent);
                         finish();
                         return true;
+
+                    case R.id.summary_menu:
+                        Intent intentMenu = new Intent(JurnalActivity.this, JurnalActivity.class);
+                        startActivity(intentMenu);
+                        finish();
+                        return true;
+
+                    case R.id.jurnal_menu:
+                        Intent intentJurnal = new Intent(JurnalActivity.this, JurnalRealActivity.class);
+                        startActivity(intentJurnal);
+                        finish();
+                        return true;
                 }
 
                 return false;
+            }
+        });
+
+        mBinding.lyHeaderData.tvIconFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
+                jurnalPresenter.getListDate(dateList,dateStringHeader);
+            }
+        });
+
+        mBinding.lyBlack.lyBlack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(isDialogCustomeList){
+
+                    mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
+                    mBinding.lyBlack.lyBlack.setVisibility(GONE);
+                }
             }
         });
     }
@@ -118,6 +151,7 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
     @Override
     public void onFailed(String message) {
 
+        resetVariable();
         showError(message);
     }
 
@@ -135,24 +169,23 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
         smallTextSize = (int) getResources().getDimension(R.dimen.font_size_small);
         mediumTextSize = (int) getResources().getDimension(R.dimen.font_size_medium);
 
-        int rows = jurnalModel.getJurnalSatuanList().size();
+        int rows = jurnalModel.getJurnalSatuanList().size()-1;
         TextView textSpacer = null;
-        Log.e("jurnal",jurnalModel.getJurnalSatuanList().size()+"");
+        Log.e("jurnal", jurnalModel.getJurnalSatuanList().size() + "");
 
         mBinding.tableLayoutTb.removeAllViews();
         for (int i = -1; i < rows; i++) {
 
-            Log.e("jurnal",i+"");
+            Log.e("jurnal", i + "");
 
             JurnalModel.JurnalSatuan row = null;
             if (i > -1) {
                 row = jurnalModel.getJurnalSatuanList().get(i);
-            }
-            else {
+            } else {
                 textSpacer = new TextView(this);
                 textSpacer.setText("");
             }
-            Log.e("jurnal",new Gson().toJson(row));
+            Log.e("jurnal", new Gson().toJson(row));
 
             //---------------------------date-------------------------
             final TextView tv = new TextView(this);
@@ -171,11 +204,11 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
             if (i == -1) {
                 tv.setText("Date");
                 tv.setBackgroundColor(Color.parseColor("#f7f7f7"));
-            }else {
+            } else {
                 tv.setBackgroundColor(Color.parseColor("#ffffff"));
                 tv.setTextColor(Color.parseColor("#000000"));
                 tv.setText(row.getJurnalDateList().get(0).getTransDate());
-                Log.e("jurnal",row.getJurnalDateList().get(0).getTransDate());
+                Log.e("jurnal", row.getJurnalDateList().get(0).getTransDate());
             }
 
             //--------------------------income cash--------------------------------------
@@ -214,12 +247,12 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
                 }
                 tv4.setBackgroundColor(Color.parseColor("#f8f8f8"));
                 tv4.setTextColor(Color.parseColor("#000000"));
-                long price =0;
+                long price = 0;
                 for (int j = 0; j < row.getJurnalDateList().size(); j++) {
                     if (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("INCOME") &&
-                            row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")||
+                            row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH") ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("SELL STOCKWH") &&
-                                    row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))||
+                                    row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("SELL ASSET") &&
                                     row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))) {
                         price = price + row.getJurnalDateList().get(j).getTransPrice();
@@ -290,12 +323,12 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
                 }
                 tv2.setBackgroundColor(Color.parseColor("#ffffff"));
                 tv2.setTextColor(Color.parseColor("#000000"));
-                long price =0;
+                long price = 0;
                 for (int j = 0; j < row.getJurnalDateList().size(); j++) {
                     if (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("INCOME") &&
-                            !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")||
+                            !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH") ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("SELL STOCKWH") &&
-                            !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))||
+                                    !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("SELL ASSET") &&
                                     !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))) {
                         price = price + row.getJurnalDateList().get(j).getTransPrice();
@@ -366,10 +399,10 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
                 }
                 tv3.setBackgroundColor(Color.parseColor("#f8f8f8"));
                 tv3.setTextColor(Color.parseColor("#000000"));
-                long price =0;
-                for(int j = 0; j<row.getJurnalDateList().size();j++){
-                    if(row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("EXPENSE")&&
-                            row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")){
+                long price = 0;
+                for (int j = 0; j < row.getJurnalDateList().size(); j++) {
+                    if (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("EXPENSE") &&
+                            row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) {
                         price = row.getJurnalDateList().get(j).getTransPrice();
                         break;
                     }
@@ -439,7 +472,7 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
                 }
                 tv5.setBackgroundColor(Color.parseColor("#ffffff"));
                 tv5.setTextColor(Color.parseColor("#000000"));
-                long price =0;
+                long price = 0;
                 for (int j = 0; j < row.getJurnalDateList().size(); j++) {
                     if (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("EXPENSE") &&
                             !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) {
@@ -512,16 +545,16 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
                 }
                 tv6.setBackgroundColor(Color.parseColor("#f8f8f8"));
                 tv6.setTextColor(Color.parseColor("#000000"));
-                long price =0;
-                for(int j = 0; j<row.getJurnalDateList().size();j++){
-                    if((row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("INCOME") &&
-                            row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))||
+                long price = 0;
+                for (int j = 0; j < row.getJurnalDateList().size(); j++) {
+                    if ((row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("INCOME") &&
+                            row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("SELL STOCKWH") &&
-                            row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))||
+                                    row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("SELL ASSET") &&
-                                    row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))||
+                                    row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("ADD CASH") &&
-                                    row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))){
+                                    row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))) {
                         price = price + row.getJurnalDateList().get(j).getTransPrice();
                     }
                 }
@@ -590,16 +623,16 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
                 }
                 tv7.setBackgroundColor(Color.parseColor("#ffffff"));
                 tv7.setTextColor(Color.parseColor("#000000"));
-                long price =0;
-                for(int j = 0; j<row.getJurnalDateList().size();j++){
-                    if((row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("INCOME") &&
-                            !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))||
+                long price = 0;
+                for (int j = 0; j < row.getJurnalDateList().size(); j++) {
+                    if ((row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("INCOME") &&
+                            !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("SELL STOCKWH") &&
-                            !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))||
+                                    !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("SELL ASSET") &&
-                                    !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))||
+                                    !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("ADD ACC") &&
-                                    !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))){
+                                    !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))) {
                         price = price + row.getJurnalDateList().get(j).getTransPrice();
                     }
                 }
@@ -668,16 +701,16 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
                 }
                 tv8.setBackgroundColor(Color.parseColor("#f8f8f8"));
                 tv8.setTextColor(Color.parseColor("#000000"));
-                long price =0;
-                for(int j = 0; j<row.getJurnalDateList().size();j++){
-                    if((row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("EXPENSE") &&
-                            row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))||
+                long price = 0;
+                for (int j = 0; j < row.getJurnalDateList().size(); j++) {
+                    if ((row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("EXPENSE") &&
+                            row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("BUY STOCKWH") &&
-                            row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))||
+                                    row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("BUY ASSET") &&
-                                    row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))||
+                                    row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("MIN CASH") &&
-                                    row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))){
+                                    row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))) {
                         price = price + row.getJurnalDateList().get(j).getTransPrice();
                     }
                 }
@@ -748,16 +781,16 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
                 }
                 tv9.setBackgroundColor(Color.parseColor("#ffffff"));
                 tv9.setTextColor(Color.parseColor("#000000"));
-                long price =0;
-                for(int j = 0; j<row.getJurnalDateList().size();j++){
-                    if((row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("EXPENSE") &&
-                            !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))||
+                long price = 0;
+                for (int j = 0; j < row.getJurnalDateList().size(); j++) {
+                    if ((row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("EXPENSE") &&
+                            !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("BUY STOCKWH") &&
-                            !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))||
+                                    !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("BUY ASSET") &&
-                                    !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))||
+                                    !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH")) ||
                             (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("MIN ACC") &&
-                                    !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))){
+                                    !row.getJurnalDateList().get(j).getTransTipeBayar().equalsIgnoreCase("CASH"))) {
                         price = price + row.getJurnalDateList().get(j).getTransPrice();
                     }
                 }
@@ -826,11 +859,11 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
                 }
                 tv10.setBackgroundColor(Color.parseColor("#f8f8f8"));
                 tv10.setTextColor(Color.parseColor("#000000"));
-                long price =0;
-                for(int j = 0; j<row.getJurnalDateList().size();j++){
-                    if(row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("INCOME")||
-                            row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("SELL STOCKWH")||
-                            row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("SELL ASSET")){
+                long price = 0;
+                for (int j = 0; j < row.getJurnalDateList().size(); j++) {
+                    if (row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("INCOME") ||
+                            row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("SELL STOCKWH") ||
+                            row.getJurnalDateList().get(j).getTransCat().equalsIgnoreCase("SELL ASSET")) {
                         price = price + row.getJurnalDateList().get(j).getTransHpp();
                     }
                 }
@@ -893,8 +926,10 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
 
             layAmounts10.addView(tv11);
 
-            long cashBalance = cashIn - cashOut;
-            totalCashBalance = totalCashBalance + cashBalance ;
+            if(i>-1) {
+                totalCashBalance = jurnalModel.getJurnalSatuanList().get(rows)
+                        .getJurnalBalanceList().get(i).getTransCashBalance();
+            }
 
             //--------------------------CASH BALANCE--------------------------------------
             final LinearLayout layAmounts11 = new LinearLayout(this);
@@ -933,17 +968,18 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
                 tv12.setTextColor(Color.parseColor("#000000"));
 
                 tv12.setLayoutParams(params);
-                tv12.setText(mataUangHelper.formatRupiah(cashBalance));
+                tv12.setText(mataUangHelper.formatRupiah(totalCashBalance));
                 cashIn = 0;
-                cashOut =0;
+                cashOut = 0;
                 tv12.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
 
             }
             layAmounts11.addView(tv12);
 
-
-            long accBalance = accIn - accOut;
-            totalAccBal = totalAccBal + accBalance;
+            if(i>-1) {
+                totalAccBal = jurnalModel.getJurnalSatuanList().get(rows)
+                        .getJurnalBalanceList().get(i).getTransAccBalance();
+            }
             //------------------------- Acc BAlanace-------------------------------------
             final LinearLayout layAmounts12 = new LinearLayout(this);
             layAmounts12.setOrientation(LinearLayout.VERTICAL);
@@ -982,7 +1018,7 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
                 tv13.setTextColor(Color.parseColor("#000000"));
 
                 tv13.setLayoutParams(params);
-                tv13.setText(mataUangHelper.formatRupiah(accBalance));
+                tv13.setText(mataUangHelper.formatRupiah(totalAccBal));
 
                 accIn = 0;
                 accOut = 0;
@@ -999,7 +1035,7 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
             TableLayout.LayoutParams trParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,
                     TableLayout.LayoutParams.WRAP_CONTENT);
             trParams.setMargins(leftRowMargin, topRowMargin, rightRowMargin, bottomRowMargin);
-            tr.setPadding(0,0,0,0);
+            tr.setPadding(0, 0, 0, 0);
             tr.setLayoutParams(trParams);
             tr.addView(tv);
             tr.addView(layAmounts);
@@ -1044,7 +1080,6 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
             }
 
 
-
         }
 
         mBinding.linearSum.setVisibility(View.VISIBLE);
@@ -1052,6 +1087,57 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
         mBinding.tvCash.setText(mataUangHelper.formatRupiah(totalCashBalance));
         mBinding.tvLaba.setText(mataUangHelper.formatRupiah(totalLaba));
 
+    }
+
+    @Override
+    public void showMonthFirstTime(String date, List<String> listDate) {
+
+        mDateMonth = date;
+        jurnalPresenter.convertDateFromNumberToString(mDateMonth);
+        dateList = listDate;
+
+        mBinding.tableLayoutTb.setStretchAllColumns(true);
+        mBinding.tableLayoutTb.removeAllViews();
+        resetVariable();
+        jurnalPresenter.getAllJurnalPerMonth(mDateMonth);
+    }
+
+    @Override
+    public void showDateList(List<String> dateList, int pos) {
+
+        isDialogCustomeList = true;
+
+        this.dateList = dateList;
+        setCustomeList(1);
+
+        if (pos != -1) {
+            listCustomAdapter.selectedPosition = pos;
+            listCustomAdapter.notifyDataSetChanged();
+
+            if (dateList.size() > 7) {
+                mBinding.lyDialogCustomeList.rvCustomList.scrollToPosition(pos);
+            }
+        }
+
+        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void showResultConvert(String date) {
+
+        mDateMonth = date;
+        mBinding.tableLayoutTb.setStretchAllColumns(true);
+        mBinding.tableLayoutTb.removeAllViews();
+        resetVariable();
+        jurnalPresenter.getAllJurnalPerMonth(mDateMonth);
+    }
+
+    @Override
+    public void showResultDateString(String date) {
+
+        dateStringHeader = date;
+        mBinding.lyHeaderData.tvDate.setText(dateStringHeader);
     }
 
 
@@ -1071,6 +1157,62 @@ public class JurnalActivity extends BaseActivity implements JurnalContract.jurna
                 pDialog.dismiss();
             }
         });
+    }
+
+    private void setCustomeList(final int tipe) {
+
+        if (tipe == 1) {
+            listCustomAdapter = new ListCustomAdapter(this, dateList, 7);
+        }
+
+        listCustomAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+                if (tipe == 1) {
+
+                    if(dateList.get(position).equalsIgnoreCase(K.KEY_ALL_STRING)){
+
+                        mBinding.tableLayoutTb.setStretchAllColumns(true);
+                        mBinding.tableLayoutTb.removeAllViews();
+                        resetVariable();
+                        mBinding.lyHeaderData.tvDate.setText("ALL");
+                        jurnalPresenter.getAllJurnalPerMonth(mDateMonth.substring(3,7));
+                    }
+                    else {
+                        dateStringHeader = dateList.get(position);
+                        mBinding.lyHeaderData.tvDate.setText(dateStringHeader);
+                        jurnalPresenter.convertDateFromStringToNumber(dateStringHeader, mDateMonth);
+                    }
+                }
+
+                isDialogCustomeList = false;
+                mBinding.lyBlack.lyBlack.setVisibility(GONE);
+                mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
+            }
+        });
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mBinding.lyDialogCustomeList.rvCustomList.setLayoutManager(mLayoutManager);
+        mBinding.lyDialogCustomeList.rvCustomList.setItemAnimator(new DefaultItemAnimator());
+        mBinding.lyDialogCustomeList.rvCustomList.setAdapter(listCustomAdapter);
+        mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void resetVariable(){
+        cashIn = 0;
+        cashOut = 0;
+        accIn = 0;
+        accOut = 0;
+        laba = 0;
+        totalLaba = 0;
+        totalIncome = 0;
+        totalExpense = 0;
+        totalHpp = 0;
+        hpp = 0;
+        totalCashBalance = 0;
+        totalAccBal = 0;
+        mBinding.linearSum.setVisibility(View.VISIBLE);
     }
     //end
 }

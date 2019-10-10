@@ -49,7 +49,7 @@
                         android:layout_height="30dp"
                         android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/iv_delete"
-                        android:src="@drawable/cart" />
+                        android:src="@drawable/cart_real" />
 
                     <RelativeLayout
                         android:layout_marginTop="10dp"

@@ -41,11 +41,23 @@ public class JurnalModel {
         @SerializedName("jurnal_list_date")
         private List<JurnalDate> jurnalDateList;
 
+        @SerializedName("jurnal_list_balance")
+        private List<JurnalBalance> jurnalBalanceList;
+
         public JurnalSatuan() {
         }
 
-        public JurnalSatuan(List<JurnalDate> jurnalDateList) {
+        public JurnalSatuan(List<JurnalDate> jurnalDateList, List<JurnalBalance> jurnalBalanceList) {
             this.jurnalDateList = jurnalDateList;
+            this.jurnalBalanceList = jurnalBalanceList;
+        }
+
+        public List<JurnalBalance> getJurnalBalanceList() {
+            return jurnalBalanceList;
+        }
+
+        public void setJurnalBalanceList(List<JurnalBalance> jurnalBalanceList) {
+            this.jurnalBalanceList = jurnalBalanceList;
         }
 
         public List<JurnalDate> getJurnalDateList() {
@@ -121,6 +133,51 @@ public class JurnalModel {
 
             public void setTransPrice(long transPrice) {
                 this.transPrice = transPrice;
+            }
+        }
+
+        public class JurnalBalance{
+
+            @SerializedName("trans_date")
+            private String transDate;
+
+            @SerializedName("trans_cash_balance")
+            private long transCashBalance;
+
+            @SerializedName("trans_acc_balance")
+            private long transAccBalance;
+
+            public JurnalBalance(String transDate, long transCashBalance, long transAccBalance) {
+                this.transDate = transDate;
+                this.transCashBalance = transCashBalance;
+                this.transAccBalance = transAccBalance;
+            }
+
+            public JurnalBalance() {
+            }
+
+            public String getTransDate() {
+                return transDate;
+            }
+
+            public void setTransDate(String transDate) {
+                this.transDate = transDate;
+            }
+
+            public long getTransCashBalance() {
+                return transCashBalance;
+            }
+
+            public void setTransCashBalance(long transCashBalance) {
+                this.transCashBalance = transCashBalance;
+            }
+
+            public long getTransAccBalance() {
+                return transAccBalance;
+            }
+
+            public void setTransAccBalance(long transAccBalance) {
+                this.transAccBalance = transAccBalance;
             }
         }
     }

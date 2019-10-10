@@ -275,7 +275,7 @@
                         android:layout_gravity="center"
                         android:layout_width="55dp"
                         android:layout_height="55dp"
-                        android:src="@drawable/cart"
+                        android:src="@drawable/cart_real"
                         />
 
                     <me.grantland.widget.AutofitTextView
@@ -310,7 +310,7 @@
                         android:layout_gravity="center"
                         android:layout_width="55dp"
                         android:layout_height="55dp"
-                        android:src="@drawable/cart"
+                        android:src="@drawable/cart_real"
                         />
 
                     <TextView

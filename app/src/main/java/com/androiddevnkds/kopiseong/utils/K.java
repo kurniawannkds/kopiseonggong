@@ -62,4 +62,20 @@ public class K {
     public static String GENERAL_CATEGORY_PROD_KOPI = "COFFEE";
     public static String GENERAL_CATEGORY_PROD_NON_KOPI = "NON COFFEE";
 
+
+    //month
+    public static String KEY_ALL_STRING = "ALL";
+    public static String KEY_BULAN_JAN = "JANUARY";
+    public static String KEY_BULAN_FEB = "FEBRUARY";
+    public static String KEY_BULAN_MAR = "MARCH";
+    public static String KEY_BULAN_APR = "APRIL";
+    public static String KEY_BULAN_MAY = "MAY";
+    public static String KEY_BULAN_JUN = "JUNE";
+    public static String KEY_BULAN_JUL = "JULY";
+    public static String KEY_BULAN_AUG = "AUGUST";
+    public static String KEY_BULAN_SEP = "SEPTEMBER";
+    public static String KEY_BULAN_OCT = "OCTOBER";
+    public static String KEY_BULAN_NOV = "NOVEMBER";
+    public static String KEY_BULAN_DEC = "DECEMBER";
+
 }

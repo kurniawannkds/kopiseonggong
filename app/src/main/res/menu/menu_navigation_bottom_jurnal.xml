@@ -8,13 +8,13 @@
         />
 
     <item
-        android:id="@+id/transaction_menu"
-        android:title="Transaction"
+        android:id="@+id/summary_menu"
+        android:title="Summary"
         android:icon="@drawable/bill"/>
 
     <item
-        android:id="@+id/stock_menu"
-        android:title="Stock"
-        android:icon="@drawable/cart_real"/>
+        android:id="@+id/jurnal_menu"
+        android:title="Jurnal"
+        android:icon="@drawable/bill"/>
 
 </menu>

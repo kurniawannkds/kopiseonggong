@@ -30,7 +30,8 @@
         <activity android:name=".module.product.ProductActivity"/>
         <activity android:name=".module.asset.AssetActivity"/>
         <activity android:name=".module.register.RegisterActivity"/>
-        <activity android:name=".module.jurnal.JurnalActivity"/>
+        <activity android:name=".module.summary.JurnalActivity"/>
+        <activity android:name=".module.jurnal.JurnalRealActivity"/>
     </application>
 
 </manifest>

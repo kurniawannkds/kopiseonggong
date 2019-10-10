@@ -6,13 +6,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/pb_bar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone" />
+        <include
+            android:id="@+id/ly_header_data"
+            layout="@layout/header_content" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -22,7 +18,7 @@
 
             <include
                 android:id="@+id/ly_bottom_nav"
-                layout="@layout/bottom" />
+                layout="@layout/bottom_jurnal" />
 
         </RelativeLayout>
 
@@ -133,6 +129,29 @@
 
         </ScrollView>
 
+        <include
+            android:id="@+id/ly_black"
+            layout="@layout/layout_black" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <include
+                android:id="@+id/ly_dialog_custome_list"
+                layout="@layout/dialog_custome_list" />
+
+        </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/pb_bar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
         <View
             android:id="@+id/view_background"
             android:layout_width="match_parent"
@@ -140,10 +159,6 @@
             android:alpha="0.8"
             android:background="@color/colorBlack"
             android:visibility="gone" />
-
-        <include
-            android:id="@+id/ly_header_data"
-            layout="@layout/header_content" />
 
     </RelativeLayout>
 </layout>
