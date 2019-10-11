@@ -41,7 +41,9 @@ import com.androiddevnkds.kopiseong.utils.MataUangHelper;
 import com.androiddevnkds.kopiseong.utils.listener.OnItemClickListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -340,7 +342,7 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
             public void onClick(View view) {
 
                 isAddStockID = true;
-                stockWHPresenter.setStockListForAdd(stockForListAdd, addStockID);
+                stockWHPresenter.setStockListForAdd(stockForListAdd, addStockID,true);
             }
         });
 
@@ -813,6 +815,30 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
     }
 
     @Override
+    public void onFailed(int tipe, String message, boolean fromList) {
+
+        if(message.equalsIgnoreCase("stock not found !") && fromList){
+
+            isDialogCustomeAdd = true;
+            isAddStock = true;
+            mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(GONE);
+            mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
+            StockModel.StockSatuanModel stockSatuanModel = new StockModel().new StockSatuanModel();
+            stockSatuanModel.setStockID(K.ADD_NEW_STOCK);
+            stockSatuanModel.setStockName(K.ADD_NEW_STOCK);
+            stockForListAdd = new StockModel();
+            List<StockModel.StockSatuanModel> stockSatuanModelList = new ArrayList<>();
+            stockSatuanModelList.add(stockSatuanModel);
+            stockForListAdd.setStockSatuanModelList(stockSatuanModelList);
+            isInitList = true;
+            setCustomeList(3);
+        }
+        else {
+            showError(message);
+        }
+    }
+
+    @Override
     public void showStockDetail(final StockModel.StockSatuanModel stockSatuanModel, final int position) {
 
         stockDateSort = stockSatuanModel.getStockDateSort();
@@ -1047,11 +1073,21 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
                     e.printStackTrace();
                 }
                 stockSatuanModel.setStockPricePerGram(perGram);
-                stockModelGlobal.getStockSatuanModelList().add(stockModelGlobal.getStockSatuanModelList().size()-1,stockSatuanModel);
-                stockAdapter.resetStock(stockModelGlobal);
-                stockAdapter.notifyDataSetChanged();
-                mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(View.GONE);
-                mBinding.lyBlack.lyBlack.setVisibility(View.GONE);
+                if(stockModelGlobal!=null && stockModelGlobal.getStockSatuanModelList()!=null) {
+                    stockModelGlobal.getStockSatuanModelList().add(0, stockSatuanModel);
+                    stockAdapter.resetStock(stockModelGlobal);
+                    stockAdapter.notifyDataSetChanged();
+                    mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(GONE);
+                    mBinding.lyBlack.lyBlack.setVisibility(GONE);
+                }
+                else {
+                    Intent intentStock = new Intent(mContext, StockActivity.class);
+                    intentStock.putExtra(K.KEY_STOCK, K.VALUE_KEY_STOCK_WAREHOUSE);
+                    startActivity(intentStock);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        Objects.requireNonNull(getActivity()).finish();
+                    }
+                }
                 pDialog.dismiss();
             }
         });
@@ -1295,6 +1331,8 @@ public class StockWareHouseFragment extends BaseFragment implements StockWHContr
 
                         isAddNewStock = true;
                         isDoneAddOnce = false;
+                        isDialogEditText = true;
+                        isDialogCustomeAdd = false;
                         mBinding.lyDialogCustomeList.lyDialogLayout.setVisibility(GONE);
                         mBinding.lyDialogAddStock.lyDialogLayoutAddStock.setVisibility(GONE);
 

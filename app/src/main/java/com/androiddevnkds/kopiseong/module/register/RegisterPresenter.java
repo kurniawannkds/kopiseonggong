@@ -5,6 +5,7 @@ import android.util.Patterns;
 
 import com.androiddevnkds.kopiseong.data.DataManager;
 import com.androiddevnkds.kopiseong.model.ListUserRoleModel;
+import com.androiddevnkds.kopiseong.model.UpdateResponseModel;
 import com.androiddevnkds.kopiseong.model.UserInfoModel;
 import com.androiddevnkds.kopiseong.model.UserRoleModel;
 import com.androiddevnkds.kopiseong.module.register.model.RegisterInteractor;
@@ -25,11 +26,10 @@ public class RegisterPresenter implements RegisterContract.registerPresenter {
         this.registerView = registerView;
     }
 
-    @Override
-    public void onSuccess() {
+    public void onSuccess(String message) {
 
         registerView.hideProgressBar();
-        registerView.onSuccess();
+        registerView.onSuccess(message);
     }
 
     @Override
@@ -91,18 +91,18 @@ public class RegisterPresenter implements RegisterContract.registerPresenter {
                     .setTag("test")
                     .setPriority(Priority.MEDIUM)
                     .build()
-                    .getAsObject(RegisterInteractor.class, new ParsedRequestListener<RegisterInteractor>() {
+                    .getAsObject(UpdateResponseModel.class, new ParsedRequestListener<UpdateResponseModel>() {
                         @Override
-                        public void onResponse(RegisterInteractor user) {
+                        public void onResponse(UpdateResponseModel user) {
                             // do anything with response
                             if(user.getErrorMessage()!=null){
                                 onFailed(7,user.getErrorMessage());
                             }
                             else {
 
-                                DataManager.can().setUserStatusToStorage(true);
-                                DataManager.can().setUserInfoToStorage(user);
-                                onSuccess();
+//                                DataManager.can().setUserStatusToStorage(true);
+//                                DataManager.can().setUserInfoToStorage(user);
+                                onSuccess(user.getSuccessMessage());
                             }
                         }
                         @Override

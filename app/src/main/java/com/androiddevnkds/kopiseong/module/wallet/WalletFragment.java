@@ -396,7 +396,7 @@ public class WalletFragment extends BaseFragment implements WalletContract.walle
         totalAccount = acc;
         long totalIncomeAll = totalIncome +totalIncomeRek;
         long totalExpenseAll = totalExpense + totalExpenseRek;
-        long totalAllBalance = cash+acc - totalExpenseAll;
+        long totalAllBalance = cash+acc;
         mBinding.tvTotalCash.setText(mataUangHelper.formatRupiah(cash));
         mBinding.tvTotalAcc.setText(mataUangHelper.formatRupiah(acc));
         mBinding.tvTotalIncome.setText(mataUangHelper.formatRupiah(totalIncomeAll));

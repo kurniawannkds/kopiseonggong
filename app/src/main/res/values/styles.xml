@@ -14,6 +14,13 @@
         <item name="android:textColorHint">#bfb8b8</item>
     </style>
 
+    <style name="EditTextStyleAuth">
+        <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">#080808</item>
+        <item name="android:textColorHint">#bfb8b8</item>
+    </style>
+
     <style name="TextViewStyle1">
         <!--<item name="fontPath">font/OpenSans-Regular.ttf</item>-->
         <item name="android:textSize">14sp</item>

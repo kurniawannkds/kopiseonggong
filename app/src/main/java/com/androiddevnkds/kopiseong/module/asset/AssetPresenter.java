@@ -62,7 +62,7 @@ public class AssetPresenter implements AssetContract.assetPresenter {
     }
 
     @Override
-    public void getAssetForList(final AssetModel assetModelT, final String assetName) {
+    public void getAssetForList(final AssetModel assetModelT, final String assetName,final boolean fromCustomeList) {
 
         assetView.showProgressBar();
         boolean flag = false;
@@ -100,7 +100,7 @@ public class AssetPresenter implements AssetContract.assetPresenter {
                             // do anything with response
                             Log.e("BASE",new Gson().toJson(assetModel));
                             if(assetModel.getErrorMessage()!=null){
-                                onFailed(assetModel.getErrorMessage());
+                                onFailed(assetModel.getErrorMessage(), fromCustomeList);
                             }
                             else {
 
@@ -224,6 +224,7 @@ public class AssetPresenter implements AssetContract.assetPresenter {
         Log.e("add",new Gson().toJson(assetModelSatuan));
         if(!isEmptyAdd(assetModelSatuan,tipeBayar)) {
             DateAndTime dateAndTime = new DateAndTime();
+            String assetID = dateAndTime.getCurrentDate(K.FORMAT_TANGGAL_SORT) + dateAndTime.getCurrentTime(K.FORMAT_TIME_SORT);
             String time = dateAndTime.getCurrentTime(K.FORMAT_TIME_STRING);
             Log.e("add",time);
             String balanceID = assetModelSatuan.getAssetID().substring(0,6);
@@ -236,10 +237,11 @@ public class AssetPresenter implements AssetContract.assetPresenter {
             }
             Log.e("add",userEmail);
             Log.e("add",tipeBayar);
+            Log.e("add",assetID);
 
             AndroidNetworking.post(K.URL_GET_ALL_ASSET)
                     .addBodyParameter("add", "select")
-                    .addBodyParameter("asset_id", assetModelSatuan.getAssetID())
+                    .addBodyParameter("asset_id", assetID)
                     .addBodyParameter("asset_name", assetModelSatuan.getAssetName())
                     .addBodyParameter("asset_price", assetModelSatuan.getAssetPrice() + "")
                     .addBodyParameter("asset_date", assetModelSatuan.getAssetDate())
@@ -404,6 +406,12 @@ public class AssetPresenter implements AssetContract.assetPresenter {
 
         assetView.hideProgressBar();
         assetView.onFailed(message);
+    }
+
+    private void onFailed(String message, boolean fromCustomeList){
+
+        assetView.hideProgressBar();
+        assetView.onFailed(message,fromCustomeList);
     }
 
     private void setCustomeList(int tipe){

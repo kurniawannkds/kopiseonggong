@@ -10,6 +10,8 @@ public interface AssetContract {
 
         void hideProgressBar();
 
+        void onFailed(String message, boolean fromCustomeList);
+
         void onFailed(String message);
 
         void showAllAsset(AssetModel assetModel);
@@ -32,7 +34,7 @@ public interface AssetContract {
 
         void getAllAsset();
 
-        void getAssetForList(AssetModel assetModelT, String assetName);
+        void getAssetForList(AssetModel assetModelT, String assetName,boolean fromCustomeList);
 
         void getTipeBayarList(PaymentMethodeModel paymentMethodeModelT, String payment);
 

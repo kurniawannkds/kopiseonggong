@@ -11,7 +11,7 @@ public interface RegisterContract {
 
         void hideProgressBar();
 
-        void onSuccess();
+        void onSuccess(String message);
 
         void onFailed(int tipe,String message);
 
@@ -19,8 +19,6 @@ public interface RegisterContract {
     }
 
     interface registerPresenter{
-
-        void onSuccess();
 
         void onFailed(int tipe,String message);
 

@@ -265,7 +265,7 @@ public class AssetActivity extends BaseActivity implements AssetContract.assetVi
 
                 if(isDetailAdd) {
                     mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
-                    assetPresenter.getAssetForList(assetForList,assetName);
+                    assetPresenter.getAssetForList(assetForList,assetName, true);
                 }
                 else {
 
@@ -286,10 +286,8 @@ public class AssetActivity extends BaseActivity implements AssetContract.assetVi
             @Override
             public void onClick(View view) {
 
-                if(isDetailAdd) {
                     mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
                     assetPresenter.getTipeBayarList(paymentForList, mTipeBayar);
-                }
             }
         });
 
@@ -471,6 +469,28 @@ public class AssetActivity extends BaseActivity implements AssetContract.assetVi
     }
 
     @Override
+    public void onFailed(String message, boolean fromCustomeList) {
+
+        if(message.equalsIgnoreCase("asset not found !") && fromCustomeList){
+            isDialogCustome = true;
+            mBinding.lyBlack.lyBlack.setVisibility(View.VISIBLE);
+            AssetModel.AssetModelSatuan assetModelSatuan = new AssetModel().new AssetModelSatuan();
+            assetModelSatuan.setAssetID(K.ADD_NEW_ASSET);
+            assetModelSatuan.setAssetName(K.ADD_NEW_ASSET);
+            assetForList = new AssetModel();
+            List<AssetModel.AssetModelSatuan> assetModelSatuanList = new ArrayList<>();
+            assetModelSatuanList.add(assetModelSatuan);
+            assetForList.setAssetModelSatuanList(assetModelSatuanList);
+            isInitList = true;
+
+            setCustomeList(1);
+        }
+        else {
+            showError(message);
+        }
+    }
+
+    @Override
     public void onFailed(String message) {
 
         showError(message);
@@ -579,11 +599,18 @@ public class AssetActivity extends BaseActivity implements AssetContract.assetVi
             @Override
             public void onClick(SweetAlertDialog sDialog) {
 
-                assetModelGlobal.getAssetModelSatuanList().add(assetModelSatuan);
-                assetAdapter.resetListTransaction(assetModelGlobal);
-                assetAdapter.notifyDataSetChanged();
-                mBinding.lyDetailAsset.lyDialogAddAsset.setVisibility(GONE);
-                mBinding.lyBlack.lyBlack.setVisibility(GONE);
+                if(assetModelGlobal!= null && assetModelGlobal.getAssetModelSatuanList()!=null) {
+                    assetModelGlobal.getAssetModelSatuanList().add(assetModelSatuan);
+                    assetAdapter.resetListTransaction(assetModelGlobal);
+                    assetAdapter.notifyDataSetChanged();
+                    mBinding.lyDetailAsset.lyDialogAddAsset.setVisibility(GONE);
+                    mBinding.lyBlack.lyBlack.setVisibility(GONE);
+                }
+                else {
+                    Intent intent = new Intent(AssetActivity.this,AssetActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
                 pDialog.dismiss();
             }
         });

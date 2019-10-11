@@ -40,7 +40,7 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
                     public void onResponse(StockModel stockModel) {
                         // do anything with response
                         if(stockModel.getErrorMessage()!=null){
-                            onFailed(1,stockModel.getErrorMessage());
+                            onFailed(1, stockModel.getErrorMessage());
                         }
                         else {
 
@@ -56,7 +56,6 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
                     }
                 });
     }
-
     @Override
     public void setOnClickStock(StockModel stockModel, int position) {
 
@@ -145,7 +144,7 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
     }
 
     @Override
-    public void setStockListForAdd(final StockModel stockListT, final String stockT) {
+    public void setStockListForAdd(final StockModel stockListT, final String stockT,final boolean fromList) {
         boolean flag = false;
         if(stockListT!=null) {
             if(stockListT.getStockSatuanModelList()!=null){
@@ -179,7 +178,12 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
                         public void onResponse(StockModel stockModelS) {
                             // do anything with response
                             if(stockModelS.getErrorMessage()!=null){
-                                onFailed(1,stockModelS.getErrorMessage());
+                                if(fromList) {
+                                    onFailed(1, stockModelS.getErrorMessage(),fromList);
+                                }
+                                else {
+                                    onFailed(1, stockModelS.getErrorMessage());
+                                }
                             }
                             else {
 
@@ -412,6 +416,12 @@ public class StockWHPresenter implements StockWHContract.stockPresenter {
 
         stockView.hideProgressBar();
         stockView.onFailed(tipe,message);
+    }
+
+    private void onFailed(int tipe, String message, boolean fromList){
+
+        stockView.hideProgressBar();
+        stockView.onFailed(tipe,message, fromList);
     }
 
     private boolean validateEdit(StockModel.StockSatuanModel stockSatuanModel){

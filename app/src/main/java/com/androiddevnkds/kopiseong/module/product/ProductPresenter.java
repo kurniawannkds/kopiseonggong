@@ -129,7 +129,7 @@ public class ProductPresenter implements ProductContract.productPresenter {
                         else {
 
                             productView.hideProgressBar();
-                            productView.showSuccessDelete(updateResponseModel.getErrorMessage(),pos);
+                            productView.showSuccessDelete(updateResponseModel.getSuccessMessage(),pos);
                         }
                     }
                     @Override

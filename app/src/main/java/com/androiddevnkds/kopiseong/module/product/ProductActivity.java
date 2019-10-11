@@ -47,6 +47,7 @@ public class ProductActivity extends BaseActivity implements ProductContract.pro
     private FragmentManager fm = getSupportFragmentManager();
     private ActivityProductBinding mBinding;
     private String mCategoryFilter = "ALL";
+    private boolean fromFilter = false;
     private ProductPresenter productPresenter;
     private ResepModel resepForList;
     private List<String> catForList, catForList2;
@@ -402,8 +403,10 @@ public class ProductActivity extends BaseActivity implements ProductContract.pro
                     }
                 }
                 else {
-
-                    int size = productModelGlobal.getProductSatuanList().size();
+                    int size = 0;
+                    if(productModelGlobal!=null && productModelGlobal.getProductSatuanList()!=null) {
+                        size = productModelGlobal.getProductSatuanList().size();
+                    }
                     ProductModel.ProductSatuan productSatuan = new ProductModel().new ProductSatuan();
                     productSatuan.setProductID(mAProdID);
                     productSatuan.setProductGeneralCategory(mAProdCat);
@@ -518,6 +521,10 @@ public class ProductActivity extends BaseActivity implements ProductContract.pro
     @Override
     public void showAllProduct(final ProductModel productModel) {
 
+        if(fromFilter){
+            mBinding.lyHeaderData.tvDate.setText(mCategoryFilter);
+        }
+        fromFilter = false;
         productModelGlobal = productModel;
         productAdapter = new ProductAdapter(ProductActivity.this, productModelGlobal);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ProductActivity.this);
@@ -668,12 +675,19 @@ public class ProductActivity extends BaseActivity implements ProductContract.pro
                 mAProdCat = "";
                 mAProdResep = "";
                 mAProdPrice = 0;
-                productModelGlobal.getProductSatuanList().add(sizeArray,productSatuan);
-                productAdapter.resetListProduct(productModelGlobal);
-                productAdapter.notifyDataSetChanged();
-                isEditProd = false;
-                mBinding.lyDetailProduct.lyDialogDetailProduct.setVisibility(GONE);
-                mBinding.lyBlack.lyBlack.setVisibility(GONE);
+                if(productModelGlobal!=null && productModelGlobal.getProductSatuanList()!=null) {
+                    productModelGlobal.getProductSatuanList().add(0, productSatuan);
+                    productAdapter.resetListProduct(productModelGlobal);
+                    productAdapter.notifyDataSetChanged();
+                    isEditProd = false;
+                    mBinding.lyDetailProduct.lyDialogDetailProduct.setVisibility(GONE);
+                    mBinding.lyBlack.lyBlack.setVisibility(GONE);
+                }
+                else {
+                    Intent intent = new Intent(ProductActivity.this,ProductActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
                 pDialog.dismiss();
             }
         });
@@ -682,6 +696,11 @@ public class ProductActivity extends BaseActivity implements ProductContract.pro
     @Override
     public void onFailed(String message) {
 
+        if(fromFilter){
+            mBinding.lyBlack.lyBlack.setVisibility(GONE);
+            fromFilter = false;
+        }
+        hideProgressBar();
         showError(message);
     }
 
@@ -749,7 +768,7 @@ public class ProductActivity extends BaseActivity implements ProductContract.pro
                     else {
                         if (!mCategoryFilter.equalsIgnoreCase(catForList.get(position))) {
                             mCategoryFilter = catForList.get(position);
-                            mBinding.lyHeaderData.tvDate.setText(mCategoryFilter);
+                            fromFilter = true;
                             productPresenter.getAllProduct(mCategoryFilter);
                         }
                     }

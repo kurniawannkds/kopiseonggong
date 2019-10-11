@@ -26,6 +26,7 @@ import com.androiddevnkds.kopiseong.model.ListUserRoleModel;
 import com.androiddevnkds.kopiseong.model.UserRoleModel;
 import com.androiddevnkds.kopiseong.module.login.LoginFragment;
 import com.androiddevnkds.kopiseong.model.UserInfoModel;
+import com.androiddevnkds.kopiseong.module.product.ProductActivity;
 import com.androiddevnkds.kopiseong.module.register.model.RegisterInteractor;
 import com.androiddevnkds.kopiseong.module.stock.StockActivity;
 import com.androiddevnkds.kopiseong.module.transaction.TransactionActivity;
@@ -38,6 +39,10 @@ import com.androiddevnkds.kopiseong.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static android.view.View.GONE;
 
 
 /**
@@ -140,6 +145,7 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.r
 
 
                 registerInteractor.setUserEmail(email);
+                registerInteractor.setNameUser(name);
                 registerInteractor.setUserPass(password);
                 registerInteractor.setUserPassConfirmation(confirmPass);
                 registerInteractor.setUserBranch(branch);
@@ -169,13 +175,28 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.r
     }
 
     @Override
-    public void onSuccess() {
+    public void onSuccess(String message) {
 
-        Intent intent = new Intent(mContext, HomeActivity.class);
-        startActivity(intent);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Objects.requireNonNull(getActivity()).finish();
-        }
+        final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.SUCCESS_TYPE);
+        pDialog.setTitleText(message);
+        pDialog.setConfirmText("Yes");
+        pDialog.showCancelButton(false);
+        pDialog.setCanceledOnTouchOutside(false);
+        pDialog.show();
+
+        pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+            public void onClick(SweetAlertDialog sDialog) {
+
+                Intent intent = new Intent(mContext, HomeActivity.class);
+                startActivity(intent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    Objects.requireNonNull(getActivity()).finish();
+                }
+                pDialog.dismiss();
+            }
+        });
+
     }
 
     @Override
@@ -206,7 +227,20 @@ public class RegisterFragment extends BaseFragment implements RegisterContract.r
 
         else if(tipe==7){
 
-            Toast.makeText(mContext,message,Toast.LENGTH_SHORT).show();
+            final SweetAlertDialog pDialog = new SweetAlertDialog(mContext, SweetAlertDialog.ERROR_TYPE);
+            pDialog.setTitleText(message);
+            pDialog.setConfirmText("Yes");
+            pDialog.showCancelButton(false);
+            pDialog.setCanceledOnTouchOutside(false);
+            pDialog.show();
+
+            pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sDialog) {
+
+                    pDialog.dismiss();
+                }
+            });
         }
     }
 

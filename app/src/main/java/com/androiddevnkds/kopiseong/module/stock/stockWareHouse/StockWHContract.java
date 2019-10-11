@@ -16,6 +16,8 @@ public interface StockWHContract {
 
         void onFailed(int tipe, String message);
 
+        void onFailed(int tipe, String message, boolean fromList);
+
         void showStockDetail(StockModel.StockSatuanModel stockSatuanModel, int position);
 
         void showSuccessDelete(int position,String message);
@@ -48,7 +50,7 @@ public interface StockWHContract {
 
         void setStockList(StockModel stockList,String stock);
 
-        void setStockListForAdd(StockModel stockList,String stock);
+        void setStockListForAdd(StockModel stockList,String stock,boolean fromList);
 
         void addNewStock(StockModel.StockSatuanModel stockSatuanModel, String payment, String category, String time);
 
